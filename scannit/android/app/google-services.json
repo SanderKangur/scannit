@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "891670701847",
+    "firebase_url": "https://scannit-e876e.firebaseio.com",
+    "project_id": "scannit-e876e",
+    "storage_bucket": "scannit-e876e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:891670701847:android:edfc23ef7b7d5571387952",
+        "android_client_info": {
+          "package_name": "com.example.scannit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "891670701847-kr2hps2pgdtsjv8jmsncv5h28ccshagj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.scannit",
+            "certificate_hash": "07953a2c1683fc462be0f085f12a8d782c140b1a"
+          }
+        },
+        {
+          "client_id": "891670701847-sm0sv5ak8bmpk9pp3su86cv09rklfhjh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKmgNJt3Tgz8J1q6WSDX1D9KCUholHnPY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "891670701847-sm0sv5ak8bmpk9pp3su86cv09rklfhjh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
