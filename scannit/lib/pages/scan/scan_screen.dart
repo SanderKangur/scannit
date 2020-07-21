@@ -99,23 +99,21 @@ class _ScanScreenState extends State<ScanScreen> {
           ),
           child: Column(
             children: <Widget>[
-              Align(
-                alignment: Alignment(0, -0.9),
-                child: Padding(
-                  padding:EdgeInsets.symmetric(
-                      horizontal: 10.0
-                  ),
-                  child:Container(
-                    height: 1.0,
-                    color: Colors.brown,),
+              Container(
+                margin: EdgeInsets.all(10.0),
+                child:Container(
+                  height: 1.0,
+                  color: Colors.brown,
                 ),
               ),
-              Center(
+              Expanded(
+                child: Container(
                   child: FloatingActionButton(
                     onPressed: takeImage,
                     backgroundColor: Colors.lightGreen[300],
                     child: Icon(Icons.add_a_photo),
                   )),
+              ),
             ],
           )
       ),

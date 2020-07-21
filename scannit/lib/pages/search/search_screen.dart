@@ -24,23 +24,21 @@ class SearchScreen extends StatelessWidget {
           ),
           child: Column(
             children: <Widget>[
-              Align(
-                alignment: Alignment(0, -0.9),
-                child: Padding(
-                  padding:EdgeInsets.symmetric(
-                      horizontal: 10.0
-                  ),
-                  child:Container(
-                    height: 1.0,
-                    color: Colors.brown,),
+              Container(
+                margin: EdgeInsets.all(10.0),
+                child:Container(
+                  height: 1.0,
+                  color: Colors.brown,
                 ),
               ),
-              Center(
-                  child: FloatingActionButton(
-                    onPressed: (){},
-                    backgroundColor: Colors.lightGreen[300],
-                    child: Icon(Icons.search),
-                  )),
+              Expanded(
+                child: Container(
+                    child: FloatingActionButton(
+                      onPressed: () {},
+                      backgroundColor: Colors.lightGreen[300],
+                      child: Icon(Icons.search),
+                    )),
+              ),
             ],
           )
       ),

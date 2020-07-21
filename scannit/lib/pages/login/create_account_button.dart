@@ -14,7 +14,7 @@ class CreateAccountButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlatButton(
       child: Text(
-        'Create an Account',
+        'Sign up here!',
       ),
       onPressed: () {
         Navigator.of(context).push(

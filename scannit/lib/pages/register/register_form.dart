@@ -80,23 +80,18 @@ class _RegisterFormState extends State<RegisterForm> {
       child: BlocBuilder<RegisterBloc, RegisterState>(
 
         builder: (context, state) {
-          return Padding(
+          return Container(
             padding: EdgeInsets.all(10),
             child: Form(
               child: ListView(
                 children: <Widget>[
-                  Align(
-                    alignment: Alignment(0, -0.9),
-                    child: Padding(
-                      padding:EdgeInsets.symmetric(
-                          horizontal: 10.0
-                      ),
+                  Container(
                       child:Container(
                         height: 1.0,
-                        color: Colors.brown,),
-                    ),
+                        color: Colors.brown,
+                      ),
                   ),
-                  Padding(
+                  Container(
                     padding: EdgeInsets.symmetric(vertical: 10),
                     child: Text(
                       "YOUR JOURNEY TO A HEALTHIER LIFESTYLE STARTS HERE!",
@@ -104,47 +99,63 @@ class _RegisterFormState extends State<RegisterForm> {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  TextFormField(
-                    controller: _nameController,
-                    decoration: InputDecoration(
-                      enabledBorder: const OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.lightGreenAccent, width: 1.0)),
-                      icon: Icon(Icons.person),
-                      labelText: 'Name',
-                    ),
-                    keyboardType: TextInputType.text,
-                    autocorrect: false,
-                    autovalidate: true,
-                  ),
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      enabledBorder: const OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.lightGreenAccent, width: 1.0)),
-                      icon: Icon(Icons.email),
-                      labelText: 'Email',
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                    autocorrect: false,
-                    autovalidate: true,
-                    validator: (_) {
-                      return !state.isEmailValid ? 'Invalid Email' : null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      enabledBorder: const OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.lightGreenAccent, width: 1.0)),
-                      icon: Icon(Icons.lock),
-                      labelText: 'Password',
-                    ),
-                    obscureText: true,
-                    autocorrect: false,
-                    autovalidate: true,
-                    validator: (_) {
-                      return !state.isPasswordValid ? 'Invalid Password' : null;
-                    },
+                  Column(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 2),
+                        child: TextFormField(
+                          controller: _nameController,
+                          decoration: InputDecoration(
+                            enabledBorder: const OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.lightGreenAccent, width: 1.0)),
+                            icon: Icon(Icons.person,
+                              color: Colors.lightGreen,),
+                            labelText: 'Name',
+                          ),
+                          keyboardType: TextInputType.text,
+                          autocorrect: false,
+                          autovalidate: true,
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 2),
+                        child: TextFormField(
+                          controller: _emailController,
+                          decoration: InputDecoration(
+                            enabledBorder: const OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.lightGreenAccent, width: 1.0)),
+                            icon: Icon(Icons.email,
+                              color: Colors.lightGreen,),
+                            labelText: 'Email',
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                          autocorrect: false,
+                          autovalidate: true,
+                          validator: (_) {
+                            return !state.isEmailValid ? 'Invalid Email' : null;
+                          },
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 2),
+                        child: TextFormField(
+                          controller: _passwordController,
+                          decoration: InputDecoration(
+                            enabledBorder: const OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.lightGreenAccent, width: 1.0)),
+                            icon: Icon(Icons.lock,
+                            color: Colors.lightGreen,),
+                            labelText: 'Password',
+                          ),
+                          obscureText: true,
+                          autocorrect: false,
+                          autovalidate: true,
+                          validator: (_) {
+                            return !state.isPasswordValid ? 'Invalid Password' : null;
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 10),
@@ -152,21 +163,20 @@ class _RegisterFormState extends State<RegisterForm> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        Padding(
+                        Container(
                           padding: EdgeInsets.symmetric(vertical: 10),
                           child: Text(
                             "What brought you here?",
                             textScaleFactor: 2,
                           ),
                         ),
-                        choiceTile("Allergies"),
+                        choiceTile("Allergies",),
                         choiceTile("Intolerances"),
                         choiceTile("Lifestyle choice"),
                         choiceTile("Other"),
                       ],
                     ),
                   ),
-
                   RegisterButton(
                     onPressed: isRegisterButtonEnabled(state)
                         ? _onFormSubmitted
@@ -191,6 +201,7 @@ class _RegisterFormState extends State<RegisterForm> {
   Widget choiceTile(String text){
     return new CheckboxListTile(
       title: Text(text),
+      activeColor: Colors.lightGreen,
       value: choice[text],
       dense: true,
       onChanged: (newValue) {

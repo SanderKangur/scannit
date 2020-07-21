@@ -112,7 +112,8 @@ class _LoginFormState extends State<LoginForm> {
                       decoration: InputDecoration(
                         enabledBorder: const OutlineInputBorder(
                             borderSide: const BorderSide(color: Colors.lightGreenAccent, width: 1.0)),
-                        icon: Icon(Icons.email),
+                        icon: Icon(Icons.email,
+                          color: Colors.lightGreen,),
                         labelText: 'Email',
                       ),
                       keyboardType: TextInputType.emailAddress,
@@ -128,7 +129,8 @@ class _LoginFormState extends State<LoginForm> {
                     decoration: InputDecoration(
                       enabledBorder: const OutlineInputBorder(
                           borderSide: const BorderSide(color: Colors.lightGreenAccent, width: 1.0)),
-                      icon: Icon(Icons.lock),
+                      icon: Icon(Icons.lock,
+                        color: Colors.lightGreen,),
                       labelText: 'Password',
                     ),
                     obscureText: true,
@@ -138,17 +140,13 @@ class _LoginFormState extends State<LoginForm> {
                       return !state.isPasswordValid ? 'Invalid Password' : null;
                     },
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
+                  Container(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        Align(
-                        alignment: Alignment(-0.75, 0),
-                        child: Text("Forgot your password?",),
-                      ),
                         CheckboxListTile(
                           title: Text("Keep me signed in"),
+                          activeColor: Colors.lightGreen,
                           value: _keepSignedIn,
                           onChanged: (newValue) {
                             setState(() {
@@ -160,8 +158,9 @@ class _LoginFormState extends State<LoginForm> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
+
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 50),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
@@ -171,6 +170,12 @@ class _LoginFormState extends State<LoginForm> {
                               : null,
                         ),
                         GoogleLoginButton(),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 5),
+                          child: Text("Haven't joined us yet?",
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
                         CreateAccountButton(userRepository: _userRepository),
                       ],
                     ),

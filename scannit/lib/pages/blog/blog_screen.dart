@@ -33,16 +33,17 @@ class _BlogScreenState extends State<BlogScreen> {
                   ]
               )
           ),
-          child: Align(
-            alignment: Alignment(0, -0.9),
-            child: Padding(
-              padding:EdgeInsets.symmetric(
-                  horizontal: 10.0
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.all(10.0),
+                child:Container(
+                  height: 1.0,
+                  color: Colors.brown,
+                ),
               ),
-              child:Container(
-                height: 1.0,
-                color: Colors.brown,),
-            ),
+            ],
           )
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
