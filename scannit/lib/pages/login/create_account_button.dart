@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/Sander/AndroidStudioProjects/Flutter/scannit/lib/data/user_repository.dart';
+import 'package:scannit/data/user_repository.dart';
 import 'package:scannit/pages/register/register_screen.dart';
 
 class CreateAccountButton extends StatelessWidget {

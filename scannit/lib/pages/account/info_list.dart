@@ -15,7 +15,9 @@ class _InfoListState extends State<InfoList> {
   @override
   Widget build(BuildContext context) {
 
-    final lists = Provider.of<List<Info>>(context);
+    print("hello info_list");
+
+    final lists = Provider.of<List<Info>>(context) ?? new List<Info>();
     //User user = Provider.of<User>(context);
 
     if(lists == null) print("GGGGG");
@@ -29,8 +31,4 @@ class _InfoListState extends State<InfoList> {
     );
   }
 
-  Widget getTextWidgets(List<String> strings)
-  {
-    return new Row(children: strings.map((item) => new Text(item)).toList());
-  }
 }

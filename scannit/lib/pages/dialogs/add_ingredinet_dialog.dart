@@ -13,12 +13,13 @@ class AddIngredientDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    String user = Provider.of<User>(context).uid;
-    print("add ingredient" + user);
+    User user = Provider.of<User>(context);
+    print("add ingredient " + user.toString());
 
     return StreamBuilder<UserData>(
-      stream: DatabaseService(uid: user).userData,
+      stream: DatabaseService(uid: user.uid).userData,
       builder: (context, snapshot){
+        print(snapshot.hasData);
         if(snapshot.hasData){
           UserData userData = snapshot.data;
           return Dialog(
@@ -86,7 +87,7 @@ class AddIngredientDialog extends StatelessWidget {
                       MaterialButton(
                         onPressed: () async {
                           if(textEditingController.value.text.isNotEmpty) {
-                            await DatabaseService(uid: user).updateAllergens(textEditingController.value.text);
+                            await DatabaseService(uid: user.uid).updateAllergens(textEditingController.value.text);
                           }
                           Navigator.pop(context);
                         },
@@ -105,7 +106,7 @@ class AddIngredientDialog extends StatelessWidget {
         else{
           return Container(
             child: Text(
-              user,
+              user.uid,
             )
           );
         }

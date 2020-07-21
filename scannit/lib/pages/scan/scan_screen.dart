@@ -54,6 +54,9 @@ class _ScanScreenState extends State<ScanScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    print("hello scan");
+
     return Scaffold(
       body: isImageLoaded ? Column(
         children: <Widget>[
@@ -109,7 +112,7 @@ class _ScanScreenState extends State<ScanScreen> {
               ),
               Center(
                   child: FloatingActionButton(
-                    onPressed: (){},
+                    onPressed: takeImage,
                     backgroundColor: Colors.lightGreen[300],
                     child: Icon(Icons.add_a_photo),
                   )),

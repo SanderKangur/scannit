@@ -32,7 +32,7 @@ class DatabaseService {
 
   // info list from snapshot
   List<Info> _infoListFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc){
+    return snapshot.documents.map<Info>((doc){
       //print(doc.data);
       return Info(
           name: doc.data['name'] ?? '',
@@ -62,13 +62,6 @@ class DatabaseService {
   Stream<UserData> get userData {
     return infoCollection.document(uid).snapshots()
         .map(_userDataFromSnapshot);
-  }
-
-  void addIngredient(String value) {
-    Firestore.instance
-        .document(uid)
-        .updateData({
-      "allergens": FieldValue.arrayUnion(List()..add(value))});
   }
 
 }

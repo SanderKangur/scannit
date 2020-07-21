@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'file:///C:/Users/Sander/AndroidStudioProjects/Flutter/scannit/lib/data/user_repository.dart';
+import 'package:scannit/data/user_repository.dart';
 import 'package:scannit/validators.dart';
 import './bloc.dart';
-
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 

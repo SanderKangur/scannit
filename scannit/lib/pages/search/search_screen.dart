@@ -3,9 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scannit/blocs/authentication_bloc/bloc.dart';
 
 class SearchScreen extends StatelessWidget {
-  final String name;
 
-  SearchScreen({Key key, @required this.name}) : super(key: key);
+  SearchScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

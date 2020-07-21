@@ -23,9 +23,4 @@ class InfoTile extends StatelessWidget {
       ),
     );
   }
-
-  Widget getTextWidgets(List<String> strings)
-  {
-    return new Row(children: strings.map((item) => new Text(item)).toList());
-  }
 }

@@ -2,26 +2,27 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scannit/blocs/authentication_bloc/bloc.dart';
-import 'file:///C:/Users/Sander/AndroidStudioProjects/Flutter/scannit/lib/data/database.dart';
-import 'file:///C:/Users/Sander/AndroidStudioProjects/Flutter/scannit/lib/pages/blog/blog_screen.dart';
-import 'file:///C:/Users/Sander/AndroidStudioProjects/Flutter/scannit/lib/pages/account/account_screen.dart';
-import 'file:///C:/Users/Sander/AndroidStudioProjects/Flutter/scannit/lib/pages/scan/scan_screen.dart';
-import 'file:///C:/Users/Sander/AndroidStudioProjects/Flutter/scannit/lib/pages/search/search_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:scannit/data/database.dart';
 import 'package:scannit/data/info_entity.dart';
+import 'package:scannit/pages/blog/blog_screen.dart';
+import 'package:scannit/pages/scan/scan_screen.dart';
+import 'package:scannit/pages/search/search_screen.dart';
+
+import 'account/account_screen.dart';
 
 
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.name}) : super(key: key);
+class MainScreen extends StatefulWidget {
+  MainScreen({Key key, this.name}) : super(key: key);
   final String name;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MainScreenState createState() => _MainScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MainScreenState extends State<MainScreen> {
 
   int _selectedPage = 0;
   List<Widget> pageList = List<Widget>();
@@ -37,8 +38,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+    print("hello main");
+
     return StreamProvider<List<Info>>.value(
       value: DatabaseService().info,
+      //catchError: (_, err) => [Info(name: err.toString(), allergens: [], preferences: [])],
       child: Scaffold(
         body: IndexedStack(
           index: _selectedPage,

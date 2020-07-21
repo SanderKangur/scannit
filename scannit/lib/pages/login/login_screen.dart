@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'file:///C:/Users/Sander/AndroidStudioProjects/Flutter/scannit/lib/data/user_repository.dart';
 import 'package:scannit/blocs/login_bloc/bloc.dart';
+import 'package:scannit/data/user_repository.dart';
 import 'package:scannit/pages/login/login_form.dart';
 
 

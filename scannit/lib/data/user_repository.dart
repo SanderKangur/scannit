@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:scannit/constants.dart';
-import 'file:///C:/Users/Sander/AndroidStudioProjects/Flutter/scannit/lib/data/database.dart';
+import 'package:scannit/data/database.dart';
 import 'package:scannit/data/user.dart';
 
 class UserRepository {
@@ -75,19 +75,6 @@ class UserRepository {
   Future<String> getUser() async {
     return (await _firebaseAuth.currentUser()).email;
   }
-
-  Stream<List<String>> getUserIngredients() => Firestore.instance
-      .collection('users')
-      .document(Constants.userId)
-      .snapshots()
-      .map((snap) {
-    if (snap.data == null) {
-      return null;
-    }
-    return snap.data['ingredients'] == null
-        ? []
-        : snap.data['ingredients'].cast<String>();
-  });
 
   Future<bool> doesUserExists(String uid) async {
     final snapShot =
