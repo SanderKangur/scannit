@@ -14,7 +14,7 @@ class AddIngredientDialog extends StatelessWidget {
   Widget build(BuildContext context) {
 
     User user = Provider.of<User>(context);
-    print("add ingredient " + user.toString());
+    print("add ingredient " + user.uid);
 
     return StreamBuilder<UserData>(
       stream: DatabaseService(uid: user.uid).userData,
@@ -106,7 +106,7 @@ class AddIngredientDialog extends StatelessWidget {
         else{
           return Container(
             child: Text(
-              user.uid,
+              snapshot.data.toString(),
             )
           );
         }

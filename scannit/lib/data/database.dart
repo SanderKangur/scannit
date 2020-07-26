@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:scannit/data/info_entity.dart';
 import 'package:scannit/data/user.dart';
 
@@ -32,12 +33,12 @@ class DatabaseService {
 
   // info list from snapshot
   List<Info> _infoListFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.documents.map<Info>((doc){
+    return snapshot.documents.map((doc){
       //print(doc.data);
       return Info(
           name: doc.data['name'] ?? '',
-          allergens: doc.data['allergens'] ?? [],
-          preferences: doc.data['preferences'] ?? []
+          allergens: List<String>.from(doc.data['allergens']) ?? [],
+          preferences: List<String>.from(doc.data['preferences']) ?? []
       );
     }).toList();
   }
@@ -53,8 +54,8 @@ class DatabaseService {
     return UserData(
         uid: uid,
         name: snapshot.data['name'],
-        allergens: snapshot.data['allergens'] ?? [],
-        preferences: snapshot.data['preferences'] ?? []
+        allergens: List<String>.from(snapshot.data['allergens']) ?? [],
+        preferences: List<String>.from(snapshot.data['preferences']) ?? []
     );
   }
 

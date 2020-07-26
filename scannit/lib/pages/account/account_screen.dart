@@ -23,7 +23,7 @@ class _AccountScreenState extends State<AccountScreen>{
 
     print("hello account");
     User user = Provider.of<User>(context);
-    print(user.toString());
+    print(user.uid);
 
     return Scaffold(
       appBar: AppBar(
