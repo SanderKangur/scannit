@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:scannit/blocs/authentication_bloc/bloc.dart';
+import 'package:scannit/constants.dart';
 import 'package:scannit/data/user.dart';
 import 'package:scannit/data/user_repository.dart';
+import 'package:scannit/pages/loading.dart';
 import 'package:scannit/pages/main_screen.dart';
 import 'package:scannit/pages/login/login_screen.dart';
 import 'package:scannit/pages/splash_screen.dart';
@@ -47,7 +49,10 @@ class App extends StatelessWidget {
               return LoginScreen(userRepository: _userRepository);
             }
             if (state is AuthenticationSuccess) {
-              return MainScreen(name: state.displayName);
+              Constants.userId = state.user.uid;
+              return MainScreen(name: state.user.displayName);
+            } else {
+              return LoadingIndicator();
             }
           },
         ),

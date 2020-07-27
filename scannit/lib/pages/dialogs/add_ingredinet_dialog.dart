@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:scannit/constants.dart';
 import 'package:scannit/data/database.dart';
 import 'package:scannit/data/user.dart';
 import 'package:scannit/pages/loading.dart';
@@ -17,7 +18,7 @@ class AddIngredientDialog extends StatelessWidget {
     print("add ingredient " + user.uid);
 
     return StreamBuilder<UserData>(
-      stream: DatabaseService(uid: user.uid).userData,
+      stream: DatabaseService(uid: Constants.userId).userData,
       builder: (context, snapshot){
         print(snapshot.hasData);
         if(snapshot.hasData){
@@ -103,13 +104,8 @@ class AddIngredientDialog extends StatelessWidget {
             ),
           );
         }
-        else{
-          return Container(
-            child: Text(
-              snapshot.data.toString(),
-            )
-          );
-        }
+        else
+          return LoadingIndicator();
       }
     );
   }

@@ -72,13 +72,12 @@ class UserRepository {
     return currentUser != null;
   }
 
-  Future<String> getUser() async {
-    return (await _firebaseAuth.currentUser()).email;
+  Future<FirebaseUser> getUser() async {
+    return (await _firebaseAuth.currentUser());
   }
 
   Future<bool> doesUserExists(String uid) async {
-    final snapShot =
-    await Firestore.instance.collection('/users').document(uid).get();
+    final snapShot = await Firestore.instance.collection('/users').document(uid).get();
     return !(snapShot == null || !snapShot.exists);
   }
 

@@ -6,12 +6,15 @@ import 'package:scannit/data/user.dart';
 class DatabaseService {
 
   final String uid;
+
   DatabaseService({ this.uid });
 
   // collection reference
-  final CollectionReference infoCollection = Firestore.instance.collection('info');
+  final CollectionReference infoCollection = Firestore.instance.collection(
+      'info');
 
-  Future<void> updateUserData(String name, List<String> allergens, List<String> preferences) async {
+  Future<void> updateUserData(String name, List<String> allergens,
+      List<String> preferences) async {
     return await infoCollection.document(uid).setData({
       'name': name,
       'allergens': allergens,
@@ -21,7 +24,8 @@ class DatabaseService {
 
   Future<void> updateAllergens(String allergen) async {
     return await infoCollection.document(uid).updateData({
-      'allergens': FieldValue.arrayUnion(List()..add(allergen)),
+      'allergens': FieldValue.arrayUnion(List()
+        ..add(allergen)),
     });
   }
 
@@ -31,9 +35,43 @@ class DatabaseService {
     });
   }*/
 
+
+  Stream<Info> testInfoStream(String uid) => Firestore.instance
+      .collection('info')
+      .document(uid)
+      .snapshots()
+      .map((dataDoc) =>  Info(name: dataDoc.data['name'],
+      allergens: List<String>.from(dataDoc.data['allergens']),
+      preferences: List<String>.from(dataDoc.data['preferences'])));
+
+
+  Stream<Info> getInfoByUid(String uid) =>
+      infoCollection
+          .where('uid', isEqualTo: uid)
+          .snapshots()
+          .map((snap) =>
+      snap.documents.map((dataDoc) => Info(name: dataDoc.data['name'],
+          allergens: List<String>.from(dataDoc.data['allergens']),
+          preferences: List<String>.from(dataDoc.data['preferences']))).first);
+
+
+      Future<Info> testInfo(String uid) async {
+    var dataDoc = await Firestore.instance
+        .collection('info')
+        .document(uid)
+        .snapshots()
+        .first;
+
+    print('andmed siin' + dataDoc.data.toString());
+    return Info(name: dataDoc.data['name'],
+        allergens: List<String>.from(dataDoc.data['allergens']),
+            preferences: List<String>.from(dataDoc.data['preferences']));
+  }
+
+
   // info list from snapshot
   List<Info> _infoListFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc){
+    return snapshot.documents.map((doc) {
       //print(doc.data);
       return Info(
           name: doc.data['name'] ?? '',

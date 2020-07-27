@@ -18,6 +18,7 @@ class MainScreen extends StatefulWidget {
   MainScreen({Key key, this.name}) : super(key: key);
   final String name;
 
+
   @override
   _MainScreenState createState() => _MainScreenState();
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:scannit/constants.dart';
 import 'package:scannit/data/database.dart';
 import 'package:scannit/data/info_entity.dart';
 import 'package:scannit/data/user.dart';
@@ -21,7 +22,6 @@ class _InfoListState extends State<InfoList> {
     //User user = Provider.of<User>(context);
 
     if(lists == null) print("GGGGG");
-
 
     return ListView.builder(
       itemCount: lists.length,
