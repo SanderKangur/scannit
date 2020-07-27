@@ -1,6 +1,6 @@
 # scannit
 
-A new Flutter project.
+App for an EBS students' startup. Main idea is to scan food wrappers for allergens and ingredients. Uses Firebase ML Kit for text recognition.
 
 ## Getting Started
 
