@@ -3,20 +3,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:scannit/data/info_entity.dart';
 import 'package:scannit/data/user.dart';
 
-class DatabaseService {
+class InfoRepo {
 
   final String uid;
 
-  DatabaseService({ this.uid });
+  InfoRepo({ this.uid });
 
   // collection reference
   final CollectionReference infoCollection = Firestore.instance.collection(
       'info');
 
-  Future<void> updateUserData(String name, List<String> allergens,
+  Future<void> createUserInfo(String uid, List<String> allergens,
       List<String> preferences) async {
     return await infoCollection.document(uid).setData({
-      'name': name,
+      'uid': uid,
       'allergens': allergens,
       'preferences': preferences,
     });
@@ -29,11 +29,11 @@ class DatabaseService {
     });
   }
 
-  /*Future<void> updatePreferences(String preference) async {
+  Future<void> updatePreferences(String preference) async {
     return await infoCollection.document(uid).updateData({
       'preferences': FieldValue.arrayUnion(List()..add(preference)),
     });
-  }*/
+  }
 
 
   Stream<Info> testInfoStream(String uid) => Firestore.instance
@@ -45,9 +45,10 @@ class DatabaseService {
       preferences: List<String>.from(dataDoc.data['preferences'])));
 
 
-  Stream<Info> getInfoByUid(String uid) =>
+
+  Stream<Info> getScanResultByUid(String uid, List<String> scannedWords) =>
       infoCollection
-          .where('uid', isEqualTo: uid)
+          .where('uid', isEqualTo: uid).where('allergens', arrayContainsAny: scannedWords )
           .snapshots()
           .map((snap) =>
       snap.documents.map((dataDoc) => Info(name: dataDoc.data['name'],
@@ -92,8 +93,6 @@ class DatabaseService {
     return UserData(
         uid: uid,
         name: snapshot.data['name'],
-        allergens: List<String>.from(snapshot.data['allergens']) ?? [],
-        preferences: List<String>.from(snapshot.data['preferences']) ?? []
     );
   }
 

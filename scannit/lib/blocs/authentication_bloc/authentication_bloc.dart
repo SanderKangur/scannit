@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:scannit/data/user_repository.dart';
+import 'package:scannit/data/user_auth.dart';
 import './bloc.dart';
 import 'package:meta/meta.dart';
 
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
-  final UserRepository _userRepository;
+  final UserAuthenticationRepository _userRepository;
 
-  AuthenticationBloc({@required UserRepository userRepository})
+  AuthenticationBloc({@required UserAuthenticationRepository userRepository})
       : assert(userRepository != null),
         _userRepository = userRepository;
 

@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scannit/blocs/authentication_bloc/bloc.dart';
 import 'package:scannit/blocs/register_bloc/bloc.dart';
+import 'package:scannit/constants.dart';
 import 'package:scannit/pages/register/register_button.dart';
 
 
@@ -81,7 +82,7 @@ class _RegisterFormState extends State<RegisterForm> {
 
         builder: (context, state) {
           return Container(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
             child: Form(
               child: ListView(
                 children: <Widget>[
@@ -226,6 +227,8 @@ class _RegisterFormState extends State<RegisterForm> {
   }
 
   void _onFormSubmitted() {
+    Constants.userName = _nameController.text;
+    Constants.userChoice = choice;
     _registerBloc.add(
       RegisterSubmitted(
         email: _emailController.text,

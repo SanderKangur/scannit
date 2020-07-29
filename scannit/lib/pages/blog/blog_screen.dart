@@ -37,7 +37,7 @@ class _BlogScreenState extends State<BlogScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.all(10.0),
+                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                 child:Container(
                   height: 1.0,
                   color: Colors.brown,

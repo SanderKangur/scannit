@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:scannit/blocs/authentication_bloc/bloc.dart';
-import 'package:scannit/data/database.dart';
+import 'package:scannit/data/info_repo.dart';
 import 'package:scannit/data/info_entity.dart';
 import 'package:scannit/data/user.dart';
+import 'package:scannit/data/user_repo.dart';
 import 'package:scannit/pages/account/info_list.dart';
 import 'package:scannit/pages/account/info_tile.dart';
 import 'package:scannit/pages/dialogs/dialog_util.dart';
@@ -53,46 +54,71 @@ class _AccountScreenState extends State<AccountScreen> {
                 Colors.lightGreen[100],
                 Colors.white
               ])),
-          child: StreamBuilder<Info>(
-            stream: DatabaseService(uid: Constants.userId).testInfoStream(Constants.userId),
-            builder: (context, snapshot){
-              if (!snapshot.hasData) return Text("No data");
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
 
-                return Container(
-                  child: ListView.builder(
-                    itemCount: snapshot.data.allergens.length,
-                    itemBuilder: (context, index) {
-                      return Text(snapshot.data.allergens[index]);
-                    },
-                  ),
-                );
-              }
-            ),
-        ),
-          /*FutureBuilder(
-              builder: (context, projectSnap) {
-                if (projectSnap.connectionState == ConnectionState.none &&
-                    projectSnap.hasData == null) {
-                  //print('project snapshot data is: ${projectSnap.data}');
-                  return LoadingIndicator();
-                }
-                if(projectSnap.connectionState == ConnectionState.done ) {
-                  print('DATA:' + projectSnap.data.name);
-                  return Container(
-                      child: ListView.builder(
-                        itemCount: projectSnap.data.allergens.length,
-                        itemBuilder: (context, index) {
-                          return Text(projectSnap.data.allergens[index]);
-                        },
+              StreamBuilder<UserData>(
+                  stream: UserRepo(uid: Constants.userId).testUserDataStream(Constants.userId),
+                  builder: (context, snapshot){
+                    if (!snapshot.hasData) return Text("No UserData");
+
+                    return Column(
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(top: 50),
+                            child: Center(
+                              child: CircleAvatar(
+                                radius: 80.0,
+                                backgroundColor: Colors.white,
+                                child: Text(snapshot.data.name[0],
+                                  textScaleFactor: 5,
+                                  style: TextStyle(color: Colors.black45),
+                                ),
+                              ),
+                            ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 20),
+                          child: Text(snapshot.data.name,
+                            textScaleFactor: 3,
+                            style: TextStyle(color: Colors.black54),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 30, left: 10),
+                child: Text("My Allergens",
+                  textScaleFactor: 2,
+                  style: TextStyle(color: Colors.black45),
+                ),
+              ),
+              StreamBuilder<Info>(
+                stream: InfoRepo(uid: Constants.userId).testInfoStream(Constants.userId),
+                builder: (context, snapshot){
+                  if (!snapshot.hasData) return Text("No data");
+
+                    return Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(top: 10, left: 10),
+                        child: ListView.builder(
+                          itemCount: snapshot.data.allergens.length,
+                          itemBuilder: (context, index) {
+                            return Text(snapshot.data.allergens[index],
+                              textScaleFactor: 1.5,
+                              style: TextStyle(color: Colors.black45),);
+                          },
+                        ),
                       ),
-                  );//(projectSnap.data.allergens[0])));
-                }
-                else
-                      return LoadingIndicator();
-
-              },
-              future: new DatabaseService().testInfo(Constants.userId)),
-        ),*/
+                    );
+                  }
+                ),
+            ],
+          ),
+        ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.lightGreen[300],
           child: Icon(Icons.add),

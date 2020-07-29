@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:scannit/blocs/authentication_bloc/bloc.dart';
 import 'package:scannit/constants.dart';
 import 'package:scannit/data/user.dart';
-import 'package:scannit/data/user_repository.dart';
+import 'package:scannit/data/user_auth.dart';
 import 'package:scannit/pages/loading.dart';
 import 'package:scannit/pages/main_screen.dart';
 import 'package:scannit/pages/login/login_screen.dart';
@@ -15,7 +15,7 @@ import 'package:scannit/simple_bloc_delegate.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   BlocSupervisor.delegate = SimpleBlocDelegate();
-  final UserRepository userRepository = UserRepository();
+  final UserAuthenticationRepository userRepository = UserAuthenticationRepository();
   runApp(
     BlocProvider(
       create: (context) => AuthenticationBloc(userRepository: userRepository)
@@ -27,9 +27,9 @@ void main() {
 
 
 class App extends StatelessWidget {
-  final UserRepository _userRepository;
+  final UserAuthenticationRepository _userRepository;
 
-  App({Key key, @required UserRepository userRepository})
+  App({Key key, @required UserAuthenticationRepository userRepository})
       : assert(userRepository != null),
         _userRepository = userRepository,
         super(key: key);
@@ -38,8 +38,9 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return StreamProvider<User>.value(
-      value: UserRepository().user,
+      value: UserAuthenticationRepository().user,
       child: MaterialApp(
+        builder: (context, child) => SafeArea(child: child),
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
             if (state is AuthenticationInitial) {

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scannit/blocs/authentication_bloc/bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:scannit/data/database.dart';
+import 'package:scannit/data/info_repo.dart';
 import 'package:scannit/data/info_entity.dart';
 import 'package:scannit/pages/blog/blog_screen.dart';
 import 'package:scannit/pages/scan/scan_screen.dart';
@@ -43,7 +43,7 @@ class _MainScreenState extends State<MainScreen> {
     print("hello main");
 
     return StreamProvider<List<Info>>.value(
-      value: DatabaseService().info,
+      value: InfoRepo().info,
       //catchError: (_, err) => [Info(name: err.toString(), allergens: [], preferences: [])],
       child: Scaffold(
         body: IndexedStack(

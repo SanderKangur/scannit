@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scannit/constants.dart';
-import 'package:scannit/data/database.dart';
+import 'package:scannit/data/info_repo.dart';
+import 'package:scannit/data/info_entity.dart';
 import 'package:scannit/data/user.dart';
 import 'package:scannit/pages/loading.dart';
 
@@ -14,15 +15,14 @@ class AddIngredientDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    User user = Provider.of<User>(context);
-    print("add ingredient " + user.uid);
+    //User user = Provider.of<User>(context);
+    //print("add ingredient " + user.uid);
 
-    return StreamBuilder<UserData>(
-      stream: DatabaseService(uid: Constants.userId).userData,
+    return StreamBuilder<Info>(
+      stream: InfoRepo(uid: Constants.userId).testInfoStream(Constants.userId),
       builder: (context, snapshot){
         print(snapshot.hasData);
         if(snapshot.hasData){
-          UserData userData = snapshot.data;
           return Dialog(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(Consts.padding),
@@ -88,7 +88,7 @@ class AddIngredientDialog extends StatelessWidget {
                       MaterialButton(
                         onPressed: () async {
                           if(textEditingController.value.text.isNotEmpty) {
-                            await DatabaseService(uid: user.uid).updateAllergens(textEditingController.value.text);
+                            await InfoRepo(uid: Constants.userId).updateAllergens(textEditingController.value.text);
                           }
                           Navigator.pop(context);
                         },
