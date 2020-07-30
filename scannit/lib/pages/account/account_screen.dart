@@ -89,12 +89,24 @@ class _AccountScreenState extends State<AccountScreen> {
                     );
                   }
               ),
-              Container(
-                margin: EdgeInsets.only(top: 30, left: 10),
-                child: Text("My Allergens",
-                  textScaleFactor: 2,
-                  style: TextStyle(color: Colors.black45),
-                ),
+              Row(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 30, left: 10),
+                    child: Text("My Allergens",
+                      textScaleFactor: 2,
+                      style: TextStyle(color: Colors.black45),
+                    ),
+                  ),
+                  RaisedButton(
+                      onPressed: (){
+                        DialogUtil.showAddPreferenceDialog(context);
+                      },
+                      color: Colors.green,
+                      child: Text("Edit")
+
+                  ),
+                ],
               ),
               StreamBuilder<Info>(
                 stream: InfoRepo(uid: Constants.userId).testInfoStream(Constants.userId),
@@ -116,6 +128,45 @@ class _AccountScreenState extends State<AccountScreen> {
                     );
                   }
                 ),
+              Row(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 30, left: 10),
+                    child: Text("My Preferences",
+                      textScaleFactor: 2,
+                      style: TextStyle(color: Colors.black45),
+                    ),
+                  ),
+                  RaisedButton(
+                    onPressed: (){
+                      DialogUtil.showAddPreferenceDialog(context);
+                    },
+                    color: Colors.green,
+                    child: Text("Edit")
+
+                  ),
+                ],
+              ),
+              StreamBuilder<Info>(
+                  stream: InfoRepo(uid: Constants.userId).testInfoStream(Constants.userId),
+                  builder: (context, snapshot){
+                    if (!snapshot.hasData) return Text("No data");
+
+                    return Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(top: 10, left: 10),
+                        child: ListView.builder(
+                          itemCount: snapshot.data.preferences.length,
+                          itemBuilder: (context, index) {
+                            return Text(snapshot.data.preferences[index],
+                              textScaleFactor: 1.5,
+                              style: TextStyle(color: Colors.black45),);
+                          },
+                        ),
+                      ),
+                    );
+                  }
+              ),
             ],
           ),
         ),
@@ -123,7 +174,7 @@ class _AccountScreenState extends State<AccountScreen> {
           backgroundColor: Colors.lightGreen[300],
           child: Icon(Icons.add),
           onPressed: () {
-            DialogUtil.showAddIngredientDialog(context);
+            DialogUtil.showAddPreferenceDialog(context);
           },
         ));
   }

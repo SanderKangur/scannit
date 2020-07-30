@@ -7,8 +7,8 @@ import 'package:scannit/data/user.dart';
 import 'package:scannit/pages/loading.dart';
 
 
-class AddIngredientDialog extends StatelessWidget {
-  AddIngredientDialog();
+class AddAllergenDialog extends StatelessWidget {
+  AddAllergenDialog();
 
   TextEditingController textEditingController = TextEditingController();
 
@@ -53,7 +53,7 @@ class AddIngredientDialog extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min, // To make the card compact
                 children: <Widget>[
                   Text(
-                    "Add ingredient",
+                    "Add allergen",
                     style: TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.w700,
@@ -70,7 +70,7 @@ class AddIngredientDialog extends StatelessWidget {
                   SizedBox(height: 16.0),
                   TextField(
                     controller: textEditingController,
-                    decoration: InputDecoration(hintText: 'Enter here ingredient. '),
+                    decoration: InputDecoration(hintText: 'Enter here allergen. '),
                   ),
                   SizedBox(height: 30.0),
                   Row(
@@ -93,7 +93,7 @@ class AddIngredientDialog extends StatelessWidget {
                           Navigator.pop(context);
                         },
                         child: Text(
-                          "ADD INGREDIENT",
+                          "ADD ALLERGEN",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),

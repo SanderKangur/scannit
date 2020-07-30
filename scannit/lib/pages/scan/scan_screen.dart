@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scannit/data/info_entity.dart';
 import 'package:scannit/data/info_repo.dart';
+import 'package:scannit/pages/dialogs/dialog_util.dart';
 
 import '../../constants.dart';
 
@@ -82,17 +83,22 @@ class _ScanScreenState extends State<ScanScreen> {
             flex: 1,
             child: StreamBuilder<Info>(
                 stream: InfoRepo(uid: Constants.userId).getScanResultByUid(Constants.userId, words),
-                builder: (context, snapshot){
-                  if (!snapshot.hasData) return Text("No bad allergens");
-
-                  return ListView.builder(
-                    itemCount: words.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(words.elementAt(index)),
-                      );
-                    },
-                  );
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    DialogUtil.showScanSuccessDialog(context);
+                    return Text("No bad allergens");
+                  }
+                  else {
+                    DialogUtil.showScanFailDialog(context);
+                    return ListView.builder(
+                      itemCount: words.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(words.elementAt(index)),
+                        );
+                      },
+                    );
+                  }
                 }
             ),
             /*ListView.builder(

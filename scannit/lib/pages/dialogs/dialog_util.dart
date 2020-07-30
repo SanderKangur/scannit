@@ -1,14 +1,58 @@
 import 'package:flutter/material.dart';
-import 'package:scannit/pages/dialogs/add_ingredinet_dialog.dart';
+import 'package:scannit/pages/dialogs/add_allergen_dialog.dart';
+import 'package:scannit/pages/dialogs/add_preference_dialog.dart';
+import 'package:scannit/pages/dialogs/scan_fail_dialog.dart';
+import 'package:scannit/pages/dialogs/scan_success_dialog.dart';
+import 'package:scannit/pages/dialogs/scan_warning_dialog.dart';
 
 class DialogUtil {
 
-  static void showAddIngredientDialog(BuildContext context) {
+  static void showAddAllergenDialog(BuildContext context) {
     Future.delayed(Duration.zero, () {
       return showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext context) => AddIngredientDialog(),
+        builder: (BuildContext context) => AddAllergenDialog(),
+      );
+    });
+  }
+
+  static void showAddPreferenceDialog(BuildContext context) {
+    Future.delayed(Duration.zero, () {
+      return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => AddPreferenceDialog(),
+      );
+    });
+  }
+
+  static Widget showScanSuccessDialog(BuildContext context) {
+    Future.delayed(Duration.zero, () {
+      return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => ScanSuccessDialog(),
+      );
+    });
+  }
+
+  static void showScanFailDialog(BuildContext context) {
+    Future.delayed(Duration.zero, () {
+      return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => ScanFailDialog(),
+      );
+    });
+  }
+
+  static void showScanWarningDialog(BuildContext context) {
+    Future.delayed(Duration.zero, () {
+      return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => ScanWarningDialog(),
       );
     });
   }

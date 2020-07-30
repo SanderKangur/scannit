@@ -10,11 +10,11 @@ import 'package:scannit/constants.dart';
 import 'package:scannit/pages/register/register_button.dart';
 
 
-class RegisterForm extends StatefulWidget {
-  State<RegisterForm> createState() => _RegisterFormState();
+class RegisterFormMain extends StatefulWidget {
+  State<RegisterFormMain> createState() => _RegisterFormMainState();
 }
 
-class _RegisterFormState extends State<RegisterForm> {
+class _RegisterFormMainState extends State<RegisterFormMain> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
