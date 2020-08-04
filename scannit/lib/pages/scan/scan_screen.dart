@@ -82,7 +82,7 @@ class _ScanScreenState extends State<ScanScreen> {
           Flexible(
             flex: 1,
             child: StreamBuilder<Info>(
-                stream: InfoRepo(uid: Constants.userId).getScanResultByUid(Constants.userId, words),
+                stream: InfoRepo(uid: Constants.userId).getScanResultByUid(Constants.userId, words, 'allergens'),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     DialogUtil.showScanSuccessDialog(context);
@@ -103,7 +103,7 @@ class _ScanScreenState extends State<ScanScreen> {
             ),
             /*ListView.builder(
               itemCount: words.length,
-              itemBuilder: (context, index) {
+              itemBuilder: (context, index) { 
                 return ListTile(
                   title: Text(words.elementAt(index).text),
                 );

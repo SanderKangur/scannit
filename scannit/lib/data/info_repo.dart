@@ -46,9 +46,9 @@ class InfoRepo {
 
 
 
-  Stream<Info> getScanResultByUid(String uid, List<String> scannedWords) =>
+  Stream<Info> getScanResultByUid(String uid, List<String> scannedWords, String infoType) =>
       infoCollection
-          .where('uid', isEqualTo: uid).where('allergens', arrayContainsAny: scannedWords )
+          .where('uid', isEqualTo: uid).where(infoType, arrayContainsAny: scannedWords )
           .snapshots()
           .map((snap) =>
       snap.documents.map((dataDoc) => Info(name: dataDoc.data['name'],

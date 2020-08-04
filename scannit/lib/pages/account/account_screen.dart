@@ -27,20 +27,6 @@ class _AccountScreenState extends State<AccountScreen> {
     print('UUID in account' + Constants.userId);
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Account'),
-          backgroundColor: Colors.lightGreen[200],
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.exit_to_app),
-              onPressed: () {
-                BlocProvider.of<AuthenticationBloc>(context).add(
-                  AuthenticationLoggedOut(),
-                );
-              },
-            )
-          ],
-        ),
         body: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -57,39 +43,52 @@ class _AccountScreenState extends State<AccountScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                child:Container(
+                  height: 1.0,
+                  color: Colors.brown,
+                ),
+              ),
 
               StreamBuilder<UserData>(
                   stream: UserRepo(uid: Constants.userId).testUserDataStream(Constants.userId),
                   builder: (context, snapshot){
                     if (!snapshot.hasData) return Text("No UserData");
 
-                    return Column(
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Container(
-                          margin: EdgeInsets.only(top: 50),
-                            child: Center(
-                              child: CircleAvatar(
-                                radius: 80.0,
-                                backgroundColor: Colors.white,
-                                child: Text(snapshot.data.name[0],
-                                  textScaleFactor: 5,
-                                  style: TextStyle(color: Colors.black45),
-                                ),
-                              ),
-                            ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 20),
+                          margin: EdgeInsets.only(top: 10, left: 10),
                           child: Text(snapshot.data.name,
-                            textScaleFactor: 3,
-                            style: TextStyle(color: Colors.black54),
+                            textScaleFactor: 2.5,
+                            style: TextStyle(color: Colors.black45),
                           ),
                         ),
+                        RawMaterialButton(
+                          onPressed: () {
+                            BlocProvider.of<AuthenticationBloc>(context).add(
+                              AuthenticationLoggedOut(),
+                            );
+                          },
+                          elevation: 5.0,
+                          fillColor: Colors.white,
+                          child: Icon(
+                            Icons.exit_to_app,
+                            size: 30.0,
+                            color: Colors.black54,
+                          ),
+                          padding: EdgeInsets.all(10.0),
+                          shape: CircleBorder(),
+                        )
                       ],
                     );
                   }
               ),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(top: 30, left: 10),
@@ -98,14 +97,20 @@ class _AccountScreenState extends State<AccountScreen> {
                       style: TextStyle(color: Colors.black45),
                     ),
                   ),
-                  RaisedButton(
-                      onPressed: (){
-                        DialogUtil.showAddPreferenceDialog(context);
-                      },
-                      color: Colors.green,
-                      child: Text("Edit")
-
-                  ),
+                  RawMaterialButton(
+                    onPressed: () {
+                      DialogUtil.showAddAllergenDialog(context);
+                    },
+                    elevation: 5.0,
+                    fillColor: Colors.white,
+                    child: Icon(
+                      Icons.edit,
+                      size: 20.0,
+                      color: Colors.black54,
+                    ),
+                    padding: EdgeInsets.all(5.0),
+                    shape: CircleBorder(),
+                  )
                 ],
               ),
               StreamBuilder<Info>(
@@ -129,6 +134,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   }
                 ),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(top: 30, left: 10),
@@ -137,14 +143,20 @@ class _AccountScreenState extends State<AccountScreen> {
                       style: TextStyle(color: Colors.black45),
                     ),
                   ),
-                  RaisedButton(
-                    onPressed: (){
+                  RawMaterialButton(
+                    onPressed: () {
                       DialogUtil.showAddPreferenceDialog(context);
                     },
-                    color: Colors.green,
-                    child: Text("Edit")
-
-                  ),
+                    elevation: 5.0,
+                    fillColor: Colors.white,
+                    child: Icon(
+                      Icons.edit,
+                      size: 20.0,
+                      color: Colors.black54,
+                    ),
+                    padding: EdgeInsets.all(5.0),
+                    shape: CircleBorder(),
+                  )
                 ],
               ),
               StreamBuilder<Info>(
@@ -170,12 +182,13 @@ class _AccountScreenState extends State<AccountScreen> {
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
+        /*floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.lightGreen[300],
           child: Icon(Icons.add),
           onPressed: () {
             DialogUtil.showAddPreferenceDialog(context);
           },
-        ));
+        )*/
+    );
   }
 }

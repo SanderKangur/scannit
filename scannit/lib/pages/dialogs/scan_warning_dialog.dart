@@ -65,6 +65,15 @@ class ScanWarningDialog extends StatelessWidget {
                         fontSize: 16.0,
                       ),
                     ),
+                    SizedBox(height: 16.0),
+                    MaterialButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(); // To close the dialog
+                      },
+                      child: Text(
+                        "CLOSE",
+                      ),
+                    ),
                   ],
                 ),
               ),
