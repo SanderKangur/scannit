@@ -19,7 +19,7 @@ class AddPreferenceDialog extends StatelessWidget {
     //print("add ingredient " + user.uid);
 
     return StreamBuilder<Info>(
-        stream: InfoRepo(uid: Constants.userId).testInfoStream(Constants.userId),
+        stream: InfoRepo(uid: Constants.userId).infoStream(Constants.userId),
         builder: (context, snapshot){
           print(snapshot.hasData);
           if(snapshot.hasData){
@@ -88,7 +88,7 @@ class AddPreferenceDialog extends StatelessWidget {
                         MaterialButton(
                           onPressed: () async {
                             if(textEditingController.value.text.isNotEmpty) {
-                              await InfoRepo(uid: Constants.userId).updatePreferences(textEditingController.value.text);
+                              await InfoRepo(uid: Constants.userId).addPreferences(textEditingController.value.text);
                             }
                             Navigator.pop(context);
                           },

@@ -33,7 +33,7 @@ class _ScanScreenState extends State<ScanScreen> {
     readText.blocks.forEach((block) {
       block.lines.forEach((line) {
         line.elements.forEach((element){
-          tempWords.add(element.text.toLowerCase());
+          tempWords.add(element.text.toLowerCase().replaceAll(new RegExp("[,\.:]"), ""));
         });
       });
     });
@@ -61,6 +61,31 @@ class _ScanScreenState extends State<ScanScreen> {
     });*/
   }
 
+  int scanResult(List<String> scanned, List<String> allergens, List<String> preferences) {
+    final allergensCheck = [scanned, allergens];
+    final preferencesCheck = [scanned, preferences];
+
+    final allergensCommon =
+    allergensCheck.fold<Set>(
+        allergensCheck.first.toSet(),
+            (a, b) => a.intersection(b.toSet()));
+
+    final preferencesCommon =
+    preferencesCheck.fold<Set>(
+        preferencesCheck.first.toSet(),
+            (a, b) => a.intersection(b.toSet()));
+
+    print("THESE ARE COMMON ALLERGENS: " + allergensCommon.toString());
+    print("THESE ARE COMMON PREFERENCES: " + preferencesCommon.toString());
+
+    if(allergensCommon.length != 0)
+      return 0;
+    else if (preferencesCommon.length != 0)
+      return 1;
+    else
+      return 2;
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -81,14 +106,49 @@ class _ScanScreenState extends State<ScanScreen> {
           ),
           Flexible(
             flex: 1,
-            child: StreamBuilder<Info>(
+            child: Builder(builder: (BuildContext context) {
+              int value = scanResult(words, Constants.userAllergens, Constants.userPreferences);
+              print("scanResult: " + value.toString());
+              if (value == 0) {
+                DialogUtil.showScanFailDialog(context);
+                return ListView.builder(
+                  itemCount: words.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(words.elementAt(index)),
+                    );
+                  },
+                );
+              }
+              else if (value == 1){
+                DialogUtil.showScanWarningDialog(context);
+                return ListView.builder(
+                  itemCount: words.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(words.elementAt(index)),
+                    );
+                  },
+                );
+              }
+              else{
+                DialogUtil.showScanSuccessDialog(context);
+                return ListView.builder(
+                  itemCount: words.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(words.elementAt(index)),
+                    );
+                  },
+                );
+              }
+            })
+            /*StreamBuilder<Info>(
                 stream: InfoRepo(uid: Constants.userId).getScanResultByUid(Constants.userId, words, 'allergens'),
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    DialogUtil.showScanSuccessDialog(context);
-                    return Text("No bad allergens");
-                  }
-                  else {
+                  int value = scanResult(words, Constants.userAllergens, Constants.userPreferences);
+                  print("scanResult: " + value.toString());
+                  if (value == 0) {
                     DialogUtil.showScanFailDialog(context);
                     return ListView.builder(
                       itemCount: words.length,
@@ -99,8 +159,30 @@ class _ScanScreenState extends State<ScanScreen> {
                       },
                     );
                   }
+                  else if (value == 1){
+                    DialogUtil.showScanWarningDialog(context);
+                    return ListView.builder(
+                      itemCount: words.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(words.elementAt(index)),
+                        );
+                      },
+                    );
+                  }
+                  else{
+                    DialogUtil.showScanSuccessDialog(context);
+                    return ListView.builder(
+                      itemCount: words.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(words.elementAt(index)),
+                        );
+                      },
+                    );
+                  }
                 }
-            ),
+            ),*/
             /*ListView.builder(
               itemCount: words.length,
               itemBuilder: (context, index) { 

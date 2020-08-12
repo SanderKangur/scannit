@@ -19,7 +19,7 @@ class AddAllergenDialog extends StatelessWidget {
     //print("add ingredient " + user.uid);
 
     return StreamBuilder<Info>(
-      stream: InfoRepo(uid: Constants.userId).testInfoStream(Constants.userId),
+      stream: InfoRepo(uid: Constants.userId).infoStream(Constants.userId),
       builder: (context, snapshot){
         print(snapshot.hasData);
         if(snapshot.hasData){
@@ -88,7 +88,7 @@ class AddAllergenDialog extends StatelessWidget {
                       MaterialButton(
                         onPressed: () async {
                           if(textEditingController.value.text.isNotEmpty) {
-                            await InfoRepo(uid: Constants.userId).updateAllergens(textEditingController.value.text);
+                            await InfoRepo(uid: Constants.userId).addAllergens(textEditingController.value.text);
                           }
                           Navigator.pop(context);
                         },

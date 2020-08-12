@@ -17,7 +17,7 @@ class ScanSuccessDialog extends StatelessWidget {
     //print("add ingredient " + user.uid);
 
     return StreamBuilder<Info>(
-        stream: InfoRepo(uid: Constants.userId).testInfoStream(Constants.userId),
+        stream: InfoRepo(uid: Constants.userId).infoStream(Constants.userId),
         builder: (context, snapshot){
           print(snapshot.hasData);
           if(snapshot.hasData){
@@ -68,7 +68,7 @@ class ScanSuccessDialog extends StatelessWidget {
                     SizedBox(height: 16.0),
                     MaterialButton(
                       onPressed: () {
-                        Navigator.of(context).pop(); // To close the dialog
+                        Navigator.of(context).pop(true); // To close the dialog
                       },
                       child: Text(
                         "CLOSE",

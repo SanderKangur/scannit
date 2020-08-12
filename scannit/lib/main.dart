@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:scannit/blocs/authentication_bloc/bloc.dart';
 import 'package:scannit/constants.dart';
+import 'package:scannit/data/info_repo.dart';
 import 'package:scannit/data/user.dart';
 import 'package:scannit/data/user_auth.dart';
 import 'package:scannit/pages/loading.dart';
@@ -51,6 +52,7 @@ class App extends StatelessWidget {
             }
             if (state is AuthenticationSuccess) {
               Constants.userId = state.user.uid;
+              print("uid: " + Constants.userId.toString());
               return MainScreen(name: state.user.displayName);
             } else {
               return LoadingIndicator();
