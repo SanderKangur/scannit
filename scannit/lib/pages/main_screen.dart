@@ -4,7 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scannit/blocs/authentication_bloc/bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:scannit/data/database.dart';
+import 'package:scannit/constants.dart';
+import 'package:scannit/data/info_repo.dart';
 import 'package:scannit/data/info_entity.dart';
 import 'package:scannit/pages/blog/blog_screen.dart';
 import 'package:scannit/pages/scan/scan_screen.dart';
@@ -43,38 +44,46 @@ class _MainScreenState extends State<MainScreen> {
     print("hello main");
 
     return StreamProvider<List<Info>>.value(
-      value: DatabaseService().info,
+      value: InfoRepo().info,
       //catchError: (_, err) => [Info(name: err.toString(), allergens: [], preferences: [])],
-      child: Scaffold(
-        body: IndexedStack(
-          index: _selectedPage,
-          children: pageList,
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.inbox),
-              title: Text('Blog'),
+      child: StreamBuilder<Info>(
+          stream: InfoRepo(uid: Constants.userId).infoStream(Constants.userId),
+          builder: (context, snapshot){
+            Constants.userAllergens = snapshot.data.allergens;
+            Constants.userPreferences = snapshot.data.preferences;
+            print("Allergens" + Constants.userAllergens.toString());
+          return Scaffold(
+            body: IndexedStack(
+              index: _selectedPage,
+              children: pageList,
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings_overscan),
-              title: Text('Scan'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              title: Text('Search'),
-            ),BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              title: Text('Account'),
-            ),
-          ],
-          currentIndex: _selectedPage,
-          unselectedItemColor: Colors.white,
-          selectedItemColor: Colors.lightGreen[100],
-          onTap: _onItemTapped,
-          backgroundColor: Colors.lightGreen[300],
-        ), //
+            bottomNavigationBar: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.inbox),
+                  title: Text('Blog'),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.settings_overscan),
+                  title: Text('Scan'),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.search),
+                  title: Text('Search'),
+                ),BottomNavigationBarItem(
+                  icon: Icon(Icons.settings),
+                  title: Text('Account'),
+                ),
+              ],
+              currentIndex: _selectedPage,
+              unselectedItemColor: Colors.white,
+              selectedItemColor: Colors.lightGreen[100],
+              onTap: _onItemTapped,
+              backgroundColor: Colors.lightGreen[300],
+            ), //
+          );
+        }
       )// This trailing comma makes auto-formatting nicer for build methods.
     );
   }

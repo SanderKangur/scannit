@@ -2,14 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:scannit/constants.dart';
-import 'package:scannit/data/database.dart';
+import 'package:scannit/data/info_repo.dart';
 import 'package:scannit/data/user.dart';
+import 'package:scannit/data/user_repo.dart';
 
-class UserRepository {
+class UserAuthenticationRepository {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
 
-  UserRepository({FirebaseAuth firebaseAuth, GoogleSignIn googleSignin})
+  UserAuthenticationRepository({FirebaseAuth firebaseAuth, GoogleSignIn googleSignin})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
         _googleSignIn = googleSignin ?? GoogleSignIn();
 
@@ -52,7 +53,8 @@ class UserRepository {
   Future<void> signUp({String email, String password}) async {
     try {
       AuthResult result =  await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password,);
-      await DatabaseService(uid: result.user.uid).updateUserData('', [], []);
+      await InfoRepo(uid: result.user.uid).createUserInfo(result.user.uid, [], []);
+      await UserRepo(uid: result.user.uid).createUserData(result.user.uid, Constants.userName, Constants.userChoice);
       return result;
     } catch (error) {
       print(error.toString());

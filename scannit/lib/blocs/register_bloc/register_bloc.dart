@@ -3,14 +3,14 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:scannit/blocs/register_bloc/bloc.dart';
-import 'package:scannit/data/user_repository.dart';
+import 'package:scannit/data/user_auth.dart';
 import 'package:scannit/validators.dart';
 
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
-  final UserRepository _userRepository;
+  final UserAuthenticationRepository _userRepository;
 
-  RegisterBloc({@required UserRepository userRepository})
+  RegisterBloc({@required UserAuthenticationRepository userRepository})
       : assert(userRepository != null),
         _userRepository = userRepository;
 

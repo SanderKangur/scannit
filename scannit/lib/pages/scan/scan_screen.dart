@@ -3,6 +3,11 @@ import 'dart:io';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:scannit/data/info_entity.dart';
+import 'package:scannit/data/info_repo.dart';
+import 'package:scannit/pages/dialogs/dialog_util.dart';
+
+import '../../constants.dart';
 
 class ScanScreen extends StatefulWidget {
   ScanScreen({Key key, this.title}) : super(key: key);
@@ -15,7 +20,7 @@ class ScanScreen extends StatefulWidget {
 class _ScanScreenState extends State<ScanScreen> {
   File takenImage;
   bool isImageLoaded = false;
-  List<TextLine> lines = List<TextLine>();
+  List<String> words = List<String>();
   String fullText;
 
   Future takeImage() async {
@@ -23,11 +28,13 @@ class _ScanScreenState extends State<ScanScreen> {
     FirebaseVisionImage processedImage = FirebaseVisionImage.fromFile(tempStore);
     TextRecognizer recognizeText = FirebaseVision.instance.textRecognizer();
     VisionText readText = await recognizeText.processImage(processedImage);
-    List<TextLine> tempLines = List<TextLine>();
+    List<String> tempWords = List<String>();
 
     readText.blocks.forEach((block) {
       block.lines.forEach((line) {
-        tempLines.add(line);
+        line.elements.forEach((element){
+          tempWords.add(element.text.toLowerCase().replaceAll(new RegExp("[,\.:]"), ""));
+        });
       });
     });
 
@@ -35,7 +42,7 @@ class _ScanScreenState extends State<ScanScreen> {
       takenImage = tempStore;
       isImageLoaded = true;
       fullText = readText.text;
-      lines = tempLines;
+      words = tempWords;
     });
   }
 
@@ -44,12 +51,39 @@ class _ScanScreenState extends State<ScanScreen> {
     TextRecognizer recognizeText = FirebaseVision.instance.textRecognizer();
     VisionText readText = await recognizeText.processImage(processedImage);
 
-    fullText = readText.text;
+    /*fullText = readText.text;
     readText.blocks.forEach((block) {
       block.lines.forEach((line) {
-        lines.add(line);
+        line.elements.forEach((element) {
+          words.add(element.text);
+        });
       });
-    });
+    });*/
+  }
+
+  int scanResult(List<String> scanned, List<String> allergens, List<String> preferences) {
+    final allergensCheck = [scanned, allergens];
+    final preferencesCheck = [scanned, preferences];
+
+    final allergensCommon =
+    allergensCheck.fold<Set>(
+        allergensCheck.first.toSet(),
+            (a, b) => a.intersection(b.toSet()));
+
+    final preferencesCommon =
+    preferencesCheck.fold<Set>(
+        preferencesCheck.first.toSet(),
+            (a, b) => a.intersection(b.toSet()));
+
+    print("THESE ARE COMMON ALLERGENS: " + allergensCommon.toString());
+    print("THESE ARE COMMON PREFERENCES: " + preferencesCommon.toString());
+
+    if(allergensCommon.length != 0)
+      return 0;
+    else if (preferencesCommon.length != 0)
+      return 1;
+    else
+      return 2;
   }
 
   @override
@@ -72,14 +106,91 @@ class _ScanScreenState extends State<ScanScreen> {
           ),
           Flexible(
             flex: 1,
-            child: ListView.builder(
-              itemCount: lines.length,
-              itemBuilder: (context, index) {
+            child: Builder(builder: (BuildContext context) {
+              int value = scanResult(words, Constants.userAllergens, Constants.userPreferences);
+              print("scanResult: " + value.toString());
+              if (value == 0) {
+                DialogUtil.showScanFailDialog(context);
+                return ListView.builder(
+                  itemCount: words.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(words.elementAt(index)),
+                    );
+                  },
+                );
+              }
+              else if (value == 1){
+                DialogUtil.showScanWarningDialog(context);
+                return ListView.builder(
+                  itemCount: words.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(words.elementAt(index)),
+                    );
+                  },
+                );
+              }
+              else{
+                DialogUtil.showScanSuccessDialog(context);
+                return ListView.builder(
+                  itemCount: words.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(words.elementAt(index)),
+                    );
+                  },
+                );
+              }
+            })
+            /*StreamBuilder<Info>(
+                stream: InfoRepo(uid: Constants.userId).getScanResultByUid(Constants.userId, words, 'allergens'),
+                builder: (context, snapshot) {
+                  int value = scanResult(words, Constants.userAllergens, Constants.userPreferences);
+                  print("scanResult: " + value.toString());
+                  if (value == 0) {
+                    DialogUtil.showScanFailDialog(context);
+                    return ListView.builder(
+                      itemCount: words.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(words.elementAt(index)),
+                        );
+                      },
+                    );
+                  }
+                  else if (value == 1){
+                    DialogUtil.showScanWarningDialog(context);
+                    return ListView.builder(
+                      itemCount: words.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(words.elementAt(index)),
+                        );
+                      },
+                    );
+                  }
+                  else{
+                    DialogUtil.showScanSuccessDialog(context);
+                    return ListView.builder(
+                      itemCount: words.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(words.elementAt(index)),
+                        );
+                      },
+                    );
+                  }
+                }
+            ),*/
+            /*ListView.builder(
+              itemCount: words.length,
+              itemBuilder: (context, index) { 
                 return ListTile(
-                  title: Text(lines.elementAt(index).text),
+                  title: Text(words.elementAt(index).text),
                 );
               },
-            ),
+            ),*/
           ),
         ],
       )
@@ -100,22 +211,28 @@ class _ScanScreenState extends State<ScanScreen> {
           child: Column(
             children: <Widget>[
               Container(
-                margin: EdgeInsets.all(10.0),
+                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                 child:Container(
                   height: 1.0,
                   color: Colors.brown,
                 ),
               ),
-              Expanded(
+              /*Expanded(
                 child: Container(
                   child: FloatingActionButton(
                     onPressed: takeImage,
                     backgroundColor: Colors.lightGreen[300],
                     child: Icon(Icons.add_a_photo),
                   )),
-              ),
+              ),*/
             ],
           )
+      ),
+      floatingActionButton: FloatingActionButton(
+              onPressed: takeImage,
+              backgroundColor: Colors.lightGreen[300],
+              child: Icon(Icons.add_a_photo),
+
       ),
     );
   }

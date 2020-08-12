@@ -1,43 +1,66 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:scannit/constants.dart';
 import 'package:scannit/data/info_entity.dart';
 import 'package:scannit/data/user.dart';
 
-class DatabaseService {
+class InfoRepo {
 
   final String uid;
 
-  DatabaseService({ this.uid });
+  InfoRepo({ this.uid });
 
   // collection reference
   final CollectionReference infoCollection = Firestore.instance.collection(
       'info');
 
-  Future<void> updateUserData(String name, List<String> allergens,
+  Future<void> createUserInfo(String uid, List<String> allergens,
       List<String> preferences) async {
     return await infoCollection.document(uid).setData({
-      'name': name,
+      'uid': uid,
       'allergens': allergens,
       'preferences': preferences,
     });
   }
 
-  Future<void> updateAllergens(String allergen) async {
+  Future<void> addAllergens(String allergen) async {
+    Constants.userAllergens.add(allergen);
     return await infoCollection.document(uid).updateData({
       'allergens': FieldValue.arrayUnion(List()
         ..add(allergen)),
     });
   }
 
-  /*Future<void> updatePreferences(String preference) async {
+  Future<void> deleteAllergens(int index) async {
+    Constants.userAllergens.removeAt(index);
+    Firestore.instance
+        .collection('info')
+        .document(uid)
+        .updateData({
+      'allergens': Constants.userAllergens,
+    });
+  }
+
+  Future<void> addPreferences(String preference) async {
+    Constants.userPreferences.add(preference);
     return await infoCollection.document(uid).updateData({
       'preferences': FieldValue.arrayUnion(List()..add(preference)),
     });
-  }*/
+  }
 
+  Future<void> deletePreferences(int index) async {
+    Constants.userPreferences.removeAt(index);
+    Firestore.instance
+        .collection('info')
+        .document(uid)
+        .updateData({
+      'preferences': Constants.userPreferences,
+    });
+  }
 
-  Stream<Info> testInfoStream(String uid) => Firestore.instance
-      .collection('info')
+  Stream<Info> infoStream(String uid) =>
+      infoCollection
       .document(uid)
       .snapshots()
       .map((dataDoc) =>  Info(name: dataDoc.data['name'],
@@ -45,7 +68,8 @@ class DatabaseService {
       preferences: List<String>.from(dataDoc.data['preferences'])));
 
 
-  Stream<Info> getInfoByUid(String uid) =>
+
+  Stream<Info> getScanResultByUid(String uid, List<String> scannedWords, String infoType) =>
       infoCollection
           .where('uid', isEqualTo: uid)
           .snapshots()
@@ -92,8 +116,6 @@ class DatabaseService {
     return UserData(
         uid: uid,
         name: snapshot.data['name'],
-        allergens: List<String>.from(snapshot.data['allergens']) ?? [],
-        preferences: List<String>.from(snapshot.data['preferences']) ?? []
     );
   }
 

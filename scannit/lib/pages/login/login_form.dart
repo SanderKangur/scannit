@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scannit/blocs/authentication_bloc/bloc.dart';
 import 'package:scannit/blocs/login_bloc/bloc.dart';
-import 'package:scannit/data/user_repository.dart';
+import 'package:scannit/data/user_auth.dart';
 import 'package:scannit/pages/login/create_account_button.dart';
 import 'package:scannit/pages/login/google_login_button.dart';
 import 'package:scannit/pages/login/login_button.dart';
 
 
 class LoginForm extends StatefulWidget {
-  final UserRepository _userRepository;
+  final UserAuthenticationRepository _userRepository;
 
-  LoginForm({Key key, @required UserRepository userRepository})
+  LoginForm({Key key, @required UserAuthenticationRepository userRepository})
       : assert(userRepository != null),
         _userRepository = userRepository,
         super(key: key);
@@ -27,7 +27,7 @@ class _LoginFormState extends State<LoginForm> {
 
   LoginBloc _loginBloc;
 
-  UserRepository get _userRepository => widget._userRepository;
+  UserAuthenticationRepository get _userRepository => widget._userRepository;
 
   bool get isPopulated =>
       _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
@@ -83,19 +83,14 @@ class _LoginFormState extends State<LoginForm> {
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
           return Padding(
-            padding: EdgeInsets.all(20.0),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
             child: Form(
               child: ListView(
                 children: <Widget>[
-                  Align(
-                    alignment: Alignment(0, -0.9),
-                    child: Padding(
-                      padding:EdgeInsets.symmetric(
-                          horizontal: 10.0
-                      ),
-                      child:Container(
-                        height: 1.0,
-                        color: Colors.brown,),
+                  Container(
+                    child:Container(
+                      height: 1.0,
+                      color: Colors.brown,
                     ),
                   ),
                   Padding(

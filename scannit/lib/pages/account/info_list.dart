@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scannit/constants.dart';
-import 'package:scannit/data/database.dart';
+import 'package:scannit/data/info_repo.dart';
 import 'package:scannit/data/info_entity.dart';
 import 'package:scannit/data/user.dart';
 import 'package:scannit/pages/account/info_tile.dart';
