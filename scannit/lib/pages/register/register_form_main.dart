@@ -19,8 +19,6 @@ class _RegisterFormMainState extends State<RegisterFormMain> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  Map<String, bool> choice = {'Allergies': false, 'Intolerances': false, 'Lifestyle choice': false, 'Other': false};
-
   RegisterBloc _registerBloc;
 
   bool get isPopulated =>
@@ -158,25 +156,8 @@ class _RegisterFormMainState extends State<RegisterFormMain> {
                       ),
                     ],
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          child: Text(
-                            "What brought you here?",
-                            textScaleFactor: 2,
-                          ),
-                        ),
-                        choiceTile("Allergies",),
-                        choiceTile("Intolerances"),
-                        choiceTile("Lifestyle choice"),
-                        choiceTile("Other"),
-                      ],
-                    ),
+                  SizedBox(
+                    height: 20,
                   ),
                   RegisterButton(
                     onPressed: isRegisterButtonEnabled(state)
@@ -199,21 +180,6 @@ class _RegisterFormMainState extends State<RegisterFormMain> {
     super.dispose();
   }
 
-  Widget choiceTile(String text){
-    return new CheckboxListTile(
-      title: Text(text),
-      activeColor: Colors.lightGreen,
-      value: choice[text],
-      dense: true,
-      onChanged: (newValue) {
-        setState(() {
-          choice[text] = newValue;
-        });
-      },
-      controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-    );
-  }
-
   void _onEmailChanged() {
     _registerBloc.add(
       RegisterEmailChanged(email: _emailController.text),
@@ -228,7 +194,6 @@ class _RegisterFormMainState extends State<RegisterFormMain> {
 
   void _onFormSubmitted() {
     Constants.userName = _nameController.text;
-    Constants.userChoice = choice;
     _registerBloc.add(
       RegisterSubmitted(
         email: _emailController.text,

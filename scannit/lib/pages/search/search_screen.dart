@@ -18,7 +18,7 @@ class SearchScreen extends StatelessWidget {
                     0.3,
                     0.6,
                   ],
-                  colors: [Colors.lightGreen[100], Colors.white
+                  colors: [Colors.lightGreen[200], Colors.white
                   ]
               )
           ),
