@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -8,7 +6,6 @@ import 'package:scannit/blocs/authentication_bloc/bloc.dart';
 import 'package:scannit/blocs/register_bloc/bloc.dart';
 import 'package:scannit/constants.dart';
 import 'package:scannit/pages/register/register_button.dart';
-
 
 class RegisterFormMain extends StatefulWidget {
   State<RegisterFormMain> createState() => _RegisterFormMainState();
@@ -56,7 +53,8 @@ class _RegisterFormMainState extends State<RegisterFormMain> {
             );
         }
         if (state.isSuccess) {
-          BlocProvider.of<AuthenticationBloc>(context).add(AuthenticationLoggedIn());
+          BlocProvider.of<AuthenticationBloc>(context)
+              .add(AuthenticationLoggedIn());
           Navigator.of(context).pop();
         }
         if (state.isFailure) {
@@ -77,7 +75,6 @@ class _RegisterFormMainState extends State<RegisterFormMain> {
         }
       },
       child: BlocBuilder<RegisterBloc, RegisterState>(
-
         builder: (context, state) {
           return Container(
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -85,10 +82,10 @@ class _RegisterFormMainState extends State<RegisterFormMain> {
               child: ListView(
                 children: <Widget>[
                   Container(
-                      child:Container(
-                        height: 1.0,
-                        color: Colors.brown,
-                      ),
+                    child: Container(
+                      height: 1.0,
+                      color: Colors.brown,
+                    ),
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 10),
@@ -106,9 +103,13 @@ class _RegisterFormMainState extends State<RegisterFormMain> {
                           controller: _nameController,
                           decoration: InputDecoration(
                             enabledBorder: const OutlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.lightGreenAccent, width: 1.0)),
-                            icon: Icon(Icons.person,
-                              color: Colors.lightGreen,),
+                                borderSide: const BorderSide(
+                                    color: Colors.lightGreenAccent,
+                                    width: 1.0)),
+                            icon: Icon(
+                              Icons.person,
+                              color: Colors.lightGreen,
+                            ),
                             labelText: 'Name',
                           ),
                           keyboardType: TextInputType.text,
@@ -122,9 +123,13 @@ class _RegisterFormMainState extends State<RegisterFormMain> {
                           controller: _emailController,
                           decoration: InputDecoration(
                             enabledBorder: const OutlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.lightGreenAccent, width: 1.0)),
-                            icon: Icon(Icons.email,
-                              color: Colors.lightGreen,),
+                                borderSide: const BorderSide(
+                                    color: Colors.lightGreenAccent,
+                                    width: 1.0)),
+                            icon: Icon(
+                              Icons.email,
+                              color: Colors.lightGreen,
+                            ),
                             labelText: 'Email',
                           ),
                           keyboardType: TextInputType.emailAddress,
@@ -141,16 +146,22 @@ class _RegisterFormMainState extends State<RegisterFormMain> {
                           controller: _passwordController,
                           decoration: InputDecoration(
                             enabledBorder: const OutlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.lightGreenAccent, width: 1.0)),
-                            icon: Icon(Icons.lock,
-                            color: Colors.lightGreen,),
+                                borderSide: const BorderSide(
+                                    color: Colors.lightGreenAccent,
+                                    width: 1.0)),
+                            icon: Icon(
+                              Icons.lock,
+                              color: Colors.lightGreen,
+                            ),
                             labelText: 'Password',
                           ),
                           obscureText: true,
                           autocorrect: false,
                           autovalidate: true,
                           validator: (_) {
-                            return !state.isPasswordValid ? 'Invalid Password' : null;
+                            return !state.isPasswordValid
+                                ? 'Invalid Password'
+                                : null;
                           },
                         ),
                       ),

@@ -1,19 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:scannit/constants.dart';
 import 'package:scannit/data/info_repo.dart';
 import 'package:scannit/data/user.dart';
 import 'package:scannit/data/user_repo.dart';
 
+import '../allergens.dart';
+
 class UserAuthenticationRepository {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
 
-  UserAuthenticationRepository({FirebaseAuth firebaseAuth, GoogleSignIn googleSignin})
+  UserAuthenticationRepository(
+      {FirebaseAuth firebaseAuth, GoogleSignIn googleSignin})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
         _googleSignIn = googleSignin ?? GoogleSignIn();
-
 
   // create user obj based on firebase user
   User _userFromFirebaseUser(FirebaseUser user) {
@@ -23,14 +25,14 @@ class UserAuthenticationRepository {
   // auth change user stream
   Stream<User> get user {
     return _firebaseAuth.onAuthStateChanged
-    //.map((FirebaseUser user) => _userFromFirebaseUser(user));
+        //.map((FirebaseUser user) => _userFromFirebaseUser(user));
         .map(_userFromFirebaseUser);
   }
 
   Future<FirebaseUser> signInWithGoogle() async {
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
     final GoogleSignInAuthentication googleAuth =
-    await googleUser.authentication;
+        await googleUser.authentication;
     final AuthCredential credential = GoogleAuthProvider.getCredential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
@@ -41,7 +43,8 @@ class UserAuthenticationRepository {
 
   Future<void> signInWithCredentials(String email, String password) async {
     try {
-      AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+      AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
       FirebaseUser user = result.user;
       return user;
     } catch (error) {
@@ -52,9 +55,43 @@ class UserAuthenticationRepository {
 
   Future<void> signUp({String email, String password}) async {
     try {
-      AuthResult result =  await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password,);
-      await InfoRepo(uid: result.user.uid).createUserInfo(result.user.uid, [], []);
-      await UserRepo(uid: result.user.uid).createUserData(result.user.uid, Constants.userName, Constants.userChoice);
+      AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      Map<String, Map<String, bool>> types = {
+        "additives": {},
+        "oils": {},
+        "herbs_spices": {},
+        "sugar_sweeteners": {},
+        "seeds": {},
+        "nuts": {},
+        "fruits": {},
+        "vegetables": {},
+        "dairy": {},
+        "meat": {},
+        "seafood": {}
+      };
+
+      int i = -1;
+      types.forEach((key, value) {
+        i++;
+        List<String> tmp = AllergensString.allergensString[i]
+            .split(new RegExp("(?<!^)(?=[A-Z])"));
+        tmp.sort();
+        tmp.forEach((element) {
+          value.putIfAbsent(element, () => false);
+        });
+      });
+
+      print("types at auth: " + types.toString());
+      print("");
+
+      await InfoRepo(uid: result.user.uid)
+          .createUserInfo(result.user.uid, [], [], types);
+      await UserRepo(uid: result.user.uid).createUserData(
+          result.user.uid, Constants.userName, Constants.userChoice);
       return result;
     } catch (error) {
       print(error.toString());
@@ -79,7 +116,8 @@ class UserAuthenticationRepository {
   }
 
   Future<bool> doesUserExists(String uid) async {
-    final snapShot = await Firestore.instance.collection('/users').document(uid).get();
+    final snapShot =
+        await Firestore.instance.collection('/users').document(uid).get();
     return !(snapShot == null || !snapShot.exists);
   }
 

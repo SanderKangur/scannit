@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:scannit/data/info_entity.dart';
 import 'package:scannit/data/user.dart';
 
@@ -49,7 +48,8 @@ class UserRepo {
       return Info(
           name: doc.data['name'] ?? '',
           allergens: List<String>.from(doc.data['allergens']) ?? [],
-          preferences: List<String>.from(doc.data['preferences']) ?? []);
+          preferences: List<String>.from(doc.data['preferences']) ?? [],
+          types: Map<String, Map<String, bool>>.from(doc.data['types']) ?? {});
     }).toList();
   }
 

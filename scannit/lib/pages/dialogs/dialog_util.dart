@@ -6,7 +6,6 @@ import 'package:scannit/pages/dialogs/scan_success_dialog.dart';
 import 'package:scannit/pages/dialogs/scan_warning_dialog.dart';
 
 class DialogUtil {
-
   static void showAddAllergenDialog(BuildContext context) {
     Future.delayed(Duration.zero, () {
       return showDialog(

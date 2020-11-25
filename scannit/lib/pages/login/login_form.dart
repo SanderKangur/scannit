@@ -7,7 +7,6 @@ import 'package:scannit/pages/login/create_account_button.dart';
 import 'package:scannit/pages/login/google_login_button.dart';
 import 'package:scannit/pages/login/login_button.dart';
 
-
 class LoginForm extends StatefulWidget {
   final UserAuthenticationRepository _userRepository;
 
@@ -77,7 +76,8 @@ class _LoginFormState extends State<LoginForm> {
             );
         }
         if (state.isSuccess) {
-          BlocProvider.of<AuthenticationBloc>(context).add(AuthenticationLoggedIn());
+          BlocProvider.of<AuthenticationBloc>(context)
+              .add(AuthenticationLoggedIn());
         }
       },
       child: BlocBuilder<LoginBloc, LoginState>(
@@ -88,7 +88,7 @@ class _LoginFormState extends State<LoginForm> {
               child: ListView(
                 children: <Widget>[
                   Container(
-                    child:Container(
+                    child: Container(
                       height: 1.0,
                       color: Colors.brown,
                     ),
@@ -106,9 +106,12 @@ class _LoginFormState extends State<LoginForm> {
                       controller: _emailController,
                       decoration: InputDecoration(
                         enabledBorder: const OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.lightGreenAccent, width: 1.0)),
-                        icon: Icon(Icons.email,
-                          color: Colors.lightGreen,),
+                            borderSide: const BorderSide(
+                                color: Colors.lightGreenAccent, width: 1.0)),
+                        icon: Icon(
+                          Icons.email,
+                          color: Colors.lightGreen,
+                        ),
                         labelText: 'Email',
                       ),
                       keyboardType: TextInputType.emailAddress,
@@ -123,9 +126,12 @@ class _LoginFormState extends State<LoginForm> {
                     controller: _passwordController,
                     decoration: InputDecoration(
                       enabledBorder: const OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.lightGreenAccent, width: 1.0)),
-                      icon: Icon(Icons.lock,
-                        color: Colors.lightGreen,),
+                          borderSide: const BorderSide(
+                              color: Colors.lightGreenAccent, width: 1.0)),
+                      icon: Icon(
+                        Icons.lock,
+                        color: Colors.lightGreen,
+                      ),
                       labelText: 'Password',
                     ),
                     obscureText: true,
@@ -148,12 +154,12 @@ class _LoginFormState extends State<LoginForm> {
                               _keepSignedIn = newValue;
                             });
                           },
-                          controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                          controlAffinity: ListTileControlAffinity
+                              .leading, //  <-- leading Checkbox
                         ),
                       ],
                     ),
                   ),
-
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 50),
                     child: Column(
@@ -167,7 +173,8 @@ class _LoginFormState extends State<LoginForm> {
                         GoogleLoginButton(),
                         Container(
                           margin: EdgeInsets.symmetric(vertical: 5),
-                          child: Text("Haven't joined us yet?",
+                          child: Text(
+                            "Haven't joined us yet?",
                             textAlign: TextAlign.center,
                           ),
                         ),

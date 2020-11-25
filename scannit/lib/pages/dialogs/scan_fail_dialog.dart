@@ -1,26 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:scannit/constants.dart';
-import 'package:scannit/data/info_repo.dart';
 import 'package:scannit/data/info_entity.dart';
-import 'package:scannit/data/user.dart';
+import 'package:scannit/data/info_repo.dart';
 import 'package:scannit/pages/loading.dart';
-
 
 class ScanFailDialog extends StatelessWidget {
   ScanFailDialog();
 
   @override
   Widget build(BuildContext context) {
-
     //User user = Provider.of<User>(context);
     //print("add ingredient " + user.uid);
 
     return StreamBuilder<Info>(
         stream: InfoRepo(uid: Constants.userId).infoStream(Constants.userId),
-        builder: (context, snapshot){
+        builder: (context, snapshot) {
           print(snapshot.hasData);
-          if(snapshot.hasData){
+          if (snapshot.hasData) {
             return Dialog(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(Consts.padding),
@@ -78,11 +74,9 @@ class ScanFailDialog extends StatelessWidget {
                 ),
               ),
             );
-          }
-          else
+          } else
             return LoadingIndicator();
-        }
-    );
+        });
   }
 }
 

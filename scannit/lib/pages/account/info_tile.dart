@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:scannit/data/info_entity.dart';
 
 class InfoTile extends StatelessWidget {
-
   final Info info;
-  InfoTile({ this.info });
+
+  InfoTile({this.info});
 
   @override
   Widget build(BuildContext context) {

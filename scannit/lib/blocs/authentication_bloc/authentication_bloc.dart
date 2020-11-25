@@ -1,10 +1,13 @@
 import 'dart:async';
-import 'package:bloc/bloc.dart';
-import 'package:scannit/data/user_auth.dart';
-import './bloc.dart';
-import 'package:meta/meta.dart';
 
-class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
+import 'package:bloc/bloc.dart';
+import 'package:meta/meta.dart';
+import 'package:scannit/data/user_auth.dart';
+
+import './bloc.dart';
+
+class AuthenticationBloc
+    extends Bloc<AuthenticationEvent, AuthenticationState> {
   final UserAuthenticationRepository _userRepository;
 
   AuthenticationBloc({@required UserAuthenticationRepository userRepository})
@@ -16,8 +19,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
 
   @override
   Stream<AuthenticationState> mapEventToState(
-      AuthenticationEvent event,
-      ) async* {
+    AuthenticationEvent event,
+  ) async* {
     if (event is AuthenticationStarted) {
       yield* _mapAuthenticationStartedToState();
     } else if (event is AuthenticationLoggedIn) {

@@ -1,4 +1,6 @@
-String additives = '''
+class AllergensString {
+  static List<String> allergensString = [
+    '''
 Preservatives
 Colorants
 Antioxidants
@@ -16,9 +18,8 @@ Caffeine
 Phenylalanine
 Yeast
 Spirulina
-''';
-
-String oils = '''
+''',
+    '''
 Palm oil
 Olive oil
 Sunflower oil
@@ -31,10 +32,8 @@ Soybean oil
 Safflower oil
 Nut oils
 Fish oil
-''';
-
-
-String herbs_spices = '''
+''',
+    '''
 Pepper
 Paprika
 Parsley
@@ -56,9 +55,8 @@ Thyme
 Turmeric
 Saffron
 Chamomile
-''';
-
-String sugar_sweeteners = '''
+''',
+    '''
 Added Sugars
 Glucose-fructose syrup
 Corn syrup
@@ -69,9 +67,8 @@ Honey Mesi
 Maple syrup
 Agave syrup
 Sweeteners
-''';
-
-String seeds = '''
+''',
+    '''
 Wheat
 Barley
 Oats
@@ -91,10 +88,8 @@ Sunflower seed
 Pumpkin seed 
 Poppy seed 
 Buckwheat 
-''';
-
-
-String nuts = '''
+''',
+    '''
 Hazelnut 
 Peanut 
 Almond 
@@ -105,9 +100,8 @@ Macadamia
 Soybean
 Coconut 
 Chestnut
-''';
-
-String fruits = '''
+''',
+    '''
 Banana
 Grape
 Raisin 
@@ -135,9 +129,8 @@ Date
 Blackcurrant
 Grapefruit
 Papaya
-''';
-
-String vegetables = '''
+''',
+    '''
 Cucumber 
 Tomato 
 Carrot 
@@ -157,11 +150,8 @@ Beetroot
 Mushrooms
 Avocado
 Kale
-''';
-
-
-
-String dairy = '''
+''',
+    '''
 Milk
 Kohuke
 Jäätis
@@ -178,10 +168,8 @@ Cheddar
 Parmesan
 Goat cheese
 Processed cheese
-''';
-
-
-String meat = '''
+''',
+    '''
 Pork
 Chicken
 Goose
@@ -195,9 +183,9 @@ Deer
 Rabbit
 Turkey
 Buffalo
-''';
-
-String seafood = '''
+''',
+    '''
+    
 Fish
 Tuna
 Salmon
@@ -216,7 +204,6 @@ Octopus
 Calamari
 Eel
 Clams
-Oysters
-''';
-
-
+Oysters'''
+  ];
+}
