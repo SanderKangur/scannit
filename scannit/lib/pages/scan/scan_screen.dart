@@ -30,17 +30,16 @@ class _ScanScreenState extends State<ScanScreen> {
     VisionText readText = await recognizeText.processImage(processedImage);
     List<String> tempWords = List<String>();
 
-    String tmp;
+    final translator = GoogleTranslator();
     readText.blocks.forEach((block) {
       block.lines.forEach((line) {
-        line.elements.forEach((element) {
+        line.elements.forEach((element) async {
           element.text.toLowerCase().replaceAll(new RegExp("[,\.:]"), "");
-          tempWords.add(element.text.toLowerCase());
+          var translation = await translator.translate(element.text, to: 'en');
+          tempWords.add(translation.toString().toLowerCase());
         });
       });
     });
-
-
 
     setState(() {
       takenImage = tempStore;
@@ -56,20 +55,23 @@ class _ScanScreenState extends State<ScanScreen> {
     TextRecognizer recognizeText = FirebaseVision.instance.textRecognizer();
     VisionText readText = await recognizeText.processImage(processedImage);
 
-    /*fullText = readText.text;
+    fullText = readText.text;
     readText.blocks.forEach((block) {
       block.lines.forEach((line) {
         line.elements.forEach((element) {
           words.add(element.text);
         });
       });
-    });*/
+    });
   }
 
-  int scanResult(List<String> scanned, List<String> allergens, List<String> preferences) {
-
+  int scanResult(
+      List<String> scanned, List<String> allergens, List<String> preferences) {
     final allergensCheck = [scanned, allergens];
     final preferencesCheck = [scanned, preferences];
+
+    print(allergens);
+    print(preferences);
 
     final allergensCommon = allergensCheck.fold<Set>(
         allergensCheck.first.toSet(), (a, b) => a.intersection(b.toSet()));
@@ -143,8 +145,7 @@ class _ScanScreenState extends State<ScanScreen> {
                           },
                         );
                       }
-                    })
-                    ),
+                    })),
               ],
             )
           //Image.asset('assets/andu.jpg')

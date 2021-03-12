@@ -3,7 +3,6 @@ import 'package:scannit/constants.dart';
 import 'package:scannit/data/info_entity.dart';
 import 'package:scannit/data/info_repo.dart';
 import 'package:scannit/pages/loading.dart';
-import 'package:translator/translator.dart';
 
 class AddAllergenDialog extends StatelessWidget {
   AddAllergenDialog();
@@ -87,7 +86,8 @@ class AddAllergenDialog extends StatelessWidget {
                           onPressed: () async {
                             if (textEditingController.value.text.isNotEmpty) {
                               await InfoRepo(uid: Constants.userId)
-                                  .addAllergens(textEditingController.value.text);
+                                  .addAllergens(
+                                      textEditingController.value.text);
                             }
                             Navigator.pop(context);
                           },

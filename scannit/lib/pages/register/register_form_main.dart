@@ -114,7 +114,7 @@ class _RegisterFormMainState extends State<RegisterFormMain> {
                           ),
                           keyboardType: TextInputType.text,
                           autocorrect: false,
-                          autovalidate: true,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                         ),
                       ),
                       Container(
@@ -134,7 +134,7 @@ class _RegisterFormMainState extends State<RegisterFormMain> {
                           ),
                           keyboardType: TextInputType.emailAddress,
                           autocorrect: false,
-                          autovalidate: true,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (_) {
                             return !state.isEmailValid ? 'Invalid Email' : null;
                           },
@@ -157,7 +157,7 @@ class _RegisterFormMainState extends State<RegisterFormMain> {
                           ),
                           obscureText: true,
                           autocorrect: false,
-                          autovalidate: true,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (_) {
                             return !state.isPasswordValid
                                 ? 'Invalid Password'

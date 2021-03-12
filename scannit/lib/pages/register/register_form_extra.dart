@@ -121,7 +121,7 @@ class _RegisterFormExtraState extends State<RegisterFormExtra> {
                           ),
                           keyboardType: TextInputType.text,
                           autocorrect: false,
-                          autovalidate: true,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                         ),
                       ),
                       Container(
@@ -141,7 +141,7 @@ class _RegisterFormExtraState extends State<RegisterFormExtra> {
                           ),
                           keyboardType: TextInputType.emailAddress,
                           autocorrect: false,
-                          autovalidate: true,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (_) {
                             return !state.isEmailValid ? 'Invalid Email' : null;
                           },
@@ -164,7 +164,7 @@ class _RegisterFormExtraState extends State<RegisterFormExtra> {
                           ),
                           obscureText: true,
                           autocorrect: false,
-                          autovalidate: true,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (_) {
                             return !state.isPasswordValid
                                 ? 'Invalid Password'

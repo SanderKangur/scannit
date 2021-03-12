@@ -26,7 +26,7 @@ class DialogUtil {
     });
   }
 
-  static Widget showScanSuccessDialog(BuildContext context) {
+  static void showScanSuccessDialog(BuildContext context) {
     Future.delayed(Duration.zero, () {
       return showDialog(
         context: context,
