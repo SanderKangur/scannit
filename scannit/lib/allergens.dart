@@ -55,6 +55,7 @@ Thyme
 Turmeric
 Saffron
 Chamomile
+Cayenne
 ''',
     '''
 Added Sugars
@@ -63,10 +64,11 @@ Corn syrup
 Molasses
 Rice syrup
 Fructose
-Honey Mesi
+Honey
 Maple syrup
 Agave syrup
 Sweeteners
+Sugar
 ''',
     '''
 Wheat
@@ -79,7 +81,7 @@ Quinoa
 Sesame 
 Chia
 Flax 
-Bean 
+Beans
 Lentils
 Pea 
 Chickpea 
@@ -131,10 +133,10 @@ Grapefruit
 Papaya
 ''',
     '''
-Cucumber 
-Tomato 
-Carrot 
-Peppers 
+Cucumber
+Tomato
+Carrot
+Pepper 
 Potato 
 Spinach 
 Celery 

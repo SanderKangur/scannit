@@ -11,19 +11,6 @@ class BlogScreen extends StatefulWidget {
 
 class _BlogScreenState extends State<BlogScreen> {
   List<bool> inputs = new List<bool>();
-  Map<String, bool> allergens = Constants.userTypes['meat'];
-
-  @override
-  void initState() {
-    setState(() {
-      allergens.putIfAbsent("Select all", () => false);
-      //allergens.addAll(Constants.userTypes['meat']);
-      /*List<String> test = AllergensString.allergensString[3].split(new RegExp("(?<!^)(?=[A-Z])"));
-      test.sort();
-      allergens.putIfAbsent("Select all", () => false);
-      test.forEach((element) { allergens.putIfAbsent(element, () => false);});*/
-    });
-  }
 
   void itemChange(bool val, String type, String allergen) {
     setState(() {
@@ -32,6 +19,12 @@ class _BlogScreenState extends State<BlogScreen> {
       else
         Constants.userTypes[type][allergen] = val;
     });
+
+    if(val)
+      Constants.userAllergens.add(allergen.toLowerCase().replaceAll(new RegExp("[,\.:\n]"), ""));
+    else
+      Constants.userAllergens.remove(allergen.toLowerCase().replaceAll(new RegExp("[,\.:\n]"), ""));
+
     print(allergen + " " + Constants.userTypes[type][allergen].toString());
   }
 
@@ -74,6 +67,7 @@ class _BlogScreenState extends State<BlogScreen> {
                                     value: e.value,
                                     onChanged: (bool val) {
                                       itemChange(val, type, e.key);
+                                      print("BLOG" + Constants.userAllergens.toString());
                                     }),
                               ))
                           .toList());

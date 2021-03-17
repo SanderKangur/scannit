@@ -61,17 +61,18 @@ class UserAuthenticationRepository {
       );
 
       Map<String, Map<String, bool>> types = {
-        "additives": {},
-        "oils": {},
-        "herbs_spices": {},
-        "sugar_sweeteners": {},
-        "seeds": {},
-        "nuts": {},
-        "fruits": {},
-        "vegetables": {},
-        "dairy": {},
-        "meat": {},
-        "seafood": {}
+        "Additives": {},
+        "Oils": {},
+        "Herbs & spices": {},
+        "Sweeteners": {},
+        "Seeds": {},
+        "Nuts": {},
+        "Fruits": {},
+        "Vegetables": {},
+        "Dairy": {},
+        "Meat": {},
+        "Seafood": {},
+        "Custom": {}
       };
 
       int i = -1;

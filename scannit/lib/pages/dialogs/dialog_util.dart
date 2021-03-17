@@ -36,12 +36,12 @@ class DialogUtil {
     });
   }
 
-  static void showScanFailDialog(BuildContext context) {
+  static void showScanFailDialog(BuildContext context, String foundAllergens) {
     Future.delayed(Duration.zero, () {
       return showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext context) => ScanFailDialog(),
+        builder: (BuildContext context) => ScanFailDialog(foundAllergens),
       );
     });
   }

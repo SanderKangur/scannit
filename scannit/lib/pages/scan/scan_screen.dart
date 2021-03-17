@@ -42,66 +42,59 @@ class _ScanScreenState extends State<ScanScreen> {
 
     if(readText.text != "") {
       final translator = GoogleTranslator();
-      var translation = await translator.translate(readText.text, to: 'en');
-      tempWords.add(translation.toString());
-    }else tempWords.add("No ingredients detected");
+      /*var translation = await translator.translate(readText.text, to: 'en');
+      tempWords.add(translation.toString());*/
 
-    /*readText.blocks.forEach((block) {
+
+    String scannedString = "";
+
+    readText.blocks.forEach((block) {
       block.lines.forEach((line) {
-        line.elements.forEach((element) async {
-          element.text.toLowerCase().replaceAll(new RegExp("[,\.:]"), "");
-          tempWords.add(element.text.toLowerCase());
+        line.elements.forEach((element) {
+          scannedString += " " + element.text.toLowerCase().replaceAll(new RegExp("[,\.:]"), "");
+          //tempWords.add(element.text.toLowerCase());
         });
       });
-    });*/
+    });
+
+    //print("SCANNED STRING" + scannedString);
+    var translation = await translator.translate(scannedString, to: 'en');
+    List<String> tmpList = translation.text.split(" ");
+    tmpList.forEach((element) {
+      String tmpString = element.toLowerCase();
+      tempWords.add(tmpString);
+    });
+
+    }else tempWords.add("No ingredients detected");
 
     setState(() {
       takenImage = tempStore;
       isImageLoaded = true;
       fullText = readText.text;
       words = tempWords;
+      build(context);
     });
   }
 
-  Future readText() async {
-    FirebaseVisionImage processedImage =
-        FirebaseVisionImage.fromFile(takenImage);
-    TextRecognizer recognizeText = FirebaseVision.instance.textRecognizer();
-    VisionText readText = await recognizeText.processImage(processedImage);
-
-    fullText = readText.text;
-    readText.blocks.forEach((block) {
-      block.lines.forEach((line) {
-        line.elements.forEach((element) {
-          words.add(element.text);
-        });
-      });
-    });
-  }
-
-  int scanResult(
-      List<String> scanned, List<String> allergens, List<String> preferences) {
+  String scanResult(List<String> scanned, List<String> allergens) {
     final allergensCheck = [scanned, allergens];
-    final preferencesCheck = [scanned, preferences];
 
-    print(allergens);
-    print(preferences);
+    print("SCANNED" + scanned.toString());
+    print("ALLERGENS"  + allergens.toString());
 
-    final allergensCommon = allergensCheck.fold<Set>(
-        allergensCheck.first.toSet(), (a, b) => a.intersection(b.toSet()));
+    final allergensCommonSet = allergensCheck.fold<Set>(
+        allergensCheck.first.toSet(), (a, b) => a.intersection(b.toSet())).toString();
 
-    final preferencesCommon = preferencesCheck.fold<Set>(
-        preferencesCheck.first.toSet(), (a, b) => a.intersection(b.toSet()));
+    String allergensCommon = allergensCommonSet.substring(1, allergensCommonSet.length-1);
 
-    print("THESE ARE COMMON ALLERGENS: " + allergensCommon.toString());
-    print("THESE ARE COMMON PREFERENCES: " + preferencesCommon.toString());
+    print("THESE ARE COMMON ALLERGENS: " + allergensCommon);
 
-    if (allergensCommon.length != 0)
-      return 0;
-    else if (preferencesCommon.length != 0)
-      return 1;
+    return allergensCommon;
+
+    /*if (allergensCommon.length != 0)
+      return allergensCommon;
     else
-      return 2;
+      return "1";*/
   }
 
   @override
@@ -126,13 +119,11 @@ class _ScanScreenState extends State<ScanScreen> {
                 Flexible(
                     flex: 1,
                     child: Builder(builder: (BuildContext context) {
-                      int value = scanResult(words, Constants.userAllergens,
-                          Constants.userPreferences);
-                      print("scanResult: " + value.toString());
-                      if (value == 0) {
-                        DialogUtil.showScanFailDialog(context);
-                      } else if (value == 1) {
-                        DialogUtil.showScanWarningDialog(context);
+                      List<String> tmp = Constants.userAllergens;
+                      String result = scanResult(words, tmp);
+                      print("scanResult: " + result.toString());
+                      if (result.isNotEmpty) {
+                        DialogUtil.showScanFailDialog(context, result);
                       } else {
                         DialogUtil.showScanSuccessDialog(context);
                       }

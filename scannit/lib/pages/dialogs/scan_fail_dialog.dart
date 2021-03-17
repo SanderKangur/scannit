@@ -5,7 +5,9 @@ import 'package:scannit/data/info_repo.dart';
 import 'package:scannit/pages/loading.dart';
 
 class ScanFailDialog extends StatelessWidget {
-  ScanFailDialog();
+  ScanFailDialog(this.foundAllergens);
+
+  final String foundAllergens;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +57,7 @@ class ScanFailDialog extends StatelessWidget {
                     ),
                     SizedBox(height: 16.0),
                     Text(
-                      "YOU WILL DIE!!!",
+                      "FOUND: " + foundAllergens,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16.0,

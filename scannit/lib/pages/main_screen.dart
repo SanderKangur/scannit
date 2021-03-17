@@ -46,9 +46,10 @@ class _MainScreenState extends State<MainScreen> {
               if (snapshot.data == null) {
                 return Scaffold(body: LoadingIndicator());
               } else
-                Constants.userAllergens = snapshot.data.allergens;
-              Constants.userPreferences = snapshot.data.preferences;
-              Constants.userTypes = snapshot.data.types;
+                if(Constants.userAllergens == null) {
+                  Constants.userAllergens = snapshot.data.allergens;
+                  Constants.userTypes = snapshot.data.types;
+                }
               return Scaffold(
                 body: IndexedStack(
                   index: _selectedPage,

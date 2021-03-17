@@ -38,15 +38,9 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ];
       },
-      body: new ListView.builder(
-        itemCount: Constants.userTypes['meat'].length,
-        itemBuilder: (BuildContext context, int index) {
-          String type = Constants.userTypes['meat'].keys.elementAt(index);
-          return Container(
-            child: Text(tmp),
-          );
-        },
-      ),
+      body: Container(
+        child: Text(Constants.userAllergens.toString()),
+      )
     ));
   }
 }

@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class Constants {
   static String userId;
   static String userName;
@@ -6,3 +8,4 @@ class Constants {
   static List<String> userPreferences;
   static Map<String, Map<String, bool>> userTypes = {};
 }
+
