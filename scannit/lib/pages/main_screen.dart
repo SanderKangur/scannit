@@ -4,6 +4,7 @@ import 'package:scannit/constants.dart';
 import 'package:scannit/data/info_entity.dart';
 import 'package:scannit/data/info_repo.dart';
 import 'package:scannit/pages/blog/blog_screen.dart';
+import 'package:scannit/pages/loading.dart';
 import 'package:scannit/pages/scan/scan_screen.dart';
 import 'package:scannit/pages/search/search_screen.dart';
 import 'package:scannit/pages/splash_screen.dart';
@@ -43,7 +44,7 @@ class _MainScreenState extends State<MainScreen> {
             builder: (context, snapshot) {
               //print("Types " + snapshot.data.types.toString());
               if (snapshot.data == null) {
-                return Scaffold(body: SplashScreen());
+                return Scaffold(body: LoadingIndicator());
               } else
                 Constants.userAllergens = snapshot.data.allergens;
               Constants.userPreferences = snapshot.data.preferences;

@@ -4,6 +4,7 @@ import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scannit/pages/dialogs/dialog_util.dart';
+import 'package:scannit/pages/loading.dart';
 import 'package:translator/translator.dart';
 
 import '../../constants.dart';
@@ -19,27 +20,40 @@ class ScanScreen extends StatefulWidget {
 class _ScanScreenState extends State<ScanScreen> {
   File takenImage;
   bool isImageLoaded = false;
+  bool isLoading = false;
   List<String> words = List<String>();
   String fullText;
 
   Future takeImage() async {
+
     var tempStore = await ImagePicker.pickImage(source: ImageSource.camera);
     FirebaseVisionImage processedImage =
         FirebaseVisionImage.fromFile(tempStore);
+
+    setState(() {
+      isImageLoaded = false;
+      isLoading = true;
+    });
+
     TextRecognizer recognizeText = FirebaseVision.instance.textRecognizer();
     VisionText readText = await recognizeText.processImage(processedImage);
     List<String> tempWords = List<String>();
 
-    final translator = GoogleTranslator();
-    readText.blocks.forEach((block) {
+
+    if(readText.text != "") {
+      final translator = GoogleTranslator();
+      var translation = await translator.translate(readText.text, to: 'en');
+      tempWords.add(translation.toString());
+    }else tempWords.add("No ingredients detected");
+
+    /*readText.blocks.forEach((block) {
       block.lines.forEach((line) {
         line.elements.forEach((element) async {
           element.text.toLowerCase().replaceAll(new RegExp("[,\.:]"), "");
-          var translation = await translator.translate(element.text, to: 'en');
-          tempWords.add(translation.toString().toLowerCase());
+          tempWords.add(element.text.toLowerCase());
         });
       });
-    });
+    });*/
 
     setState(() {
       takenImage = tempStore;
@@ -95,7 +109,8 @@ class _ScanScreenState extends State<ScanScreen> {
     print("hello scan");
 
     return Scaffold(
-      body: isImageLoaded
+      body: isLoading ?
+      isImageLoaded
           ? Column(
               children: <Widget>[
                 Flexible(
@@ -116,38 +131,22 @@ class _ScanScreenState extends State<ScanScreen> {
                       print("scanResult: " + value.toString());
                       if (value == 0) {
                         DialogUtil.showScanFailDialog(context);
-                        return ListView.builder(
-                          itemCount: words.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text(words.elementAt(index)),
-                            );
-                          },
-                        );
                       } else if (value == 1) {
                         DialogUtil.showScanWarningDialog(context);
-                        return ListView.builder(
-                          itemCount: words.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text(words.elementAt(index)),
-                            );
-                          },
-                        );
                       } else {
                         DialogUtil.showScanSuccessDialog(context);
-                        return ListView.builder(
-                          itemCount: words.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text(words.elementAt(index)),
-                            );
-                          },
-                        );
                       }
+                      return ListView.builder(
+                        itemCount: words.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(words.elementAt(index)),
+                          );
+                        },
+                      );
                     })),
               ],
-            )
+            ) : LoadingIndicator()
           //Image.asset('assets/andu.jpg')
           : Container(
               decoration: BoxDecoration(

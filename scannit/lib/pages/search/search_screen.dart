@@ -28,7 +28,6 @@ class _SearchScreenState extends State<SearchScreen> {
       // the outer slivers over the inner scrollable.
       floatHeaderSlivers: true,
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-        translateElement("weird");
         return <Widget>[
           SliverAppBar(
             title: const Text('Floating Nested SliverAppBar'),
@@ -43,7 +42,6 @@ class _SearchScreenState extends State<SearchScreen> {
         itemCount: Constants.userTypes['meat'].length,
         itemBuilder: (BuildContext context, int index) {
           String type = Constants.userTypes['meat'].keys.elementAt(index);
-          translateElement(type);
           return Container(
             child: Text(tmp),
           );
