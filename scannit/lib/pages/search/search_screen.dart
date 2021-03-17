@@ -1,47 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scannit/blocs/authentication_bloc/bloc.dart';
+import 'package:scannit/constants.dart';
+import 'package:translator/translator.dart';
 
-class SearchScreen extends StatelessWidget {
-
+class SearchScreen extends StatefulWidget {
   SearchScreen({Key key}) : super(key: key);
+
+  @override
+  _SearchScreenState createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  Future<void> translateElement(String word) async {
+    final translator = GoogleTranslator();
+    var translation = await translator.translate(word, from: 'en', to: 'es');
+    setState(() {
+      tmp = translation.toString();
+    });
+  }
+
+  String tmp = "JESUS";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [
-                    0.3,
-                    0.6,
-                  ],
-                  colors: [Colors.lightGreen[100], Colors.white
-                  ]
-              )
+        body: NestedScrollView(
+      // Setting floatHeaderSlivers to true is required in order to float
+      // the outer slivers over the inner scrollable.
+      floatHeaderSlivers: true,
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        return <Widget>[
+          SliverAppBar(
+            title: const Text('Floating Nested SliverAppBar'),
+            floating: true,
+            expandedHeight: 50.0,
+            forceElevated: innerBoxIsScrolled,
+            backgroundColor: const Color(0xff303952),
           ),
-          child: Column(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                child:Container(
-                  height: 1.0,
-                  color: Colors.brown,
-                ),
-              ),
-              Expanded(
-                child: Container(
-                    child: FloatingActionButton(
-                      onPressed: () {},
-                      backgroundColor: Colors.lightGreen[300],
-                      child: Icon(Icons.search),
-                    )),
-              ),
-            ],
-          )
-      ),
-    );
+        ];
+      },
+      body: Container(
+        child: Text(Constants.userAllergens.toString()),
+      )
+    ));
   }
 }

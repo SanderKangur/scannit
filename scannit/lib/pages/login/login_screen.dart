@@ -4,7 +4,6 @@ import 'package:scannit/blocs/login_bloc/bloc.dart';
 import 'package:scannit/data/user_auth.dart';
 import 'package:scannit/pages/login/login_form.dart';
 
-
 class LoginScreen extends StatelessWidget {
   final UserAuthenticationRepository _userRepository;
 

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:scannit/constants.dart';
-import 'package:scannit/data/info_repo.dart';
 import 'package:scannit/data/info_entity.dart';
-import 'package:scannit/data/user.dart';
+import 'package:scannit/data/info_repo.dart';
 import 'package:scannit/pages/loading.dart';
-
 
 class AddPreferenceDialog extends StatelessWidget {
   AddPreferenceDialog();
@@ -14,15 +11,14 @@ class AddPreferenceDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     //User user = Provider.of<User>(context);
     //print("add ingredient " + user.uid);
 
     return StreamBuilder<Info>(
         stream: InfoRepo(uid: Constants.userId).infoStream(Constants.userId),
-        builder: (context, snapshot){
+        builder: (context, snapshot) {
           print(snapshot.hasData);
-          if(snapshot.hasData){
+          if (snapshot.hasData) {
             return Dialog(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(Consts.padding),
@@ -70,7 +66,8 @@ class AddPreferenceDialog extends StatelessWidget {
                     SizedBox(height: 16.0),
                     TextField(
                       controller: textEditingController,
-                      decoration: InputDecoration(hintText: 'Enter here preference. '),
+                      decoration:
+                          InputDecoration(hintText: 'Enter here preference. '),
                     ),
                     SizedBox(height: 30.0),
                     Row(
@@ -87,8 +84,10 @@ class AddPreferenceDialog extends StatelessWidget {
                         ),
                         MaterialButton(
                           onPressed: () async {
-                            if(textEditingController.value.text.isNotEmpty) {
-                              await InfoRepo(uid: Constants.userId).addPreferences(textEditingController.value.text);
+                            if (textEditingController.value.text.isNotEmpty) {
+                              await InfoRepo(uid: Constants.userId)
+                                  .addPreferences(
+                                      textEditingController.value.text);
                             }
                             Navigator.pop(context);
                           },
@@ -103,11 +102,9 @@ class AddPreferenceDialog extends StatelessWidget {
                 ),
               ),
             );
-          }
-          else
+          } else
             return LoadingIndicator();
-        }
-    );
+        });
   }
 }
 

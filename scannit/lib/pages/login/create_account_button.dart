@@ -5,7 +5,8 @@ import 'package:scannit/pages/register/register_screen.dart';
 class CreateAccountButton extends StatelessWidget {
   final UserAuthenticationRepository _userRepository;
 
-  CreateAccountButton({Key key, @required UserAuthenticationRepository userRepository})
+  CreateAccountButton(
+      {Key key, @required UserAuthenticationRepository userRepository})
       : assert(userRepository != null),
         _userRepository = userRepository,
         super(key: key);

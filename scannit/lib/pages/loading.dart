@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class LoadingIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) => const Center(
-    child: CircularProgressIndicator(backgroundColor: Colors.green,),
-  );
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation(Colors.lightGreen),
+        ),
+      );
 }

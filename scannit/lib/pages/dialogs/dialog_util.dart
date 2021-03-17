@@ -6,7 +6,6 @@ import 'package:scannit/pages/dialogs/scan_success_dialog.dart';
 import 'package:scannit/pages/dialogs/scan_warning_dialog.dart';
 
 class DialogUtil {
-
   static void showAddAllergenDialog(BuildContext context) {
     Future.delayed(Duration.zero, () {
       return showDialog(
@@ -27,7 +26,7 @@ class DialogUtil {
     });
   }
 
-  static Widget showScanSuccessDialog(BuildContext context) {
+  static void showScanSuccessDialog(BuildContext context) {
     Future.delayed(Duration.zero, () {
       return showDialog(
         context: context,
@@ -37,12 +36,12 @@ class DialogUtil {
     });
   }
 
-  static void showScanFailDialog(BuildContext context) {
+  static void showScanFailDialog(BuildContext context, String foundAllergens) {
     Future.delayed(Duration.zero, () {
       return showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext context) => ScanFailDialog(),
+        builder: (BuildContext context) => ScanFailDialog(foundAllergens),
       );
     });
   }

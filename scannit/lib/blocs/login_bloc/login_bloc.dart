@@ -1,10 +1,12 @@
 import 'dart:async';
+
 import 'package:bloc/bloc.dart';
-import 'package:scannit/data/user_auth.dart';
-import 'package:scannit/validators.dart';
-import './bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:scannit/data/user_auth.dart';
+import 'package:scannit/validators.dart';
+
+import './bloc.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   UserAuthenticationRepository _userRepository;
@@ -19,9 +21,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   @override
   Stream<Transition<LoginEvent, LoginState>> transformEvents(
-      Stream<LoginEvent> events,
-      TransitionFunction<LoginEvent, LoginState> transitionFn,
-      ) {
+    Stream<LoginEvent> events,
+    TransitionFunction<LoginEvent, LoginState> transitionFn,
+  ) {
     final nonDebounceStream = events.where((event) {
       return (event is! LoginEmailChanged && event is! LoginPasswordChanged);
     });

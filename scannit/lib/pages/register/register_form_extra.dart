@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -8,7 +6,6 @@ import 'package:scannit/blocs/authentication_bloc/bloc.dart';
 import 'package:scannit/blocs/register_bloc/bloc.dart';
 import 'package:scannit/constants.dart';
 import 'package:scannit/pages/register/register_button.dart';
-
 
 class RegisterFormExtra extends StatefulWidget {
   State<RegisterFormExtra> createState() => _RegisterFormExtraState();
@@ -19,7 +16,12 @@ class _RegisterFormExtraState extends State<RegisterFormExtra> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  Map<String, bool> choice = {'Allergies': false, 'Intolerances': false, 'Lifestyle choice': false, 'Other': false};
+  Map<String, bool> choice = {
+    'Allergies': false,
+    'Intolerances': false,
+    'Lifestyle choice': false,
+    'Other': false
+  };
 
   RegisterBloc _registerBloc;
 
@@ -58,7 +60,8 @@ class _RegisterFormExtraState extends State<RegisterFormExtra> {
             );
         }
         if (state.isSuccess) {
-          BlocProvider.of<AuthenticationBloc>(context).add(AuthenticationLoggedIn());
+          BlocProvider.of<AuthenticationBloc>(context)
+              .add(AuthenticationLoggedIn());
           Navigator.of(context).pop();
         }
         if (state.isFailure) {
@@ -79,7 +82,6 @@ class _RegisterFormExtraState extends State<RegisterFormExtra> {
         }
       },
       child: BlocBuilder<RegisterBloc, RegisterState>(
-
         builder: (context, state) {
           return Container(
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -87,7 +89,7 @@ class _RegisterFormExtraState extends State<RegisterFormExtra> {
               child: ListView(
                 children: <Widget>[
                   Container(
-                    child:Container(
+                    child: Container(
                       height: 1.0,
                       color: Colors.brown,
                     ),
@@ -108,14 +110,18 @@ class _RegisterFormExtraState extends State<RegisterFormExtra> {
                           controller: _nameController,
                           decoration: InputDecoration(
                             enabledBorder: const OutlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.lightGreenAccent, width: 1.0)),
-                            icon: Icon(Icons.person,
-                              color: Colors.lightGreen,),
+                                borderSide: const BorderSide(
+                                    color: Colors.lightGreenAccent,
+                                    width: 1.0)),
+                            icon: Icon(
+                              Icons.person,
+                              color: Colors.lightGreen,
+                            ),
                             labelText: 'Name',
                           ),
                           keyboardType: TextInputType.text,
                           autocorrect: false,
-                          autovalidate: true,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                         ),
                       ),
                       Container(
@@ -124,14 +130,18 @@ class _RegisterFormExtraState extends State<RegisterFormExtra> {
                           controller: _emailController,
                           decoration: InputDecoration(
                             enabledBorder: const OutlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.lightGreenAccent, width: 1.0)),
-                            icon: Icon(Icons.email,
-                              color: Colors.lightGreen,),
+                                borderSide: const BorderSide(
+                                    color: Colors.lightGreenAccent,
+                                    width: 1.0)),
+                            icon: Icon(
+                              Icons.email,
+                              color: Colors.lightGreen,
+                            ),
                             labelText: 'Email',
                           ),
                           keyboardType: TextInputType.emailAddress,
                           autocorrect: false,
-                          autovalidate: true,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (_) {
                             return !state.isEmailValid ? 'Invalid Email' : null;
                           },
@@ -143,16 +153,22 @@ class _RegisterFormExtraState extends State<RegisterFormExtra> {
                           controller: _passwordController,
                           decoration: InputDecoration(
                             enabledBorder: const OutlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.lightGreenAccent, width: 1.0)),
-                            icon: Icon(Icons.lock,
-                              color: Colors.lightGreen,),
+                                borderSide: const BorderSide(
+                                    color: Colors.lightGreenAccent,
+                                    width: 1.0)),
+                            icon: Icon(
+                              Icons.lock,
+                              color: Colors.lightGreen,
+                            ),
                             labelText: 'Password',
                           ),
                           obscureText: true,
                           autocorrect: false,
-                          autovalidate: true,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (_) {
-                            return !state.isPasswordValid ? 'Invalid Password' : null;
+                            return !state.isPasswordValid
+                                ? 'Invalid Password'
+                                : null;
                           },
                         ),
                       ),
@@ -171,7 +187,9 @@ class _RegisterFormExtraState extends State<RegisterFormExtra> {
                             textScaleFactor: 2,
                           ),
                         ),
-                        choiceTile("Allergies",),
+                        choiceTile(
+                          "Allergies",
+                        ),
                         choiceTile("Intolerances"),
                         choiceTile("Lifestyle choice"),
                         choiceTile("Other"),
@@ -199,7 +217,7 @@ class _RegisterFormExtraState extends State<RegisterFormExtra> {
     super.dispose();
   }
 
-  Widget choiceTile(String text){
+  Widget choiceTile(String text) {
     return new CheckboxListTile(
       title: Text(text),
       activeColor: Colors.lightGreen,
@@ -210,7 +228,7 @@ class _RegisterFormExtraState extends State<RegisterFormExtra> {
           choice[text] = newValue;
         });
       },
-      controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+      controlAffinity: ListTileControlAffinity.leading, //  <-- leading Checkbox
     );
   }
 
