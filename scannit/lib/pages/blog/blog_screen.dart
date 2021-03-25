@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scannit/constants.dart';
+import 'package:scannit/data/info_repo.dart';
 
 class BlogScreen extends StatefulWidget {
   BlogScreen({Key key, this.title}) : super(key: key);
@@ -12,7 +13,7 @@ class BlogScreen extends StatefulWidget {
 class _BlogScreenState extends State<BlogScreen> {
   List<bool> inputs = new List<bool>();
 
-  void itemChange(bool val, String type, String allergen) {
+  void itemChange(bool val, String type, String allergen) async {
     setState(() {
       if (allergen == "Select all")
         Constants.userTypes[type].updateAll((key, value) => val);
@@ -20,12 +21,15 @@ class _BlogScreenState extends State<BlogScreen> {
         Constants.userTypes[type][allergen] = val;
     });
 
+    await InfoRepo(uid: Constants.userId).updateTypes();
+
     if(val)
       Constants.userAllergens.add(allergen.toLowerCase().replaceAll(new RegExp("[,\.:\n]"), ""));
     else
       Constants.userAllergens.remove(allergen.toLowerCase().replaceAll(new RegExp("[,\.:\n]"), ""));
 
     print(allergen + " " + Constants.userTypes[type][allergen].toString());
+    print("BLOG" + Constants.userAllergens.toString());
   }
 
   @override
@@ -67,7 +71,6 @@ class _BlogScreenState extends State<BlogScreen> {
                                     value: e.value,
                                     onChanged: (bool val) {
                                       itemChange(val, type, e.key);
-                                      print("BLOG" + Constants.userAllergens.toString());
                                     }),
                               ))
                           .toList());

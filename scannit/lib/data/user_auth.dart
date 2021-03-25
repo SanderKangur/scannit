@@ -82,7 +82,7 @@ class UserAuthenticationRepository {
             .split(new RegExp("(?<!^)(?=[A-Z])"));
         tmp.sort();
         tmp.forEach((element) {
-          value.putIfAbsent(element, () => false);
+          value.putIfAbsent(element.replaceAll(new RegExp("[,\.:\n]"), ""), () => false);
         });
       });
 
@@ -90,7 +90,7 @@ class UserAuthenticationRepository {
       print("");
 
       await InfoRepo(uid: result.user.uid)
-          .createUserInfo(result.user.uid, [], [], types);
+          .createUserInfo(result.user.uid, types);
       await UserRepo(uid: result.user.uid).createUserData(
           result.user.uid, Constants.userName, Constants.userChoice);
       return result;

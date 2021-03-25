@@ -12,13 +12,16 @@ class InfoRepo {
   final CollectionReference infoCollection =
       Firestore.instance.collection('info');
 
-  Future<void> createUserInfo(String uid, List<String> allergens,
-      List<String> preferences, Map<String, Map<String, bool>> types) async {
+  Future<void> createUserInfo(String uid, Map<String, Map<String, bool>> types) async {
     return await infoCollection.document(uid).setData({
       'uid': uid,
-      'allergens': allergens,
-      'preferences': preferences,
       'types': types
+    });
+  }
+
+  Future<void> updateTypes() async {
+    await infoCollection.document(uid).updateData({
+      'types': Constants.userTypes,
     });
   }
 
@@ -36,53 +39,12 @@ class InfoRepo {
     });
   }
 
-  Future<void> addPreferences(String preference) async {
-    Constants.userPreferences.add(preference);
-    return await infoCollection.document(uid).updateData({
-      'preferences': FieldValue.arrayUnion(List()..add(preference)),
-    });
-  }
-
-  Future<void> deletePreferences(int index) async {
-    Constants.userPreferences.removeAt(index);
-    Firestore.instance.collection('info').document(uid).updateData({
-      'preferences': Constants.userPreferences,
-    });
-  }
-
   Stream<Info> infoStream(String uid) {
     return infoCollection.document(uid).snapshots().map((dataDoc) => Info(
         name: dataDoc.data['name'],
-        allergens: List<String>.from(dataDoc.data['allergens']),
-        preferences: List<String>.from(['preferences']),
         types: Map<String, dynamic>.from(dataDoc.data['types']).map(
             (key, value) =>
                 MapEntry<String, Map<String, bool>>(key, Map.from(value)))));
-  }
-
-  Stream<Info> getScanResultByUid(
-          String uid, List<String> scannedWords, String infoType) =>
-      infoCollection.where('uid', isEqualTo: uid).snapshots().map((snap) => snap
-          .documents
-          .map((dataDoc) => Info(
-              name: dataDoc.data['name'],
-              allergens: List<String>.from(dataDoc.data['allergens']),
-              preferences: List<String>.from(dataDoc.data['preferences'])))
-          .first);
-
-  Future<Info> testInfo(String uid) async {
-    var dataDoc = await Firestore.instance
-        .collection('info')
-        .document(uid)
-        .snapshots()
-        .first;
-
-    print('andmed siin' + dataDoc.data.toString());
-    return Info(
-        name: dataDoc.data['name'],
-        allergens: List<String>.from(dataDoc.data['allergens']),
-        preferences: List<String>.from(dataDoc.data['preferences']),
-        types: Map<String, dynamic>.from(dataDoc.data['test']));
   }
 
   // info list from snapshot
@@ -91,8 +53,6 @@ class InfoRepo {
     return snapshot.documents.map((doc) {
       return Info(
           name: doc.data['name'] ?? '',
-          allergens: List<String>.from(doc.data['allergens']) ?? [],
-          preferences: List<String>.from(doc.data['preferences']) ?? [],
           types: Map<String, Map<String, bool>>.from(doc.data['types']) ?? {});
     }).toList();
   }

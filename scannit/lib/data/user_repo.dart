@@ -47,8 +47,6 @@ class UserRepo {
       //print(doc.data);
       return Info(
           name: doc.data['name'] ?? '',
-          allergens: List<String>.from(doc.data['allergens']) ?? [],
-          preferences: List<String>.from(doc.data['preferences']) ?? [],
           types: Map<String, Map<String, bool>>.from(doc.data['types']) ?? {});
     }).toList();
   }

@@ -45,11 +45,17 @@ class _MainScreenState extends State<MainScreen> {
               //print("Types " + snapshot.data.types.toString());
               if (snapshot.data == null) {
                 return Scaffold(body: LoadingIndicator());
-              } else
-                if(Constants.userAllergens == null) {
-                  Constants.userAllergens = snapshot.data.allergens;
+              } else {
+                print("ALLERGENS FROM DATABASE: " + Constants.userAllergens.toString());
+                if (Constants.userAllergens.length == 0) {
                   Constants.userTypes = snapshot.data.types;
+                  Constants.userTypes.forEach((area, value) {
+                    value.forEach((allergen, bool) {
+                      if(bool) Constants.userAllergens.add(allergen);
+                    });
+                  });
                 }
+              }
               return Scaffold(
                 body: IndexedStack(
                   index: _selectedPage,
