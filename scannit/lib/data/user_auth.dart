@@ -18,34 +18,34 @@ class UserAuthenticationRepository {
         _googleSignIn = googleSignin ?? GoogleSignIn();
 
   // create user obj based on firebase user
-  User _userFromFirebaseUser(FirebaseUser user) {
-    return user != null ? User(uid: user.uid) : null;
+  LocalUser _userFromFirebaseUser(User user) {
+    return user != null ? LocalUser(uid: user.uid) : null;
   }
 
   // auth change user stream
   Stream<User> get user {
-    return _firebaseAuth.onAuthStateChanged
+    return _firebaseAuth.userChanges();
         //.map((FirebaseUser user) => _userFromFirebaseUser(user));
-        .map(_userFromFirebaseUser);
+        //.map(_userFromFirebaseUser);
   }
 
-  Future<FirebaseUser> signInWithGoogle() async {
+  Future<User> signInWithGoogle() async {
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
     final GoogleSignInAuthentication googleAuth =
         await googleUser.authentication;
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
+    final AuthCredential credential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
     await _firebaseAuth.signInWithCredential(credential);
-    return _firebaseAuth.currentUser();
+    return _firebaseAuth.currentUser;
   }
 
   Future<void> signInWithCredentials(String email, String password) async {
     try {
-      AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
+      UserCredential result = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
-      FirebaseUser user = result.user;
+      User user = result.user;
       return user;
     } catch (error) {
       print(error.toString());
@@ -55,7 +55,7 @@ class UserAuthenticationRepository {
 
   Future<void> signUp({String email, String password}) async {
     try {
-      AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
+      UserCredential result = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -108,36 +108,17 @@ class UserAuthenticationRepository {
   }
 
   Future<bool> isSignedIn() async {
-    final currentUser = await _firebaseAuth.currentUser();
+    final currentUser = await _firebaseAuth.currentUser;
     return currentUser != null;
   }
 
-  Future<FirebaseUser> getUser() async {
-    return (await _firebaseAuth.currentUser());
+  Future<User> getUser() async {
+    return (await _firebaseAuth.currentUser);
   }
 
   Future<bool> doesUserExists(String uid) async {
     final snapShot =
-        await Firestore.instance.collection('/users').document(uid).get();
+        await FirebaseFirestore.instance.collection('/users').doc(uid).get();
     return !(snapShot == null || !snapShot.exists);
-  }
-
-  Future<void> deleteIngredient(String title) async {
-    Firestore.instance.runTransaction((Transaction tx) async {
-      DocumentSnapshot snapshot = await tx.get(
-          Firestore.instance.collection('users').document(Constants.userId));
-      var doc = snapshot.data;
-      if (doc['ingredients'].contains(title)) {
-        await tx.update(snapshot.reference, <String, dynamic>{
-          'ingredients': FieldValue.arrayRemove([title])
-        });
-      }
-    });
-  }
-
-  void addIngredient(String value) {
-    Firestore.instance
-        .document(Constants.userId)
-        .updateData({"ingredients": FieldValue.arrayUnion(List()..add(value))});
   }
 }

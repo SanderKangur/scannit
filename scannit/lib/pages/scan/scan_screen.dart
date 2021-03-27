@@ -26,7 +26,8 @@ class _ScanScreenState extends State<ScanScreen> {
 
   Future takeImage() async {
 
-    var tempStore = await ImagePicker.pickImage(source: ImageSource.camera);
+    var pickedFile = await ImagePicker().getImage(source: ImageSource.camera);
+    var tempStore = File(pickedFile.path);
     FirebaseVisionImage processedImage =
         FirebaseVisionImage.fromFile(tempStore);
 

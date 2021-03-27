@@ -9,45 +9,45 @@ class UserRepo {
 
   // collection reference
   final CollectionReference userDataCollection =
-      Firestore.instance.collection('user');
+      FirebaseFirestore.instance.collection('user');
 
   Future<void> createUserData(
       String uid, String name, Map<String, bool> choice) async {
     return await userDataCollection
-        .document(uid)
-        .setData({'uid': uid, 'name': name, 'choice': choice});
+        .doc(uid)
+        .set({'uid': uid, 'name': name, 'choice': choice});
   }
 
   Future<void> updateName(String name) async {
-    return await userDataCollection.document(uid).updateData({
+    return await userDataCollection.doc(uid).update({
       'name': name,
     });
   }
 
-  Stream<UserData> testUserDataStream(String uid) => Firestore.instance
+  Stream<UserData> testUserDataStream(String uid) => FirebaseFirestore.instance
       .collection('user')
-      .document(uid)
+      .doc(uid)
       .snapshots()
       .map((dataDoc) =>
-          UserData(uid: dataDoc.data['uid'], name: dataDoc.data['name']));
+          UserData(uid: dataDoc.data()['uid'], name: dataDoc.data()['name']));
 
   Stream<UserData> getInfoByUid(String uid) => userDataCollection
       .where('uid', isEqualTo: uid)
       .snapshots()
-      .map((snap) => snap.documents
+      .map((snap) => snap.docs
           .map((dataDoc) => UserData(
-                uid: dataDoc.data['uid'],
-                name: dataDoc.data['name'],
+                uid: dataDoc.data()['uid'],
+                name: dataDoc.data()['name'],
               ))
           .first);
 
   // info list from snapshot
   List<Info> _infoListFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
+    return snapshot.docs.map((doc) {
       //print(doc.data);
       return Info(
-          name: doc.data['name'] ?? '',
-          types: Map<String, Map<String, bool>>.from(doc.data['types']) ?? {});
+          name: doc.data()['name'] ?? '',
+          types: Map<String, Map<String, bool>>.from(doc.data()['types']) ?? {});
     }).toList();
   }
 
@@ -60,14 +60,14 @@ class UserRepo {
   UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
     return UserData(
       uid: uid,
-      name: snapshot.data['name'],
+      name: snapshot.data()['name'],
     );
   }
 
   //get user info
   Stream<UserData> get userData {
     return userDataCollection
-        .document(uid)
+        .doc(uid)
         .snapshots()
         .map(_userDataFromSnapshot);
   }

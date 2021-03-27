@@ -35,7 +35,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<User>.value(
+    return StreamProvider<LocalUser>.value(
       value: UserAuthenticationRepository().user,
       child: MaterialApp(
         builder: (context, child) => SafeArea(child: child),
