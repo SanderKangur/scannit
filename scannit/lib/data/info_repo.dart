@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:scannit/constants.dart';
 import 'package:scannit/data/info_entity.dart';
-import 'package:scannit/data/user.dart';
 
 class InfoRepo {
   final String uid;
@@ -12,11 +11,9 @@ class InfoRepo {
   final CollectionReference infoCollection =
       FirebaseFirestore.instance.collection('info');
 
-  Future<void> createUserInfo(String uid, Map<String, Map<String, bool>> types) async {
-    return await infoCollection.doc(uid).set({
-      'uid': uid,
-      'types': types
-    });
+  Future<void> createUserInfo(
+      String uid, Map<String, Map<String, bool>> types) async {
+    return await infoCollection.doc(uid).set({'uid': uid, 'types': types});
   }
 
   Future<void> updateTypes() async {
@@ -28,7 +25,7 @@ class InfoRepo {
   Future<void> addAllergens(String allergen) async {
     Constants.userAllergens.add(allergen);
     return await infoCollection.doc(uid).update({
-      'allergens': FieldValue.arrayUnion(List()..add(allergen)),
+      'allergens': FieldValue.arrayUnion([]..add(allergen)),
     });
   }
 
@@ -41,7 +38,7 @@ class InfoRepo {
 
   Stream<Info> infoStream(String uid) {
     return infoCollection.doc(uid).snapshots().map((dataDoc) => Info(
-        name: dataDoc.data()['name'],
+        uid: dataDoc.data()['uid'],
         types: Map<String, dynamic>.from(dataDoc.data()['types']).map(
             (key, value) =>
                 MapEntry<String, Map<String, bool>>(key, Map.from(value)))));
@@ -52,8 +49,9 @@ class InfoRepo {
     print("infolist: " + snapshot.docs.toString());
     return snapshot.docs.map((doc) {
       return Info(
-          name: doc.data()['name'] ?? '',
-          types: Map<String, Map<String, bool>>.from(doc.data()['types']) ?? {});
+          uid: doc.data()['uid'] ?? '',
+          types:
+              Map<String, Map<String, bool>>.from(doc.data()['types']) ?? {});
     }).toList();
   }
 

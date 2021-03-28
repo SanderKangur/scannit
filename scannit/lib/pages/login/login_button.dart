@@ -9,11 +9,13 @@ class LoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30.0),
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: Colors.lightGreen,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
       ),
-      color: Colors.lightGreen,
       onPressed: _onPressed,
       child: Text('Login',
           style: TextStyle(

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:scannit/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:scannit/blocs/authentication_bloc/authentication_event.dart';
 import 'package:scannit/constants.dart';
 import 'package:scannit/data/info_entity.dart';
 import 'package:scannit/data/info_repo.dart';
@@ -7,7 +10,6 @@ import 'package:scannit/pages/blog/blog_screen.dart';
 import 'package:scannit/pages/loading.dart';
 import 'package:scannit/pages/scan/scan_screen.dart';
 import 'package:scannit/pages/search/search_screen.dart';
-import 'package:scannit/pages/splash_screen.dart';
 
 import 'account/account_screen.dart';
 
@@ -21,7 +23,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedPage = 0;
-  List<Widget> pageList = List<Widget>();
+  List<Widget> pageList = [];
 
   @override
   void initState() {
@@ -38,20 +40,27 @@ class _MainScreenState extends State<MainScreen> {
 
     return StreamProvider<List<Info>>.value(
         value: InfoRepo(uid: Constants.userId).info,
+        initialData: [],
         child: StreamBuilder<Info>(
             stream: InfoRepo().infoStream(Constants.userId),
             //Firestore.instance.collection('info').document(Constants.userId).snapshots(),
             builder: (context, snapshot) {
               //print("Types " + snapshot.data.types.toString());
               if (snapshot.data == null) {
+                /*BlocProvider.of<AuthenticationBloc>(context).add(
+                  AuthenticationLoggedOut(),
+                );*/
                 return Scaffold(body: LoadingIndicator());
               } else {
-                print("ALLERGENS FROM DATABASE: " + Constants.userAllergens.toString());
+                print("ALLERGENS FROM DATABASE: " +
+                    Constants.userAllergens.toString());
                 if (Constants.userAllergens.length == 0) {
                   Constants.userTypes = snapshot.data.types;
                   Constants.userTypes.forEach((area, value) {
                     value.forEach((allergen, bool) {
-                      if(bool) Constants.userAllergens.add(allergen.toLowerCase().replaceAll("[,\.:\n]", ""));
+                      if (bool)
+                        Constants.userAllergens.add(
+                            allergen.toLowerCase().replaceAll("[,\.:\n]", ""));
                     });
                   });
                 }

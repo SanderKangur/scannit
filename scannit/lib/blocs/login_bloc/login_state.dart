@@ -6,7 +6,6 @@ class LoginState {
   final bool isSuccess;
   final bool isFailure;
 
-
   LoginState({
     @required this.isSubmitting,
     @required this.isSuccess,

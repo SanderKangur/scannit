@@ -1,18 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:scannit/constants.dart';
 import 'package:scannit/data/info_repo.dart';
 import 'package:scannit/data/user.dart';
-import 'package:scannit/data/user_repo.dart';
 
 import '../allergens.dart';
 
 class UserAuthenticationRepository {
   final FirebaseAuth _firebaseAuth;
 
-  UserAuthenticationRepository(
-      {FirebaseAuth firebaseAuth})
+  UserAuthenticationRepository({FirebaseAuth firebaseAuth})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
   // create user obj based on firebase user
@@ -22,10 +18,11 @@ class UserAuthenticationRepository {
 
   // auth change user stream
   Stream<LocalUser> get user {
-    return _firebaseAuth.userChanges()
+    return _firebaseAuth
+        .userChanges()
         .map((event) => _userFromFirebaseUser(event));
-        //.map((FirebaseUser user) => _userFromFirebaseUser(user));
-        //.map(_userFromFirebaseUser);
+    //.map((FirebaseUser user) => _userFromFirebaseUser(user));
+    //.map(_userFromFirebaseUser);
   }
 
   Future signInAnon() async {
@@ -54,7 +51,8 @@ class UserAuthenticationRepository {
             .split(new RegExp("(?<!^)(?=[A-Z])"));
         tmp.sort();
         tmp.forEach((element) {
-          value.putIfAbsent(element.replaceAll(new RegExp("[,\.:\n]"), ""), () => false);
+          value.putIfAbsent(
+              element.replaceAll(new RegExp("[,\.:\n]"), ""), () => false);
         });
       });
 
@@ -65,70 +63,9 @@ class UserAuthenticationRepository {
 
       await InfoRepo(uid: result.user.uid)
           .createUserInfo(result.user.uid, types);
-      await UserRepo(uid: result.user.uid).createUserData(
-          result.user.uid, Constants.userName, Constants.userChoice);
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());
-      return null;
-    }
-  }
-
-  Future signInWithCredentials(String email, String password) async {
-    try {
-      UserCredential result = await _firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
-      User user = result.user;
-      return user;
-    } catch (error) {
-      print(error.toString());
-      return null;
-    }
-  }
-
-  Future<void> signUp({String email, String password}) async {
-    try {
-      UserCredential result = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
-      Map<String, Map<String, bool>> types = {
-        "Additives": {},
-        "Oils": {},
-        "Herbs & spices": {},
-        "Sweeteners": {},
-        "Seeds": {},
-        "Nuts": {},
-        "Fruits": {},
-        "Vegetables": {},
-        "Dairy": {},
-        "Meat": {},
-        "Seafood": {},
-        "Custom": {}
-      };
-
-      int i = -1;
-      types.forEach((key, value) {
-        i++;
-        List<String> tmp = AllergensString.allergensString[i]
-            .split(new RegExp("(?<!^)(?=[A-Z])"));
-        tmp.sort();
-        tmp.forEach((element) {
-          value.putIfAbsent(element.replaceAll(new RegExp("[,\.:\n]"), ""), () => false);
-        });
-      });
-
-      print("types at auth: " + types.toString());
-      print("");
-
-      await InfoRepo(uid: result.user.uid)
-          .createUserInfo(result.user.uid, types);
-      await UserRepo(uid: result.user.uid).createUserData(
-          result.user.uid, Constants.userName, Constants.userChoice);
-      return result;
-    } catch (error) {
-      print(error.toString());
       return null;
     }
   }

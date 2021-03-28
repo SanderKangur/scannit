@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scannit/blocs/authentication_bloc/bloc.dart';
 import 'package:scannit/data/info_entity.dart';
 import 'package:scannit/data/info_repo.dart';
-import 'package:scannit/data/user.dart';
-import 'package:scannit/data/user_repo.dart';
 import 'package:scannit/pages/dialogs/dialog_util.dart';
 
 import '../../constants.dart';
@@ -45,9 +43,9 @@ class _AccountScreenState extends State<AccountScreen> {
                 color: Colors.brown,
               ),
             ),
-            StreamBuilder<UserData>(
-                stream: UserRepo(uid: Constants.userId)
-                    .testUserDataStream(Constants.userId),
+            StreamBuilder<Info>(
+                stream: InfoRepo(uid: Constants.userId)
+                    .infoStream(Constants.userId),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) return Text("No UserData");
 
@@ -72,9 +70,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         shape: CircleBorder(),
                       ),
                       Container(
-                        child: Text(
-                          snapshot.data.uid
-                        ),
+                        child: Text(snapshot.data.uid),
                       )
                     ],
                   );

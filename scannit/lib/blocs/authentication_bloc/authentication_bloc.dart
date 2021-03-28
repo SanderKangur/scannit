@@ -12,7 +12,8 @@ class AuthenticationBloc
 
   AuthenticationBloc({@required UserAuthenticationRepository userRepository})
       : assert(userRepository != null),
-        _userRepository = userRepository, super(null);
+        _userRepository = userRepository,
+        super(null);
 
   AuthenticationState get initialState => AuthenticationInitial();
 

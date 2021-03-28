@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,6 +41,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamProvider<LocalUser>.value(
       value: UserAuthenticationRepository().user,
+      initialData: null,
       child: MaterialApp(
         builder: (context, child) => SafeArea(child: child),
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
@@ -52,7 +52,8 @@ class App extends StatelessWidget {
             if (state is AuthenticationFailure) {
               return Scaffold(
                 body: BlocProvider<LoginBloc>(
-                  create: (context) => LoginBloc(userRepository: _userRepository),
+                  create: (context) =>
+                      LoginBloc(userRepository: _userRepository),
                   child: SignIn(auth: _userRepository),
                 ),
               );

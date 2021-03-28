@@ -7,7 +7,6 @@ import './bloc.dart';
 class ScanBloc extends Bloc<ScanEvent, ScanState> {
   ScanBloc(ScanState initialState) : super(initialState);
 
-  @override
   ScanState get initialState => InitialScanState();
 
   @override

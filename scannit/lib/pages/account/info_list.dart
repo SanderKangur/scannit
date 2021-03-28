@@ -13,7 +13,7 @@ class _InfoListState extends State<InfoList> {
   Widget build(BuildContext context) {
     print("hello info_list");
 
-    final lists = Provider.of<List<Info>>(context) ?? new List<Info>();
+    final lists = Provider.of<List<Info>>(context) ?? [];
     //User user = Provider.of<User>(context);
 
     if (lists == null) print("GGGGG");

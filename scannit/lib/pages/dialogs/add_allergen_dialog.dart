@@ -7,7 +7,7 @@ import 'package:scannit/pages/loading.dart';
 class AddAllergenDialog extends StatelessWidget {
   AddAllergenDialog();
 
-  TextEditingController textEditingController = TextEditingController();
+  final TextEditingController textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

@@ -17,7 +17,7 @@ class InfoTile extends StatelessWidget {
             radius: 25.0,
             backgroundColor: Colors.yellow,
           ),
-          title: Text(info.name),
+          title: Text("lmao"),
           subtitle: Text("info.allergens[0]"),
         ),
       ),

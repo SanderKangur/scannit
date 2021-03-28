@@ -24,23 +24,23 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: NestedScrollView(
-      // Setting floatHeaderSlivers to true is required in order to float
-      // the outer slivers over the inner scrollable.
-      floatHeaderSlivers: true,
-      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-        return <Widget>[
-          SliverAppBar(
-            title: const Text('Floating Nested SliverAppBar'),
-            floating: true,
-            expandedHeight: 50.0,
-            forceElevated: innerBoxIsScrolled,
-            backgroundColor: const Color(0xff303952),
-          ),
-        ];
-      },
-      body: Container(
-        child: Text(Constants.userAllergens.toString()),
-      )
-    ));
+            // Setting floatHeaderSlivers to true is required in order to float
+            // the outer slivers over the inner scrollable.
+            floatHeaderSlivers: true,
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                SliverAppBar(
+                  title: const Text('Floating Nested SliverAppBar'),
+                  floating: true,
+                  expandedHeight: 50.0,
+                  forceElevated: innerBoxIsScrolled,
+                  backgroundColor: const Color(0xff303952),
+                ),
+              ];
+            },
+            body: Container(
+              child: Text(Constants.userAllergens.toString()),
+            )));
   }
 }

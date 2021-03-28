@@ -1,11 +1,11 @@
 import 'dart:io';
-import 'package:string_similarity/string_similarity.dart';
+
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scannit/pages/dialogs/dialog_util.dart';
 import 'package:scannit/pages/loading.dart';
-import 'package:translator/translator.dart';
+import 'package:string_similarity/string_similarity.dart';
 
 import '../../constants.dart';
 
@@ -21,11 +21,10 @@ class _ScanScreenState extends State<ScanScreen> {
   File takenImage;
   bool isImageLoaded = false;
   bool isLoading = false;
-  List<String> words = List<String>();
+  List<String> words = [];
   String fullText;
 
   Future takeImage() async {
-
     var pickedFile = await ImagePicker().getImage(source: ImageSource.camera);
     var tempStore = File(pickedFile.path);
     FirebaseVisionImage processedImage =
@@ -38,35 +37,19 @@ class _ScanScreenState extends State<ScanScreen> {
 
     TextRecognizer recognizeText = FirebaseVision.instance.textRecognizer();
     VisionText readText = await recognizeText.processImage(processedImage);
-    List<String> tempWords = List<String>();
+    List<String> tempWords = [];
 
-
-    if(readText.text != "") {
-      final translator = GoogleTranslator();
-      /*var translation = await translator.translate(readText.text, to: 'en');
-      tempWords.add(translation.toString());*/
-
-
-    String scannedString = "";
-
-    readText.blocks.forEach((block) {
-      block.lines.forEach((line) {
-        line.elements.forEach((element) {
-          //scannedString += " " + element.text.toLowerCase().replaceAll(new RegExp("[,\.:]"), "");
-          tempWords.add(element.text.toLowerCase().replaceAll("[,\.:\n]", ""));
+    if (readText.text != "") {
+      readText.blocks.forEach((block) {
+        block.lines.forEach((line) {
+          line.elements.forEach((element) {
+            tempWords
+                .add(element.text.toLowerCase().replaceAll("[,\.:\n]", ""));
+          });
         });
       });
-    });
-
-    //print("SCANNED STRING" + scannedString);
-    /*var translation = await translator.translate(scannedString, to: 'en');
-    List<String> tmpList = translation.text.split(" ");
-    tmpList.forEach((element) {
-      String tmpString = element.toLowerCase();
-      tempWords.add(tmpString);
-    });*/
-
-    }else tempWords.add("No ingredients detected");
+    } else
+      tempWords.add("No ingredients detected");
 
     setState(() {
       takenImage = tempStore;
@@ -78,15 +61,8 @@ class _ScanScreenState extends State<ScanScreen> {
   }
 
   String scanResult(List<String> scanned, List<String> allergens) {
-    final allergensCheck = [scanned, allergens];
-
     print("SCANNED" + scanned.toString());
-    print("ALLERGENS"  + allergens.toString());
-
-    /*final allergensCommonSet = allergensCheck.fold<Set>(
-        allergensCheck.first.toSet(), (a, b) => a.intersection(b.toSet())).toString();
-
-    String allergensCommon = allergensCommonSet.substring(1, allergensCommonSet.length-1);*/
+    print("ALLERGENS" + allergens.toString());
 
     String allergensFound = "";
 
@@ -94,7 +70,7 @@ class _ScanScreenState extends State<ScanScreen> {
       allergens.forEach((allergen) {
         double similarity = element.similarityTo(allergen);
         print(element + ": " + similarity.toString());
-        if (similarity > 0.7){
+        if (similarity > 0.7) {
           allergensFound += " " + element;
           print(element);
         }
@@ -104,11 +80,6 @@ class _ScanScreenState extends State<ScanScreen> {
     print("THESE ARE COMMON ALLERGENS: " + allergensFound);
 
     return allergensFound;
-
-    /*if (allergensCommon.length != 0)
-      return allergensCommon;
-    else
-      return "1";*/
   }
 
   @override
@@ -116,42 +87,43 @@ class _ScanScreenState extends State<ScanScreen> {
     print("hello scan");
 
     return Scaffold(
-      body: isLoading ?
-      isImageLoaded
-          ? Column(
-              children: <Widget>[
-                Flexible(
-                  flex: 2,
-                  child: Container(
-                    constraints: BoxConstraints.expand(),
-                    child: Image.file(
-                      takenImage,
-                      fit: BoxFit.cover,
+      body: isLoading
+          ? isImageLoaded
+              ? Column(
+                  children: <Widget>[
+                    Flexible(
+                      flex: 2,
+                      child: Container(
+                        constraints: BoxConstraints.expand(),
+                        child: Image.file(
+                          takenImage,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                Flexible(
-                    flex: 1,
-                    child: Builder(builder: (BuildContext context) {
-                      List<String> tmp = Constants.userAllergens;
-                      String result = scanResult(words, tmp);
-                      print("scanResult: " + result.toString());
-                      if (result.isNotEmpty) {
-                        DialogUtil.showScanFailDialog(context, result);
-                      } else {
-                        DialogUtil.showScanSuccessDialog(context);
-                      }
-                      return ListView.builder(
-                        itemCount: words.length,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text(words.elementAt(index)),
+                    Flexible(
+                        flex: 1,
+                        child: Builder(builder: (BuildContext context) {
+                          List<String> tmp = Constants.userAllergens;
+                          String result = scanResult(words, tmp);
+                          print("scanResult: " + result.toString());
+                          if (result.isNotEmpty) {
+                            DialogUtil.showScanFailDialog(context, result);
+                          } else {
+                            DialogUtil.showScanSuccessDialog(context);
+                          }
+                          return ListView.builder(
+                            itemCount: words.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                title: Text(words.elementAt(index)),
+                              );
+                            },
                           );
-                        },
-                      );
-                    })),
-              ],
-            ) : LoadingIndicator()
+                        })),
+                  ],
+                )
+              : LoadingIndicator()
           //Image.asset('assets/andu.jpg')
           : Container(
               decoration: BoxDecoration(

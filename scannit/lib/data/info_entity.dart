@@ -1,8 +1,6 @@
-
-
 class Info {
-  final String name;
+  final String uid;
   final Map<String, Map<String, bool>> types;
 
-  Info({this.name, this.types});
+  Info({this.uid, this.types});
 }
