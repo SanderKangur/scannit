@@ -51,7 +51,7 @@ class _MainScreenState extends State<MainScreen> {
                   Constants.userTypes = snapshot.data.types;
                   Constants.userTypes.forEach((area, value) {
                     value.forEach((allergen, bool) {
-                      if(bool) Constants.userAllergens.add(allergen);
+                      if(bool) Constants.userAllergens.add(allergen.toLowerCase().replaceAll("[,\.:\n]", ""));
                     });
                   });
                 }

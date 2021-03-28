@@ -24,9 +24,9 @@ class _BlogScreenState extends State<BlogScreen> {
     await InfoRepo(uid: Constants.userId).updateTypes();
 
     if(val)
-      Constants.userAllergens.add(allergen.toLowerCase().replaceAll(new RegExp("[,\.:\n]"), ""));
+      Constants.userAllergens.add(allergen.toLowerCase().replaceAll("[,\.:\n]", ""));
     else
-      Constants.userAllergens.remove(allergen.toLowerCase().replaceAll(new RegExp("[,\.:\n]"), ""));
+      Constants.userAllergens.remove(allergen.toLowerCase().replaceAll("[,\.:\n]", ""));
 
     print(allergen + " " + Constants.userTypes[type][allergen].toString());
     print("BLOG" + Constants.userAllergens.toString());

@@ -7,10 +7,12 @@ import 'package:scannit/blocs/authentication_bloc/bloc.dart';
 import 'package:scannit/constants.dart';
 import 'package:scannit/data/user_auth.dart';
 import 'package:scannit/pages/loading.dart';
-import 'package:scannit/pages/login/login_screen.dart';
+import 'package:scannit/pages/login/sign_in.dart';
 import 'package:scannit/pages/main_screen.dart';
 import 'package:scannit/pages/splash_screen.dart';
 import 'package:scannit/simple_bloc_delegate.dart';
+
+import 'data/user.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +39,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<User>.value(
+    return StreamProvider<LocalUser>.value(
       value: UserAuthenticationRepository().user,
       initialData: null,
       child: MaterialApp(
@@ -48,7 +50,7 @@ class App extends StatelessWidget {
               return SplashScreen();
             }
             if (state is AuthenticationFailure) {
-              return LoginScreen(userRepository: _userRepository);
+              return SignIn();
             }
             if (state is AuthenticationSuccess) {
               Constants.userId = state.user.uid;

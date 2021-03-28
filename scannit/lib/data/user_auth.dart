@@ -10,12 +10,10 @@ import '../allergens.dart';
 
 class UserAuthenticationRepository {
   final FirebaseAuth _firebaseAuth;
-  final GoogleSignIn _googleSignIn;
 
   UserAuthenticationRepository(
-      {FirebaseAuth firebaseAuth, GoogleSignIn googleSignin})
-      : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
-        _googleSignIn = googleSignin ?? GoogleSignIn();
+      {FirebaseAuth firebaseAuth})
+      : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
   // create user obj based on firebase user
   LocalUser _userFromFirebaseUser(User user) {
@@ -23,25 +21,60 @@ class UserAuthenticationRepository {
   }
 
   // auth change user stream
-  Stream<User> get user {
-    return _firebaseAuth.userChanges();
+  Stream<LocalUser> get user {
+    return _firebaseAuth.userChanges()
+        .map((event) => _userFromFirebaseUser(event));
         //.map((FirebaseUser user) => _userFromFirebaseUser(user));
         //.map(_userFromFirebaseUser);
   }
 
-  Future<User> signInWithGoogle() async {
-    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-    final AuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-    await _firebaseAuth.signInWithCredential(credential);
-    return _firebaseAuth.currentUser;
+  Future signInAnon() async {
+    try {
+      UserCredential result = await _firebaseAuth.signInAnonymously();
+      User user = result.user;
+
+      Map<String, Map<String, bool>> types = {
+        "Additives": {},
+        "Oils": {},
+        "Herbs & spices": {},
+        "Sweeteners": {},
+        "Seeds": {},
+        "Nuts": {},
+        "Fruits": {},
+        "Vegetables": {},
+        "Dairy": {},
+        "Meat": {},
+        "Seafood": {}
+      };
+
+      int i = -1;
+      types.forEach((key, value) {
+        i++;
+        List<String> tmp = AllergensString.allergensString[i]
+            .split(new RegExp("(?<!^)(?=[A-Z])"));
+        tmp.sort();
+        tmp.forEach((element) {
+          value.putIfAbsent(element.replaceAll(new RegExp("[,\.:\n]"), ""), () => false);
+        });
+      });
+
+      types.putIfAbsent("Custom", () => {});
+
+      print("types at auth: " + types.toString());
+      print("");
+
+      await InfoRepo(uid: result.user.uid)
+          .createUserInfo(result.user.uid, types);
+      await UserRepo(uid: result.user.uid).createUserData(
+          result.user.uid, Constants.userName, Constants.userChoice);
+      return _userFromFirebaseUser(user);
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
   }
 
-  Future<void> signInWithCredentials(String email, String password) async {
+  Future signInWithCredentials(String email, String password) async {
     try {
       UserCredential result = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -103,7 +136,6 @@ class UserAuthenticationRepository {
   Future<void> signOut() async {
     return Future.wait([
       _firebaseAuth.signOut(),
-      _googleSignIn.signOut(),
     ]);
   }
 

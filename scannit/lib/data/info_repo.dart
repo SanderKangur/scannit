@@ -61,17 +61,4 @@ class InfoRepo {
   Stream<List<Info>> get info {
     return infoCollection.snapshots().map(_infoListFromSnapshot);
   }
-
-  //user data from snapshot
-  UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
-    return UserData(
-      uid: uid,
-      name: snapshot.data()['name'],
-    );
-  }
-
-  //get user info
-  Stream<UserData> get userData {
-    return infoCollection.doc(uid).snapshots().map(_userDataFromSnapshot);
-  }
 }

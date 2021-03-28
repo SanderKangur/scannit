@@ -53,7 +53,7 @@ class _ScanScreenState extends State<ScanScreen> {
       block.lines.forEach((line) {
         line.elements.forEach((element) {
           //scannedString += " " + element.text.toLowerCase().replaceAll(new RegExp("[,\.:]"), "");
-          tempWords.add(element.text.toLowerCase().replaceAll("[,\.:]", ""));
+          tempWords.add(element.text.toLowerCase().replaceAll("[,\.:\n]", ""));
         });
       });
     });

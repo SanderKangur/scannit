@@ -55,14 +55,6 @@ class _AccountScreenState extends State<AccountScreen> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(top: 10, left: 10),
-                        child: Text(
-                          snapshot.data.name,
-                          textScaleFactor: 2.5,
-                          style: TextStyle(color: Colors.black45),
-                        ),
-                      ),
                       RawMaterialButton(
                         onPressed: () {
                           BlocProvider.of<AuthenticationBloc>(context).add(
