@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:string_similarity/string_similarity.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -52,19 +52,19 @@ class _ScanScreenState extends State<ScanScreen> {
     readText.blocks.forEach((block) {
       block.lines.forEach((line) {
         line.elements.forEach((element) {
-          scannedString += " " + element.text.toLowerCase().replaceAll(new RegExp("[,\.:]"), "");
-          //tempWords.add(element.text.toLowerCase());
+          //scannedString += " " + element.text.toLowerCase().replaceAll(new RegExp("[,\.:]"), "");
+          tempWords.add(element.text.toLowerCase().replaceAll("[,\.:]", ""));
         });
       });
     });
 
     //print("SCANNED STRING" + scannedString);
-    var translation = await translator.translate(scannedString, to: 'en');
+    /*var translation = await translator.translate(scannedString, to: 'en');
     List<String> tmpList = translation.text.split(" ");
     tmpList.forEach((element) {
       String tmpString = element.toLowerCase();
       tempWords.add(tmpString);
-    });
+    });*/
 
     }else tempWords.add("No ingredients detected");
 
@@ -83,14 +83,27 @@ class _ScanScreenState extends State<ScanScreen> {
     print("SCANNED" + scanned.toString());
     print("ALLERGENS"  + allergens.toString());
 
-    final allergensCommonSet = allergensCheck.fold<Set>(
+    /*final allergensCommonSet = allergensCheck.fold<Set>(
         allergensCheck.first.toSet(), (a, b) => a.intersection(b.toSet())).toString();
 
-    String allergensCommon = allergensCommonSet.substring(1, allergensCommonSet.length-1);
+    String allergensCommon = allergensCommonSet.substring(1, allergensCommonSet.length-1);*/
 
-    print("THESE ARE COMMON ALLERGENS: " + allergensCommon);
+    String allergensFound = "";
 
-    return allergensCommon;
+    scanned.forEach((element) {
+      allergens.forEach((allergen) {
+        double similarity = element.similarityTo(allergen);
+        print(element + ": " + similarity.toString());
+        if (similarity > 0.7){
+          allergensFound += " " + element;
+          print(element);
+        }
+      });
+    });
+
+    print("THESE ARE COMMON ALLERGENS: " + allergensFound);
+
+    return allergensFound;
 
     /*if (allergensCommon.length != 0)
       return allergensCommon;

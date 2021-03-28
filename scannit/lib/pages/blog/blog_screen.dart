@@ -72,8 +72,10 @@ class _BlogScreenState extends State<BlogScreen> {
                                     onChanged: (bool val) {
                                       itemChange(val, type, e.key);
                                     }),
-                              ))
-                          .toList());
-                })));
+                              )
+                      ).toList());
+                })
+        )
+    );
   }
 }

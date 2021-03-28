@@ -1,9 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:scannit/blocs/authentication_bloc/bloc.dart';
 import 'package:scannit/constants.dart';
-import 'package:scannit/data/user.dart';
 import 'package:scannit/data/user_auth.dart';
 import 'package:scannit/pages/loading.dart';
 import 'package:scannit/pages/login/login_screen.dart';
@@ -11,9 +12,10 @@ import 'package:scannit/pages/main_screen.dart';
 import 'package:scannit/pages/splash_screen.dart';
 import 'package:scannit/simple_bloc_delegate.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  BlocSupervisor.delegate = SimpleBlocDelegate();
+  await Firebase.initializeApp();
+  Bloc.observer = SimpleBlocDelegate();
   final UserAuthenticationRepository userRepository =
       UserAuthenticationRepository();
   runApp(
@@ -35,8 +37,9 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<LocalUser>.value(
+    return StreamProvider<User>.value(
       value: UserAuthenticationRepository().user,
+      initialData: null,
       child: MaterialApp(
         builder: (context, child) => SafeArea(child: child),
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
