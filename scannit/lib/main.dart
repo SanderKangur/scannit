@@ -12,6 +12,7 @@ import 'package:scannit/pages/main_screen.dart';
 import 'package:scannit/pages/splash_screen.dart';
 import 'package:scannit/simple_bloc_delegate.dart';
 
+import 'blocs/login_bloc/login_bloc.dart';
 import 'data/user.dart';
 
 void main() async {
@@ -41,7 +42,6 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamProvider<LocalUser>.value(
       value: UserAuthenticationRepository().user,
-      initialData: null,
       child: MaterialApp(
         builder: (context, child) => SafeArea(child: child),
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
@@ -50,7 +50,12 @@ class App extends StatelessWidget {
               return SplashScreen();
             }
             if (state is AuthenticationFailure) {
-              return SignIn();
+              return Scaffold(
+                body: BlocProvider<LoginBloc>(
+                  create: (context) => LoginBloc(userRepository: _userRepository),
+                  child: SignIn(auth: _userRepository),
+                ),
+              );
             }
             if (state is AuthenticationSuccess) {
               Constants.userId = state.user.uid;

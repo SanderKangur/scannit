@@ -14,7 +14,6 @@ class AuthenticationBloc
       : assert(userRepository != null),
         _userRepository = userRepository, super(null);
 
-  @override
   AuthenticationState get initialState => AuthenticationInitial();
 
   @override
@@ -32,6 +31,7 @@ class AuthenticationBloc
 
   Stream<AuthenticationState> _mapAuthenticationStartedToState() async* {
     final isSignedIn = await _userRepository.isSignedIn();
+    print("Signed in: " + isSignedIn.toString());
     if (isSignedIn) {
       final user = await _userRepository.getUser();
       yield AuthenticationSuccess(user);

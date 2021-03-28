@@ -70,6 +70,11 @@ class _AccountScreenState extends State<AccountScreen> {
                         ),
                         padding: EdgeInsets.all(10.0),
                         shape: CircleBorder(),
+                      ),
+                      Container(
+                        child: Text(
+                          snapshot.data.uid
+                        ),
                       )
                     ],
                   );
