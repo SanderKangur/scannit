@@ -65,18 +65,20 @@ class _SignInState extends State<SignIn> {
               .add(AuthenticationLoggedIn());
         }
       },
+
       child: BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
         return Scaffold(
-          backgroundColor: Colors.brown[100],
-          appBar: AppBar(
-            backgroundColor: Colors.brown[400],
-            elevation: 0.0,
-            title: Text('Sign in to Brew Crew'),
-          ),
           body: Container(
             padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-            child: ElevatedButton(child: Text('Start'), onPressed: _onContinue),
+            child: Text(
+              "HELLO welcome to SCANNIT"
+            )
           ),
+            floatingActionButton: FloatingActionButton(
+              onPressed:  _onContinue,
+              backgroundColor: const Color(0xff303952),
+              child: Icon(Icons.double_arrow),
+            )
         );
       }),
     );

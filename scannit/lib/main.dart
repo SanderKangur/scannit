@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:scannit/blocs/authentication_bloc/bloc.dart';
 import 'package:scannit/constants.dart';
 import 'package:scannit/data/user_auth.dart';
+import 'package:scannit/pages/hints.dart';
 import 'package:scannit/pages/loading.dart';
 import 'package:scannit/pages/login/sign_in.dart';
 import 'package:scannit/pages/main_screen.dart';
@@ -50,6 +51,7 @@ class App extends StatelessWidget {
               return SplashScreen();
             }
             if (state is AuthenticationFailure) {
+              print(Constants.userTypes);
               return Scaffold(
                 body: BlocProvider<LoginBloc>(
                   create: (context) =>
@@ -60,8 +62,8 @@ class App extends StatelessWidget {
             }
             if (state is AuthenticationSuccess) {
               Constants.userId = state.user.uid;
-              print("uid: " + Constants.userId.toString());
-              return MainScreen(name: state.user.displayName);
+              print("uid: " + Constants.userId.toString() + Constants.firstTime.toString());
+              return Constants.firstTime ? Hints() : MainScreen();
             } else {
               return LoadingIndicator();
             }

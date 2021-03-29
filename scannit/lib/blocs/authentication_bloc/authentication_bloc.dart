@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:scannit/constants.dart';
 import 'package:scannit/data/user_auth.dart';
 
 import './bloc.dart';
@@ -46,6 +47,7 @@ class AuthenticationBloc
   }
 
   Stream<AuthenticationState> _mapAuthenticationLoggedOutToState() async* {
+    Constants.firstTime = true;
     yield AuthenticationFailure();
     _userRepository.signOut();
   }

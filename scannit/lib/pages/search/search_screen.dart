@@ -1,46 +1,114 @@
 import 'package:flutter/material.dart';
 import 'package:scannit/constants.dart';
-import 'package:translator/translator.dart';
+import 'package:scannit/pages/search/show_allergens.dart';
 
-class SearchScreen extends StatefulWidget {
-  SearchScreen({Key key}) : super(key: key);
 
-  @override
-  _SearchScreenState createState() => _SearchScreenState();
-}
+final List<String> colors = [
+  "FFf3a683", "FFf7d794", "FF778beb", "FFe77f67", "FFcf6a87", "FF786fa6",
+  "FF546de5", "FF63cdda", "FF596275", "FF574b90", "FF303952", "FFe66767"
+];
 
-class _SearchScreenState extends State<SearchScreen> {
-  Future<void> translateElement(String word) async {
-    final translator = GoogleTranslator();
-    var translation = await translator.translate(word, from: 'en', to: 'es');
-    setState(() {
-      tmp = translation.toString();
-    });
-  }
 
-  String tmp = "JESUS";
+class SearchScreen extends StatelessWidget {
+  static final String path = "scannit/lib/pages/search/search_screen.dart";
+  final Color primaryColor = Color(0xffFD6592);
+  final Color bgColor = Color(0xffF9E0E3);
+  final Color secondaryColor = Color(0xff324558);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: NestedScrollView(
-            // Setting floatHeaderSlivers to true is required in order to float
-            // the outer slivers over the inner scrollable.
-            floatHeaderSlivers: true,
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                SliverAppBar(
-                  title: const Text('Floating Nested SliverAppBar'),
-                  floating: true,
-                  expandedHeight: 50.0,
-                  forceElevated: innerBoxIsScrolled,
-                  backgroundColor: const Color(0xff303952),
-                ),
-              ];
+    return DefaultTabController(
+      initialIndex: 0,
+      length: 1,
+      child: Theme(
+        data: ThemeData(
+          primaryColor: primaryColor,
+          appBarTheme: AppBarTheme(
+            color: Colors.white,
+            textTheme: TextTheme(
+              headline6: TextStyle(
+                color: secondaryColor,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            iconTheme: IconThemeData(color: secondaryColor),
+            actionsIconTheme: IconThemeData(
+              color: secondaryColor,
+            ),
+          ),
+        ),
+        child: Scaffold(
+          backgroundColor: Theme.of(context).buttonColor,
+          body: ListView.separated(
+            padding: const EdgeInsets.all(16.0),
+            itemCount: Constants.userTypes.length,
+            itemBuilder: (context, index) {
+              return _buildArticleItem(index, context);
             },
-            body: Container(
-              child: Text(Constants.userAllergens.toString()),
-            )));
+            separatorBuilder: (context, index) =>
+            const SizedBox(height: 16.0),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildArticleItem(int index, BuildContext context) {
+    Map type = Constants.userTypes[index];
+    Color color = Color(int.parse(colors[index], radix: 16));
+    final String sample = "assets/splash.png";
+    return Container(
+      color: color,
+      child: Stack(
+        children: <Widget>[
+          RawMaterialButton(
+            onPressed: () {
+              print("short press");
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ShowAllergens(index, color)
+                )
+              );
+            },
+            onLongPress: () {
+              print("long press");
+            },
+            child: Container(
+              color: Colors.white,
+              padding: const EdgeInsets.all(16.0),
+              margin: const EdgeInsets.all(16.0),
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    height: 100,
+                    color: Colors.blue,
+                    width: 80.0,
+                    child: Image.asset('assets/profile_button.png',
+                    )
+                  ),
+                  const SizedBox(width: 20.0),
+                  Expanded(
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          Constants.userTypes.keys.elementAt(index),
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(
+                            color: secondaryColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

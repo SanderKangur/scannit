@@ -14,8 +14,6 @@ import 'package:scannit/pages/search/search_screen.dart';
 import 'account/account_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  MainScreen({Key key, this.name}) : super(key: key);
-  final String name;
 
   @override
   _MainScreenState createState() => _MainScreenState();
