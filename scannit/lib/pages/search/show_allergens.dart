@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scannit/data/info_repo.dart';
@@ -24,7 +22,8 @@ class _ShowAllergensState extends State<ShowAllergens> {
     print(Constants.userTypes.values.elementAt(widget.index));
     return Scaffold(
       appBar: AppBar(
-        title: Text("Second Route"),
+        title: Text("Choose allergens"),
+        backgroundColor: widget.color,
       ),
       body: ListView.separated(
         padding: const EdgeInsets.all(16.0),

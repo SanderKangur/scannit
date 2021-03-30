@@ -5,9 +5,10 @@ import 'package:provider/provider.dart';
 import 'package:scannit/blocs/authentication_bloc/bloc.dart';
 import 'package:scannit/constants.dart';
 import 'package:scannit/data/user_auth.dart';
-import 'package:scannit/pages/hints.dart';
+import 'package:scannit/pages/first_time/allergen_choice.dart';
+import 'pages/first_time/hints.dart';
 import 'package:scannit/pages/loading.dart';
-import 'package:scannit/pages/login/sign_in.dart';
+import 'pages/first_time/sign_in.dart';
 import 'package:scannit/pages/main_screen.dart';
 import 'package:scannit/pages/splash_screen.dart';
 import 'package:scannit/simple_bloc_delegate.dart';
@@ -63,7 +64,7 @@ class App extends StatelessWidget {
             if (state is AuthenticationSuccess) {
               Constants.userId = state.user.uid;
               print("uid: " + Constants.userId.toString() + Constants.firstTime.toString());
-              return Constants.firstTime ? Hints() : MainScreen();
+              return Constants.firstTime ? AllergenChoice() : MainScreen();
             } else {
               return LoadingIndicator();
             }

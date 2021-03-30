@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scannit/constants.dart';
 import 'package:scannit/pages/search/show_allergens.dart';
@@ -9,8 +10,8 @@ final List<String> colors = [
 ];
 
 
-class SearchScreen extends StatelessWidget {
-  static final String path = "scannit/lib/pages/search/search_screen.dart";
+class AllergenTypesScreen extends StatelessWidget {
+  static final String path = "scannit/lib/pages/search/allergen_types.dart";
   final Color primaryColor = Color(0xffFD6592);
   final Color bgColor = Color(0xffF9E0E3);
   final Color secondaryColor = Color(0xff324558);
@@ -55,60 +56,61 @@ class SearchScreen extends StatelessWidget {
   }
 
   Widget _buildArticleItem(int index, BuildContext context) {
-    Map type = Constants.userTypes[index];
     Color color = Color(int.parse(colors[index], radix: 16));
     final String sample = "assets/splash.png";
-    return Container(
-      color: color,
-      child: Stack(
-        children: <Widget>[
-          RawMaterialButton(
-            onPressed: () {
-              print("short press");
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ShowAllergens(index, color)
-                )
-              );
-            },
-            onLongPress: () {
-              print("long press");
-            },
-            child: Container(
-              color: Colors.white,
-              padding: const EdgeInsets.all(16.0),
-              margin: const EdgeInsets.all(16.0),
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    height: 100,
-                    color: Colors.blue,
-                    width: 80.0,
-                    child: Image.asset('assets/profile_button.png',
-                    )
-                  ),
-                  const SizedBox(width: 20.0),
-                  Expanded(
-                    child: Column(
-                      children: <Widget>[
-                        Text(
-                          Constants.userTypes.keys.elementAt(index),
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(
-                            color: secondaryColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+    return Stack(
+      children: <Widget>[
+        RawMaterialButton(
+          onPressed: () {
+            print("short press");
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ShowAllergens(index, color)
+              )
+            );
+          },
+          onLongPress: () {
+            print("long press");
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  color: color,
+                  width: 5,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(20))
             ),
-          )
-        ],
-      ),
+            child: Row(
+              children: <Widget>[
+                Container(
+                  height: 100,
+                  width: 80.0,
+                  child: Image.asset('assets/types/' + Constants.userTypes.keys.elementAt(index) + '.jpg',
+                  ),
+                ),
+                const SizedBox(width: 20.0),
+                Expanded(
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        Constants.userTypes.keys.elementAt(index),
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          color: secondaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        )
+      ],
     );
   }
 }

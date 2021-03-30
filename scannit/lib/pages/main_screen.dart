@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:scannit/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:scannit/blocs/authentication_bloc/authentication_event.dart';
@@ -9,7 +11,7 @@ import 'package:scannit/data/info_repo.dart';
 import 'package:scannit/pages/blog/blog_screen.dart';
 import 'package:scannit/pages/loading.dart';
 import 'package:scannit/pages/scan/scan_screen.dart';
-import 'package:scannit/pages/search/search_screen.dart';
+import 'package:scannit/pages/search/allergen_types.dart';
 
 import 'account/account_screen.dart';
 
@@ -27,7 +29,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     pageList.add(BlogScreen());
     pageList.add(ScanScreen());
-    pageList.add(SearchScreen());
+    pageList.add(AllergenTypesScreen());
     pageList.add(AccountScreen());
     super.initState();
   }
@@ -35,6 +37,10 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     print("hello main");
+
+    PersistentTabController _controller;
+
+    _controller = PersistentTabController(initialIndex: 0);
 
     return StreamProvider<List<Info>>.value(
         value: InfoRepo(uid: Constants.userId).info,
@@ -63,47 +69,68 @@ class _MainScreenState extends State<MainScreen> {
                   });
                 }
               }
-              return Scaffold(
-                body: IndexedStack(
-                  index: _selectedPage,
-                  children: pageList,
+              return PersistentTabView(
+                context,
+                controller: _controller,
+                screens: _buildScreens(),
+                items: _navBarsItems(),
+                confineInSafeArea: true,
+                backgroundColor: Colors.white, // Default is Colors.white.
+                handleAndroidBackButtonPress: true, // Default is true.
+                resizeToAvoidBottomInset: true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
+                stateManagement: true, // Default is true.
+                hideNavigationBarWhenKeyboardShows: true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
+                decoration: NavBarDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  colorBehindNavBar: Colors.white,
                 ),
-
-                /*body: PageView(
-                  scrollDirection: Axis.horizontal,
-                  controller: PageController(initialPage: _selectedPage),
-                  children: pageList,
-                  onPageChanged: _onItemTapped
-                ),*/
-
-                bottomNavigationBar: BottomNavigationBar(
-                  type: BottomNavigationBarType.shifting,
-                  items: const <BottomNavigationBarItem>[
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.inbox),
-                        label: 'Blog',
-                        backgroundColor: const Color(0xff303952)),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.settings_overscan),
-                        label: 'Scan',
-                        backgroundColor: const Color(0xff303952)),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.search),
-                        label: 'Search',
-                        backgroundColor: const Color(0xff303952)),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.settings),
-                        label: 'Account',
-                        backgroundColor: const Color(0xff303952)),
-                  ],
-                  currentIndex: _selectedPage,
-                  unselectedItemColor: Colors.white.withOpacity(.50),
-                  selectedItemColor: Colors.white,
-                  onTap: _onItemTapped,
-                ), //
+                popAllScreensOnTapOfSelectedTab: true,
+                popActionScreens: PopActionScreensType.all,
+                itemAnimationProperties: ItemAnimationProperties( // Navigation Bar's items animation properties.
+                  duration: Duration(milliseconds: 200),
+                  curve: Curves.ease,
+                ),
+                screenTransitionAnimation: ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
+                  animateTabTransition: true,
+                  curve: Curves.ease,
+                  duration: Duration(milliseconds: 200),
+                ),
+                navBarStyle: NavBarStyle.style2, // Choose the nav bar style with this property.
               );
             }) // This trailing comma makes auto-formatting nicer for build methods.
         );
+  }
+
+  List<Widget> _buildScreens() {
+    return [
+      AllergenTypesScreen(),
+      ScanScreen(),
+      AccountScreen()
+    ];
+  }
+
+
+  List<PersistentBottomNavBarItem> _navBarsItems() {
+    return [
+      PersistentBottomNavBarItem(
+        icon: Icon(CupertinoIcons.checkmark_rectangle),
+        title: ("Home"),
+        activeColorPrimary: CupertinoColors.activeBlue,
+        inactiveColorPrimary: CupertinoColors.systemGrey,
+      ),
+      PersistentBottomNavBarItem(
+        icon: Icon(CupertinoIcons.camera),
+        title: ("Scan"),
+        activeColorPrimary: CupertinoColors.activeBlue,
+        inactiveColorPrimary: CupertinoColors.systemGrey,
+      ),
+      PersistentBottomNavBarItem(
+        icon: Icon(CupertinoIcons.settings),
+        title: ("Settings"),
+        activeColorPrimary: CupertinoColors.activeBlue,
+        inactiveColorPrimary: CupertinoColors.systemGrey,
+      ),
+    ];
   }
 
   void _onItemTapped(int index) {

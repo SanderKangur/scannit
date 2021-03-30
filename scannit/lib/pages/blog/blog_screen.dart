@@ -1,81 +1,77 @@
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:scannit/constants.dart';
-import 'package:scannit/data/info_repo.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:scannit/pages/account/account_screen.dart';
+import 'package:scannit/pages/search/allergen_types.dart';
 
-class BlogScreen extends StatefulWidget {
-  BlogScreen({Key key, this.title}) : super(key: key);
-  final String title;
 
-  @override
-  _BlogScreenState createState() => _BlogScreenState();
-}
+class BlogScreen extends StatelessWidget {
+  const BlogScreen({Key key}) : super(key: key);
 
-class _BlogScreenState extends State<BlogScreen> {
-  List<bool> inputs = [];
 
-  void itemChange(bool val, String type, String allergen) async {
-    setState(() {
-      if (allergen == "Select all")
-        Constants.userTypes[type].updateAll((key, value) => val);
-      else
-        Constants.userTypes[type][allergen] = val;
-    });
-
-    await InfoRepo(uid: Constants.userId).updateTypes();
-
-    if (val)
-      Constants.userAllergens
-          .add(allergen.toLowerCase().replaceAll("[,\.:\n]", ""));
-    else
-      Constants.userAllergens
-          .remove(allergen.toLowerCase().replaceAll("[,\.:\n]", ""));
-
-    print(allergen + " " + Constants.userTypes[type][allergen].toString());
-    print("BLOG" + Constants.userAllergens.toString());
-  }
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-        body: NestedScrollView(
-            // Setting floatHeaderSlivers to true is required in order to float
-            // the outer slivers over the inner scrollable.
-            floatHeaderSlivers: true,
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                SliverAppBar(
-                  title: const Text('Allergens'),
-                  floating: true,
-                  expandedHeight: 50.0,
-                  forceElevated: innerBoxIsScrolled,
-                  backgroundColor: const Color(0xff303952),
-                ),
-              ];
-            },
-            body: ListView.builder(
-                itemCount: Constants.userTypes.length,
-                itemBuilder: (BuildContext context, int index) {
-                  String type = Constants.userTypes.keys.elementAt(index);
-                  return new ExpansionTile(
 
-                      /// Create the main allergen types
-                      key: new PageStorageKey<int>(1),
-                      title: new Text(type),
-                      children: Constants.userTypes[type].entries
-                          .map((e) => new Card(
-                                /// Create the allergens with checkboxes
-                                child: new CheckboxListTile(
-                                    activeColor: const Color(0xff596275),
-                                    title: new Text(e.key),
-                                    controlAffinity:
-                                        ListTileControlAffinity.leading,
-                                    value: e.value,
-                                    onChanged: (bool val) {
-                                      itemChange(val, type, e.key);
-                                    }),
-                              ))
-                          .toList());
-                })));
+    PersistentTabController _controller;
+
+    _controller = PersistentTabController(initialIndex: 0);
+
+
+    return PersistentTabView(
+      context,
+      controller: _controller,
+      screens: _buildScreens(),
+      items: _navBarsItems(),
+      confineInSafeArea: true,
+      backgroundColor: Colors.white, // Default is Colors.white.
+      handleAndroidBackButtonPress: true, // Default is true.
+      resizeToAvoidBottomInset: true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
+      stateManagement: true, // Default is true.
+      hideNavigationBarWhenKeyboardShows: true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
+      decoration: NavBarDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        colorBehindNavBar: Colors.white,
+      ),
+      popAllScreensOnTapOfSelectedTab: true,
+      popActionScreens: PopActionScreensType.all,
+      itemAnimationProperties: ItemAnimationProperties( // Navigation Bar's items animation properties.
+        duration: Duration(milliseconds: 200),
+        curve: Curves.ease,
+      ),
+      screenTransitionAnimation: ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
+        animateTabTransition: true,
+        curve: Curves.ease,
+        duration: Duration(milliseconds: 200),
+      ),
+      navBarStyle: NavBarStyle.style12, // Choose the nav bar style with this property.
+    );
   }
+}
+
+
+List<Widget> _buildScreens() {
+  return [
+    AllergenTypesScreen(),
+    AccountScreen()
+  ];
+}
+
+
+List<PersistentBottomNavBarItem> _navBarsItems() {
+  return [
+    PersistentBottomNavBarItem(
+      icon: Icon(CupertinoIcons.checkmark_rectangle),
+      title: ("Home"),
+      activeColorPrimary: CupertinoColors.activeBlue,
+      inactiveColorPrimary: CupertinoColors.systemGrey,
+    ),
+    PersistentBottomNavBarItem(
+      icon: Icon(CupertinoIcons.settings),
+      title: ("Settings"),
+      activeColorPrimary: CupertinoColors.activeBlue,
+      inactiveColorPrimary: CupertinoColors.systemGrey,
+    ),
+  ];
 }

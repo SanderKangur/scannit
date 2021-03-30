@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:scannit/pages/main_screen.dart';
-
-import '../constants.dart';
-import '../main.dart';
+import '../../constants.dart';
+import '../../main.dart';
+import 'allergen_choice.dart';
 
 class Hints extends StatelessWidget {
   @override
@@ -23,6 +22,7 @@ class Hints extends StatelessWidget {
         onPressed: () {
           Constants.firstTime = false;
           print("hints " + Constants.firstTime.toString());
+          Navigator.pop(context);
           return main();
         },
         backgroundColor: const Color(0xff303952),

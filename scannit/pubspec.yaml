@@ -38,6 +38,7 @@ dependencies:
   translator: ^0.1.5
   expandable_group: ^0.0.5
   string_similarity: ^2.0.0
+  persistent_bottom_nav_bar: ^4.0.2
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -60,6 +61,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - assets/types/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

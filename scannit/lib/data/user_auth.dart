@@ -37,7 +37,7 @@ class UserAuthenticationRepository {
         "Sweeteners": {},
         "Seeds": {},
         "Nuts": {},
-        "Fruits": {},
+        "Fruits & berries": {},
         "Vegetables": {},
         "Dairy": {},
         "Meat": {},
