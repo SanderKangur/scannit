@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:scannit/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:scannit/blocs/authentication_bloc/authentication_event.dart';
 import 'package:scannit/blocs/login_bloc/login_bloc.dart';
@@ -68,11 +69,19 @@ class _SignInState extends State<SignIn> {
 
       child: BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
         return Scaffold(
-          body: Container(
-            padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-            child: Text(
-              "HELLO welcome to SCANNIT"
-            )
+          body: Center(
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+              child: Text(
+                "HELLO welcome to SCANNIT",
+                textAlign: TextAlign.justify,
+                style: TextStyle(
+                  color: Color(0xff303952),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24.0,
+                ),
+              )
+            ),
           ),
             floatingActionButton: FloatingActionButton(
               onPressed:  _onContinue,

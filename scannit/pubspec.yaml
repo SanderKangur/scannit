@@ -39,6 +39,8 @@ dependencies:
   expandable_group: ^0.0.5
   string_similarity: ^2.0.0
   persistent_bottom_nav_bar: ^4.0.2
+  flutter_spinkit: ^4.1.2
+
 
 
   # The following adds the Cupertino Icons font to your application.

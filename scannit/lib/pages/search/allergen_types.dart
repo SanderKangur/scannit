@@ -18,37 +18,39 @@ class AllergenTypesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      initialIndex: 0,
-      length: 1,
-      child: Theme(
-        data: ThemeData(
-          primaryColor: primaryColor,
-          appBarTheme: AppBarTheme(
-            color: Colors.white,
-            textTheme: TextTheme(
-              headline6: TextStyle(
+    return Container(
+      child: DefaultTabController(
+        initialIndex: 0,
+        length: 1,
+        child: Theme(
+          data: ThemeData(
+            primaryColor: primaryColor,
+            appBarTheme: AppBarTheme(
+              color: Colors.white,
+              textTheme: TextTheme(
+                headline6: TextStyle(
+                  color: secondaryColor,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              iconTheme: IconThemeData(color: secondaryColor),
+              actionsIconTheme: IconThemeData(
                 color: secondaryColor,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
               ),
             ),
-            iconTheme: IconThemeData(color: secondaryColor),
-            actionsIconTheme: IconThemeData(
-              color: secondaryColor,
-            ),
           ),
-        ),
-        child: Scaffold(
-          backgroundColor: Theme.of(context).buttonColor,
-          body: ListView.separated(
-            padding: const EdgeInsets.all(16.0),
-            itemCount: Constants.userTypes.length,
-            itemBuilder: (context, index) {
-              return _buildArticleItem(index, context);
-            },
-            separatorBuilder: (context, index) =>
-            const SizedBox(height: 16.0),
+          child: Scaffold(
+            backgroundColor: Theme.of(context).buttonColor,
+            body: ListView.separated(
+              padding: const EdgeInsets.all(16.0),
+              itemCount: Constants.userTypes.length,
+              itemBuilder: (context, index) {
+                return _buildArticleItem(index, context);
+              },
+              separatorBuilder: (context, index) =>
+              const SizedBox(height: 16.0),
+            ),
           ),
         ),
       ),

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
@@ -8,6 +9,7 @@ import 'package:scannit/pages/loading.dart';
 import 'package:string_similarity/string_similarity.dart';
 
 import '../../constants.dart';
+import 'TextDetectorPainter.dart';
 
 class ScanScreen extends StatefulWidget {
   ScanScreen({Key key, this.title}) : super(key: key);
@@ -23,28 +25,41 @@ class _ScanScreenState extends State<ScanScreen> {
   bool isLoading = false;
   List<String> words = [];
   String fullText;
+  Size imageSize;
+  List<TextBlock> elements = [];
 
   Future takeImage() async {
     var pickedFile = await ImagePicker().getImage(source: ImageSource.camera);
     var tempStore = File(pickedFile.path);
-    FirebaseVisionImage processedImage =
-        FirebaseVisionImage.fromFile(tempStore);
+
+    FirebaseVisionImage processedImage = FirebaseVisionImage.fromFile(tempStore);
+    TextRecognizer recognizeText = FirebaseVision.instance.textRecognizer();
 
     setState(() {
       isImageLoaded = false;
       isLoading = true;
     });
 
-    TextRecognizer recognizeText = FirebaseVision.instance.textRecognizer();
+    if (tempStore != null) {
+      await _getImageSize(tempStore);
+    }
+
     VisionText readText = await recognizeText.processImage(processedImage);
     List<String> tempWords = [];
+    List<TextBlock> tempElements = [];
+    recognizeText.close();
+
+    RegExp regEx = RegExp("[^0-9]");
 
     if (readText.text != "") {
       readText.blocks.forEach((block) {
+        tempElements.add(block);
         block.lines.forEach((line) {
           line.elements.forEach((element) {
-            tempWords
-                .add(element.text.toLowerCase().replaceAll("[,\.:\n]", ""));
+            if(regEx.hasMatch(element.text)) {
+              tempWords.add(
+                  element.text.toLowerCase().replaceAll("[,.:\n]", ""));
+            }
           });
         });
       });
@@ -56,7 +71,30 @@ class _ScanScreenState extends State<ScanScreen> {
       isImageLoaded = true;
       fullText = readText.text;
       words = tempWords;
+      elements = tempElements;
       build(context);
+    });
+  }
+
+  Future<void> _getImageSize(File imageFile) async {
+    final Completer<Size> completer = Completer<Size>();
+
+    // Fetching image from path
+    final Image image = Image.file(imageFile);
+
+    // Retrieving its size
+    image.image.resolve(const ImageConfiguration()).addListener(
+      ImageStreamListener((ImageInfo info, bool _) {
+        completer.complete(Size(
+          info.image.width.toDouble(),
+          info.image.height.toDouble(),
+        ));
+      }),
+    );
+
+    final Size tmp = await completer.future;
+    setState(() {
+      imageSize = tmp;
     });
   }
 
@@ -69,10 +107,10 @@ class _ScanScreenState extends State<ScanScreen> {
     scanned.forEach((element) {
       allergens.forEach((allergen) {
         double similarity = element.similarityTo(allergen);
-        print(element + ": " + similarity.toString());
-        if (similarity > 0.7) {
+        //print(element + ": " + similarity.toString());
+        if (similarity > 0.5) {
           allergensFound += " " + element;
-          print(element);
+          print(element + ": " + similarity.toString());
         }
       });
     });
@@ -95,9 +133,14 @@ class _ScanScreenState extends State<ScanScreen> {
                       flex: 2,
                       child: Container(
                         constraints: BoxConstraints.expand(),
-                        child: Image.file(
-                          takenImage,
-                          fit: BoxFit.cover,
+                        child: CustomPaint(
+                          foregroundPainter: TextDetectorPainter(imageSize, elements),
+                          child: AspectRatio(
+                            aspectRatio: imageSize.aspectRatio,
+                            child: Image.file(
+                              takenImage,
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -165,3 +208,5 @@ class _ScanScreenState extends State<ScanScreen> {
     );
   }
 }
+
+

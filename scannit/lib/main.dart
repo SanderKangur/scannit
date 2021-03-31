@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:scannit/blocs/authentication_bloc/bloc.dart';
@@ -22,13 +23,17 @@ void main() async {
   Bloc.observer = SimpleBlocDelegate();
   final UserAuthenticationRepository userRepository =
       UserAuthenticationRepository();
-  runApp(
-    BlocProvider(
-      create: (context) => AuthenticationBloc(userRepository: userRepository)
-        ..add(AuthenticationStarted()),
-      child: App(userRepository: userRepository),
-    ),
-  );
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]).then((_){
+    runApp(
+      BlocProvider(
+        create: (context) => AuthenticationBloc(userRepository: userRepository)
+          ..add(AuthenticationStarted()),
+        child: App(userRepository: userRepository),
+      ),
+    );
+  });
 }
 
 class App extends StatelessWidget {
@@ -41,6 +46,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return StreamProvider<LocalUser>.value(
       value: UserAuthenticationRepository().user,
       initialData: null,
@@ -49,7 +55,6 @@ class App extends StatelessWidget {
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
             if (state is AuthenticationInitial) {
-              return SplashScreen();
             }
             if (state is AuthenticationFailure) {
               print(Constants.userTypes);
@@ -64,7 +69,7 @@ class App extends StatelessWidget {
             if (state is AuthenticationSuccess) {
               Constants.userId = state.user.uid;
               print("uid: " + Constants.userId.toString() + Constants.firstTime.toString());
-              return Constants.firstTime ? AllergenChoice() : MainScreen();
+              return MainScreen();
             } else {
               return LoadingIndicator();
             }

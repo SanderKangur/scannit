@@ -66,7 +66,7 @@ class ScanFailDialog extends StatelessWidget {
                     SizedBox(height: 16.0),
                     MaterialButton(
                       onPressed: () {
-                        Navigator.of(context).pop(true); // To close the dialog
+                        Navigator.of(context).pop(); // To close the dialog
                       },
                       child: Text(
                         "CLOSE",
