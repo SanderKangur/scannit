@@ -1,11 +1,26 @@
 import 'dart:collection';
 
 class Categories {
-  List<HashMap<String, String>>_categories;
+  List<Category> categories = [];
 
-  List<HashMap<String, String>> get categories => _categories;
+}
 
-  set categories(List<HashMap<String, String>> value) {
-    _categories = value;
+class Category{
+  final String id;
+  final String name;
+
+  Category({this.id, this.name});
+
+  factory Category.fromJson(Map<String, dynamic> parsedJson) {
+    return new Category(
+        id: parsedJson['id'] ?? "",
+        name: parsedJson['name'] ?? "");
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": this.id,
+      "name": this.name,
+    };
   }
 }

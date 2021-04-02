@@ -1,4 +1,19 @@
-class AllergensString {
+class stringValues {
+  static List<String> categoriesString = [
+    "Additives",
+    "Oils",
+    "Herbs & spices",
+    "Sweeteners",
+    "Seeds",
+    "Nuts",
+    "Fruits & berries",
+    "Vegetables",
+    "Dairy",
+    "Meat",
+    "Seafood",
+    "Custom"
+  ];
+
   static List<String> allergensString = [
     '''
 Preservatives

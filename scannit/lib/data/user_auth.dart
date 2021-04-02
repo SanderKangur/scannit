@@ -4,7 +4,7 @@ import 'package:scannit/constants.dart';
 import 'package:scannit/data/info_repo.dart';
 import 'package:scannit/data/user.dart';
 
-import '../allergens.dart';
+import '../stringValues.dart';
 
 class UserAuthenticationRepository {
   final FirebaseAuth _firebaseAuth;
@@ -48,7 +48,7 @@ class UserAuthenticationRepository {
       int i = -1;
       types.forEach((key, value) {
         i++;
-        List<String> tmp = AllergensString.allergensString[i]
+        List<String> tmp = stringValues.allergensString[i]
             .split(new RegExp("(?<!^)(?=[A-Z])"));
         tmp.sort();
         tmp.forEach((element) {

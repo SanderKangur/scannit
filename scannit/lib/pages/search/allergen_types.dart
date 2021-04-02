@@ -46,7 +46,7 @@ class AllergenTypesScreen extends StatelessWidget {
             backgroundColor: Theme.of(context).buttonColor,
             body: ListView.separated(
               padding: const EdgeInsets.all(16.0),
-              itemCount: Constants.userTypes.length,
+              itemCount: Constants.categories.categories.length,
               itemBuilder: (context, index) {
                 return _buildArticleItem(index, context);
               },
@@ -62,9 +62,6 @@ class AllergenTypesScreen extends StatelessWidget {
   Widget _buildArticleItem(int index, BuildContext context) {
     Color color = Color(int.parse(colors[index], radix: 16));
     final String sample = "assets/splash.png";
-
-    print("JSON" + json.encode(Constants.userTypes).toString());
-
     return Stack(
       children: <Widget>[
         RawMaterialButton(
@@ -94,7 +91,7 @@ class AllergenTypesScreen extends StatelessWidget {
                 Container(
                   height: 100,
                   width: 80.0,
-                  child: Image.asset('assets/types/' + Constants.userTypes.keys.elementAt(index) + '.jpg',
+                  child: Image.asset('assets/types/' + Constants.categories.categories.elementAt(index).name + '.jpg',
                   ),
                 ),
                 const SizedBox(width: 20.0),
@@ -102,7 +99,7 @@ class AllergenTypesScreen extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       Text(
-                        Constants.userTypes.keys.elementAt(index),
+                        Constants.categories.categories.elementAt(index).name,
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                           color: secondaryColor,

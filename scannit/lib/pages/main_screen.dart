@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:scannit/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:scannit/blocs/authentication_bloc/authentication_event.dart';
 import 'package:scannit/constants.dart';
+import 'package:scannit/data/allergens_entity.dart';
+import 'package:scannit/data/categories_entity.dart';
 import 'package:scannit/data/info_entity.dart';
 import 'package:scannit/data/info_repo.dart';
 import 'package:scannit/pages/blog/blog_screen.dart';
@@ -13,7 +15,7 @@ import 'package:scannit/pages/first_time/start.dart';
 import 'package:scannit/pages/loading.dart';
 import 'package:scannit/pages/scan/scan_screen.dart';
 import 'package:scannit/pages/search/allergen_types.dart';
-
+import '../../stringValues.dart';
 import 'account/account_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -31,8 +33,10 @@ class _MainScreenState extends State<MainScreen> {
 
     _controller = PersistentTabController(initialIndex: 0);
 
-    print("hello main: " + Constants.userTypes.toString());
-    print("hello main: " + Constants.userAllergens.toString());
+    print("hello main: " + Constants.categories.toString());
+    print("hello main: " + Constants.allergens.toString());
+
+
 
     return PersistentTabView(
       context,
@@ -67,7 +71,7 @@ class _MainScreenState extends State<MainScreen> {
   List<Widget> _buildScreens() {
     return [
       AllergenTypesScreen(),
-      MyHomePage(),
+      ScanScreen(),
       AccountScreen()
     ];
   }
