@@ -17,7 +17,7 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
-    print('UUID in account' + Constants.userId);
+    print('ACCOUNT UUID: ' + Constants.userId);
 
     return Scaffold(
       body: Container(

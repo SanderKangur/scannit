@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:scannit/constants.dart';
 import 'package:scannit/data/info_repo.dart';
 import 'package:scannit/data/user.dart';
 
@@ -52,11 +53,14 @@ class UserAuthenticationRepository {
         tmp.sort();
         tmp.forEach((element) {
           value.putIfAbsent(
-              element.replaceAll(new RegExp("[,\.:\n]"), ""), () => false);
+              element.replaceAll(new RegExp("[,.:\n]"), ""), () => false);
         });
       });
 
       types.putIfAbsent("Custom", () => {});
+
+      Constants.userTypes = types;
+      Constants.userAllergens = [];
 
       print("types at auth: " + types.toString());
       print("");

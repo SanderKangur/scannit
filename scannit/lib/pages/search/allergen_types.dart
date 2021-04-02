@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scannit/constants.dart';
@@ -60,6 +62,9 @@ class AllergenTypesScreen extends StatelessWidget {
   Widget _buildArticleItem(int index, BuildContext context) {
     Color color = Color(int.parse(colors[index], radix: 16));
     final String sample = "assets/splash.png";
+
+    print("JSON" + json.encode(Constants.userTypes).toString());
+
     return Stack(
       children: <Widget>[
         RawMaterialButton(

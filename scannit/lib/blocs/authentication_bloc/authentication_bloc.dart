@@ -48,6 +48,8 @@ class AuthenticationBloc
 
   Stream<AuthenticationState> _mapAuthenticationLoggedOutToState() async* {
     Constants.firstTime = true;
+    Constants.userAllergens = [];
+
     yield AuthenticationFailure();
     _userRepository.signOut();
   }

@@ -124,6 +124,8 @@ class _ScanScreenState extends State<ScanScreen> {
   Widget build(BuildContext context) {
     print("hello scan");
 
+    print("test" + "tomatipüree".similarityTo("tomat").toString());
+
     return Scaffold(
       body: isLoading
           ? isImageLoaded
