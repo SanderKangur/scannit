@@ -30,6 +30,14 @@ class Allergens {
     return result;
   }
 
+  List<String> getNames(List<String> choices) {
+    List<String> names = [];
+    for (var value in allergens.where((element) => choices.contains(element.id))) {
+      names.add(value.name);
+    }
+    //print("NAMES: " + names.toString());
+    return names;
+  }
 }
 
 class Allergen{

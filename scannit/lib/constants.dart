@@ -1,3 +1,5 @@
+import 'package:camera/camera.dart';
+
 import 'data/allergens_entity.dart';
 import 'data/categories_entity.dart';
 import '../../stringValues.dart';
@@ -9,4 +11,5 @@ class Constants {
   static Map<String, Map<String, bool>> userTypes = {};
   static Categories categories;
   static Allergens allergens;
+  static List<CameraDescription> cameras;
 }

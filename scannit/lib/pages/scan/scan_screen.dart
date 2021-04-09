@@ -1,15 +1,25 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as pathAPI;
+import 'package:path_provider/path_provider.dart';
+import 'package:scannit/pages/blog/blog_screen.dart';
 import 'package:scannit/pages/dialogs/dialog_util.dart';
 import 'package:scannit/pages/loading.dart';
+import 'package:scannit/pages/scan/preview_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:string_similarity/string_similarity.dart';
 
 import '../../constants.dart';
 import 'TextDetectorPainter.dart';
+
+
+
 
 class ScanScreen extends StatefulWidget {
   ScanScreen({Key key, this.title}) : super(key: key);
@@ -20,6 +30,8 @@ class ScanScreen extends StatefulWidget {
 }
 
 class _ScanScreenState extends State<ScanScreen> {
+  CameraController controller;
+
   File takenImage;
   bool isImageLoaded = false;
   bool isLoading = false;
@@ -28,9 +40,30 @@ class _ScanScreenState extends State<ScanScreen> {
   Size imageSize;
   List<TextBlock> elements = [];
 
-  Future takeImage() async {
-    var pickedFile = await ImagePicker().getImage(source: ImageSource.camera);
-    var tempStore = File(pickedFile.path);
+  List<String> _choices = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadChoices();
+    controller = CameraController(Constants.cameras[0], ResolutionPreset.max);
+    controller.initialize().then((_) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+  }
+
+
+  Future takeImage(XFile file) async {
+    var tempStore = File(file.path);
 
     FirebaseVisionImage processedImage = FirebaseVisionImage.fromFile(tempStore);
     TextRecognizer recognizeText = FirebaseVision.instance.textRecognizer();
@@ -64,7 +97,7 @@ class _ScanScreenState extends State<ScanScreen> {
         });
       });
     } else
-      tempWords.add("No ingredients detected");
+      tempWords.add("00");
 
     setState(() {
       takenImage = tempStore;
@@ -98,26 +131,57 @@ class _ScanScreenState extends State<ScanScreen> {
     });
   }
 
-  String scanResult(List<String> scanned, List<String> allergens) {
+  String scanResult(List<String> scanned, List<String> choices) {
     print("SCANNED" + scanned.toString());
-    print("ALLERGENS" + allergens.toString());
+    print("ALLERGENS" + choices.toString());
 
     String allergensFound = "";
 
+    if(scanned.length == 0) allergensFound += "0";
+
+    bool foundMatch = false;
     scanned.forEach((element) {
-      allergens.forEach((allergen) {
-        double similarity = element.similarityTo(allergen);
+      choices.forEach((choice) {
+        double similarity = element.similarityTo(choice.toLowerCase());
         //print(element + ": " + similarity.toString());
         if (similarity > 0.5) {
           allergensFound += " " + element;
           print(element + ": " + similarity.toString());
+
+          if(!foundMatch) {
+            allergensFound = "1" + allergensFound;
+            foundMatch = true;
+          }
         }
       });
     });
 
+    if(!foundMatch) allergensFound += "2";
+
     print("THESE ARE COMMON ALLERGENS: " + allergensFound);
 
     return allergensFound;
+  }
+
+  void _onCapturePressed(context) async {
+    try {
+      // 1
+      final path = pathAPI.join(
+        (await getTemporaryDirectory()).path,
+        '${DateTime.now()}.png',
+      );
+      // 2
+      XFile image;
+      await controller.takePicture().then((value) =>
+          image = value);
+
+      await takeImage(image);
+      String allergens = scanResult(words, Constants.allergens.getNames(_choices));
+      Navigator.push(context, MaterialPageRoute(builder: (context) =>PreviewScreen(file: image, allergens: allergens,)));
+      // 3
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -125,8 +189,22 @@ class _ScanScreenState extends State<ScanScreen> {
     print("hello scan");
 
     print("test" + "tomatipüree".similarityTo("tomat").toString());
-
+    if (!controller.value.isInitialized) {
+      return Container();
+    }
     return Scaffold(
+      body: isLoading ? LoadingIndicator() : CameraPreview(controller),
+      floatingActionButton: new FloatingActionButton(
+        onPressed: () {
+          _onCapturePressed(context);
+        },
+        child: const Icon(
+          Icons.camera,
+          color: Colors.white,
+        ),
+      ),
+    );
+    /*return Scaffold(
       body: isLoading
           ? isImageLoaded
               ? Column(
@@ -149,7 +227,7 @@ class _ScanScreenState extends State<ScanScreen> {
                     Flexible(
                         flex: 1,
                         child: Builder(builder: (BuildContext context) {
-                          List<String> tmp = Constants.userAllergens;
+                          List<String> tmp = Constants.allergens.getNames(_choices);
                           String result = scanResult(words, tmp);
                           print("scanResult: " + result.toString());
                           if (result.isNotEmpty) {
@@ -192,14 +270,14 @@ class _ScanScreenState extends State<ScanScreen> {
                       color: Colors.brown,
                     ),
                   ),
-                  /*Expanded(
+                  *//*Expanded(
                 child: Container(
                   child: FloatingActionButton(
                     onPressed: takeImage,
                     backgroundColor: Colors.lightGreen[300],
                     child: Icon(Icons.add_a_photo),
                   )),
-              ),*/
+              ),*//*
                 ],
               )),
       floatingActionButton: FloatingActionButton(
@@ -207,7 +285,14 @@ class _ScanScreenState extends State<ScanScreen> {
         backgroundColor: Colors.lightGreen[300],
         child: Icon(Icons.add_a_photo),
       ),
-    );
+    );*/
+  }
+
+  _loadChoices() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _choices = (prefs.getStringList('choices') ?? []);
+    });
   }
 }
 

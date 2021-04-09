@@ -33,7 +33,7 @@ class _ShowAllergensState extends State<ShowAllergens> {
     //print(Constants.userTypes.values.elementAt(widget.index));
 
     Allergens allergens = new Allergens(Constants.allergens.chooseByCategory(Constants.categories.categories.elementAt(widget.index).id));
-    print("SHOW ALLERGENS: " + allergens.toString());
+    //print("SHOW ALLERGENS: " + allergens.toString());
 
     return Scaffold(
       appBar: AppBar(
@@ -71,7 +71,7 @@ class _ShowAllergensState extends State<ShowAllergens> {
     });
   }
 
-  _updateAllergen(String id, bool val) async {
+  _updateChoices(String id, bool val) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _choices = (prefs.getStringList('choices') ?? []);
@@ -87,7 +87,7 @@ class _ShowAllergensState extends State<ShowAllergens> {
 
   void itemChange(bool val, String type, String allergen) async {
     setState(() {
-      _updateAllergen(allergen, val);
+      _updateChoices(allergen, val);
     });
 
     /*  if (allergen == "Select all")

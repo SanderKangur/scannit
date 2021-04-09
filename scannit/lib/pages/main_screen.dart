@@ -13,6 +13,7 @@ import 'package:scannit/data/info_repo.dart';
 import 'package:scannit/pages/blog/blog_screen.dart';
 import 'package:scannit/pages/first_time/start.dart';
 import 'package:scannit/pages/loading.dart';
+import 'package:scannit/pages/scan/camera_screen.dart';
 import 'package:scannit/pages/scan/scan_screen.dart';
 import 'package:scannit/pages/search/allergen_types.dart';
 import '../../stringValues.dart';
@@ -33,8 +34,8 @@ class _MainScreenState extends State<MainScreen> {
 
     _controller = PersistentTabController(initialIndex: 0);
 
-    print("hello main: " + Constants.categories.toString());
-    print("hello main: " + Constants.allergens.toString());
+    //print("hello main: " + Constants.categories.toString());
+    //print("hello main: " + Constants.allergens.toString());
 
 
 
@@ -80,20 +81,20 @@ class _MainScreenState extends State<MainScreen> {
     return [
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.checkmark_rectangle),
-        title: ("Home"),
-        activeColorPrimary: CupertinoColors.activeBlue,
+        title: ("Allergens"),
+        activeColorPrimary: Color(0xff324558),
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.camera),
         title: ("Scan"),
-        activeColorPrimary: CupertinoColors.activeBlue,
+        activeColorPrimary: Color(0xff324558),
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.settings),
-        title: ("Settings"),
-        activeColorPrimary: CupertinoColors.activeBlue,
+        icon: Icon(CupertinoIcons.info),
+        title: ("Info"),
+        activeColorPrimary: Color(0xff324558),
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
     ];
