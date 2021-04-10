@@ -35,9 +35,9 @@ class _MyHomePageState extends State<MyHomePage> {
       categories.categories.add(cat);
     };
 
-    categories.categories.forEach((element) {
+    /*categories.categories.forEach((element) {
       print("CAT: " + element.toJson().toString());
-    });
+    });*/
 
     Constants.categories = categories;
   }
@@ -57,8 +57,8 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     };
 
-    allergens.allergens.forEach((element) {
-      print("AL: " + element.toJson().toString());});
+    /*allergens.allergens.forEach((element) {
+      print("AL: " + element.toJson().toString());});*/
 
     //print("ALLERGENS CONTAINS: " + allergens.containsId("A21").toString());
 

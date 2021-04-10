@@ -34,17 +34,19 @@ class _ScanScreenState extends State<ScanScreen> {
 
   File takenImage;
   bool isImageLoaded = false;
-  bool isLoading = false;
+  bool isLoading;
   List<String> words = [];
   String fullText;
   Size imageSize;
-  List<TextBlock> elements = [];
+  List<TextElement> scannedElements = [];
+  List<TextElement> detectedElements = [];
 
   List<String> _choices = [];
 
   @override
   void initState() {
     super.initState();
+    isLoading = false;
     _loadChoices();
     controller = CameraController(Constants.cameras[0], ResolutionPreset.max);
     controller.initialize().then((_) {
@@ -79,17 +81,17 @@ class _ScanScreenState extends State<ScanScreen> {
 
     VisionText readText = await recognizeText.processImage(processedImage);
     List<String> tempWords = [];
-    List<TextBlock> tempElements = [];
+    List<TextElement> tempElements = [];
     recognizeText.close();
 
     RegExp regEx = RegExp("[^0-9]");
 
     if (readText.text != "") {
       readText.blocks.forEach((block) {
-        tempElements.add(block);
         block.lines.forEach((line) {
           line.elements.forEach((element) {
             if(regEx.hasMatch(element.text)) {
+              tempElements.add(element);
               tempWords.add(
                   element.text.toLowerCase().replaceAll("[,.:\n]", ""));
             }
@@ -104,7 +106,7 @@ class _ScanScreenState extends State<ScanScreen> {
       isImageLoaded = true;
       fullText = readText.text;
       words = tempWords;
-      elements = tempElements;
+      scannedElements = tempElements;
       build(context);
     });
   }
@@ -156,6 +158,11 @@ class _ScanScreenState extends State<ScanScreen> {
       });
     });
 
+    for(TextElement element in scannedElements){
+      if(allergensFound.contains(element.text.toLowerCase().replaceAll("[,.:\n]", "")))
+        detectedElements.add(element);
+    }
+
     if(!foundMatch) allergensFound += "2";
 
     print("THESE ARE COMMON ALLERGENS: " + allergensFound);
@@ -165,23 +172,25 @@ class _ScanScreenState extends State<ScanScreen> {
 
   void _onCapturePressed(context) async {
     try {
-      // 1
-      final path = pathAPI.join(
-        (await getTemporaryDirectory()).path,
-        '${DateTime.now()}.png',
-      );
-      // 2
       XFile image;
-      await controller.takePicture().then((value) =>
-          image = value);
-
+      await controller.takePicture().then((value) => image = value);
       await takeImage(image);
       String allergens = scanResult(words, Constants.allergens.getNames(_choices));
-      Navigator.push(context, MaterialPageRoute(builder: (context) =>PreviewScreen(file: image, allergens: allergens,)));
+      Navigator.push(context, MaterialPageRoute(builder: (context) =>PreviewScreen(file: image, elements: detectedElements, allergens: allergens, imageSize: imageSize,))).then((value) => isLoading = false);
+      isLoading = false;
+      print("isLoading: " + isLoading.toString());
       // 3
     } catch (e) {
       print(e);
     }
+  }
+
+  Widget cameraPreview() {
+    if (controller == null || !controller.value.isInitialized ||isLoading) {
+      return LoadingIndicator();
+    }
+
+    return CameraPreview(controller);
   }
 
   @override
@@ -193,7 +202,7 @@ class _ScanScreenState extends State<ScanScreen> {
       return Container();
     }
     return Scaffold(
-      body: isLoading ? LoadingIndicator() : CameraPreview(controller),
+      body: cameraPreview(),
       floatingActionButton: new FloatingActionButton(
         onPressed: () {
           _onCapturePressed(context);

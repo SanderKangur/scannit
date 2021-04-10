@@ -59,7 +59,7 @@ class _ShowAllergensState extends State<ShowAllergens> {
               );
             },
             separatorBuilder: (context, index) =>
-            const SizedBox(height: 16.0),
+            const SizedBox(height: 2.0),
         ),
     );
   }

@@ -1,15 +1,20 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
+import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'TextDetectorPainter.dart';
+
 class PreviewScreen extends StatefulWidget {
   final XFile file;
-  final Color color;
+  final List<TextElement> elements;
   final String allergens;
-  PreviewScreen({this.file, this.color, this.allergens});
+  final Size imageSize;
+  PreviewScreen({this.file, this.elements, this.allergens, this.imageSize});
 
   @override
   _PreviewScreenState createState() => _PreviewScreenState();
@@ -48,6 +53,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
 
     return Scaffold(
         appBar: AppBar(
+
           iconTheme: IconThemeData(
             color: resultColor,
           ),
@@ -65,11 +71,20 @@ class _PreviewScreenState extends State<PreviewScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Expanded(
-                flex: 3,
+                flex: 9,
                 child: Container(
                   padding: EdgeInsets.all(10),
                   color: resultColor,
-                  child: Image.file(File(widget.file.path),fit: BoxFit.cover,)
+                    child: CustomPaint(
+                      foregroundPainter: TextDetectorPainter(widget.imageSize, widget.elements),
+                      child: AspectRatio(
+                        aspectRatio: widget.imageSize.aspectRatio,
+                        child: Image.file(
+                          File(widget.file.path),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
                 ),
               ),
               Expanded(

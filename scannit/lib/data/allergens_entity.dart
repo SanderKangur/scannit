@@ -21,6 +21,24 @@ class Allergens {
      return result;
   }
 
+  List<String> filterChoiceByCategory(String category, List<String> choices){
+    List<String> names = [];
+    for (var value in chooseByCategory(category).where((value) => choices.contains(value.id))) {
+      names.add(value.name);
+    }
+    //print("NAMES: " + names.toString());
+    return names;
+  }
+
+  String chosenAllergensString(List<String> allergens){
+    String result = "";
+    if(allergens.isNotEmpty){
+      allergens.forEach((element) {
+        result += " " + element;
+      });
+    }
+    return result;
+  }
 
   String toString(){
     String result = "";

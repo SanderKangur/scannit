@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scannit/constants.dart';
+import 'package:scannit/data/categories_entity.dart';
 import 'package:scannit/pages/search/show_allergens.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 final List<String> colors = [
@@ -12,48 +14,37 @@ final List<String> colors = [
 ];
 
 
-class AllergenTypesScreen extends StatelessWidget {
+class AllergenTypesScreen extends StatefulWidget {
   static final String path = "scannit/lib/pages/search/allergen_types.dart";
-  final Color primaryColor = Color(0xffFD6592);
-  final Color bgColor = Color(0xffF9E0E3);
+
+  @override
+  _AllergenTypesScreenState createState() => _AllergenTypesScreenState();
+}
+
+class _AllergenTypesScreenState extends State<AllergenTypesScreen> {
   final Color secondaryColor = Color(0xff324558);
+
+  List<String> _choices = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadChoices();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: DefaultTabController(
-        initialIndex: 0,
-        length: 1,
-        child: Theme(
-          data: ThemeData(
-            primaryColor: primaryColor,
-            appBarTheme: AppBarTheme(
-              color: Colors.white,
-              textTheme: TextTheme(
-                headline6: TextStyle(
-                  color: secondaryColor,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              iconTheme: IconThemeData(color: secondaryColor),
-              actionsIconTheme: IconThemeData(
-                color: secondaryColor,
-              ),
-            ),
-          ),
-          child: Scaffold(
-            backgroundColor: Theme.of(context).buttonColor,
-            body: ListView.separated(
-              padding: const EdgeInsets.all(16.0),
-              itemCount: Constants.categories.categories.length,
-              itemBuilder: (context, index) {
-                return _buildArticleItem(index, context);
-              },
-              separatorBuilder: (context, index) =>
-              const SizedBox(height: 16.0),
-            ),
-          ),
+      child: Scaffold(
+        backgroundColor: Theme.of(context).buttonColor,
+        body: ListView.separated(
+          padding: const EdgeInsets.all(16.0),
+          itemCount: Constants.categories.categories.length,
+          itemBuilder: (context, index) {
+            return _buildArticleItem(index, context);
+          },
+          separatorBuilder: (context, index) =>
+          const SizedBox(height: 16.0),
         ),
       ),
     );
@@ -62,6 +53,7 @@ class AllergenTypesScreen extends StatelessWidget {
   Widget _buildArticleItem(int index, BuildContext context) {
     Color color = Color(int.parse(colors[index], radix: 16));
     final String sample = "assets/splash.png";
+    final Category category = Constants.categories.categories.elementAt(index);
     return Stack(
       children: <Widget>[
         RawMaterialButton(
@@ -91,15 +83,16 @@ class AllergenTypesScreen extends StatelessWidget {
                 Container(
                   height: 100,
                   width: 80.0,
-                  child: Image.asset('assets/types/' + Constants.categories.categories.elementAt(index).name + '.jpg',
+                  child: Image.asset('assets/types/' + category.name + '.jpg',
                   ),
                 ),
                 const SizedBox(width: 20.0),
                 Expanded(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Text(
-                        Constants.categories.categories.elementAt(index).name,
+                        category.name,
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                           color: secondaryColor,
@@ -107,6 +100,16 @@ class AllergenTypesScreen extends StatelessWidget {
                           fontSize: 24.0,
                         ),
                       ),
+                      const SizedBox(height: 12.0),
+                      Text(
+                        Constants.allergens.chosenAllergensString(Constants.allergens.filterChoiceByCategory(category.id, _choices)),
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          color: secondaryColor,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 12.0,
+                        ),
+                      )
                     ],
                   ),
                 )
@@ -116,5 +119,12 @@ class AllergenTypesScreen extends StatelessWidget {
         )
       ],
     );
+  }
+
+  _loadChoices() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _choices = (prefs.getStringList('choices') ?? []);
+    });
   }
 }

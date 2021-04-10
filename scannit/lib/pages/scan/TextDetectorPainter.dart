@@ -8,7 +8,7 @@ class TextDetectorPainter extends CustomPainter {
   TextDetectorPainter(this.absoluteImageSize, this.elements);
 
   final Size absoluteImageSize;
-  final List<TextBlock> elements;
+  final List<TextElement> elements;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -29,7 +29,7 @@ class TextDetectorPainter extends CustomPainter {
       ..color = Colors.red
       ..strokeWidth = 2.0;
 
-    for (TextBlock element in elements) {
+    for (TextElement element in elements) {
       canvas.drawRect(scaleRect(element), paint_color);
     }
   }
