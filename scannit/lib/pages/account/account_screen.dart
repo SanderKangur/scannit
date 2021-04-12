@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scannit/blocs/authentication_bloc/bloc.dart';
-import 'package:scannit/data/info_entity.dart';
-import 'package:scannit/data/info_repo.dart';
-import 'package:scannit/pages/dialogs/dialog_util.dart';
+import 'package:scannit/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../constants.dart';
 
 class AccountScreen extends StatefulWidget {
   AccountScreen({Key key}) : super(key: key);
@@ -18,8 +12,6 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
-    print('ACCOUNT UUID: ' + Constants.userId);
-
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -44,66 +36,19 @@ class _AccountScreenState extends State<AccountScreen> {
                 color: Colors.brown,
               ),
             ),
-            StreamBuilder<Info>(
-                stream: InfoRepo(uid: Constants.userId)
-                    .infoStream(Constants.userId),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) return Text("No UserData");
-
-                  return Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      RawMaterialButton(
-                        onPressed: () {
-                          _resetChoices();
-                          BlocProvider.of<AuthenticationBloc>(context).add(
-                            AuthenticationLoggedOut(),
-                          );
-                        },
-                        elevation: 5.0,
-                        fillColor: Colors.white,
-                        child: Icon(
-                          Icons.exit_to_app,
-                          size: 30.0,
-                          color: Colors.black54,
-                        ),
-                        padding: EdgeInsets.all(10.0),
-                        shape: CircleBorder(),
-                      ),
-                      Container(
-                        child: Text(snapshot.data.uid),
-                      )
-                    ],
-                  );
-                }),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(top: 30, left: 10),
-                  child: Text(
-                    "My Allergens",
-                    textScaleFactor: 2,
-                    style: TextStyle(color: Colors.black45),
-                  ),
-                ),
-                RawMaterialButton(
-                  onPressed: () {
-                    DialogUtil.showAddAllergenDialog(context);
-                  },
-                  elevation: 5.0,
-                  fillColor: Colors.white,
-                  child: Icon(
-                    Icons.edit,
-                    size: 20.0,
-                    color: Colors.black54,
-                  ),
-                  padding: EdgeInsets.all(5.0),
-                  shape: CircleBorder(),
-                )
-              ],
-            ),
+            RawMaterialButton(
+              onPressed: () {
+                _resetChoices();
+                return main();
+              },
+              elevation: 5.0,
+              fillColor: Colors.white,
+              child: Icon(
+                Icons.exit_to_app,
+                size: 30.0,
+                color: Colors.black54,
+              ),
+            )
           ],
         ),
       ),
@@ -113,7 +58,7 @@ class _AccountScreenState extends State<AccountScreen> {
   _resetChoices() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      prefs.setStringList('choices', []);
+      prefs.setBool('isFirstTime', true);
     });
   }
 }

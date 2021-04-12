@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scannit/constants.dart';
 import 'package:scannit/data/allergens_entity.dart';
-import 'package:scannit/data/info_entity.dart';
-import 'package:scannit/data/info_repo.dart';
-import 'package:scannit/pages/loading.dart';
 
 class AddAllergenDialog extends StatelessWidget {
   AddAllergenDialog();
@@ -61,8 +58,7 @@ class AddAllergenDialog extends StatelessWidget {
             SizedBox(height: 16.0),
             TextField(
               controller: textEditingController,
-              decoration:
-              InputDecoration(hintText: 'Enter here allergen. '),
+              decoration: InputDecoration(hintText: 'Enter here allergen. '),
             ),
             SizedBox(height: 30.0),
             Row(
@@ -84,9 +80,15 @@ class AddAllergenDialog extends StatelessWidget {
                     print("TEXT" + text);
                     if (text.isNotEmpty) {
                       id = "A${Constants.allergens.allergens.length}";
-                      Allergen al = new Allergen(id: id, name: text.replaceAll(new RegExp("[,.:\n]"), ""), category: Constants.categories.getId("Custom"));
+                      Allergen al = new Allergen(
+                          id: id,
+                          name: text.replaceAll(new RegExp("[,.:\n]"), ""),
+                          category: Constants.categories.getId("Custom"));
                       await Constants.allergens.allergens.add(al);
-                      print("len: " + Constants.allergens.allergens.length.toString() + " added id: " + id);
+                      print("len: " +
+                          Constants.allergens.allergens.length.toString() +
+                          " added id: " +
+                          id);
                     }
                     Navigator.pop(context, id);
                   },
@@ -101,7 +103,6 @@ class AddAllergenDialog extends StatelessWidget {
         ),
       ),
     );
-
   }
 }
 

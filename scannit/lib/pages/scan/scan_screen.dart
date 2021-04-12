@@ -4,22 +4,12 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as pathAPI;
-import 'package:path_provider/path_provider.dart';
-import 'package:scannit/pages/blog/blog_screen.dart';
-import 'package:scannit/pages/dialogs/dialog_util.dart';
-import 'package:scannit/pages/loading.dart';
+import '../../utils/loading.dart';
 import 'package:scannit/pages/scan/preview_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:string_similarity/string_similarity.dart';
 
 import '../../constants.dart';
-import 'TextDetectorPainter.dart';
-
-
-
 
 class ScanScreen extends StatefulWidget {
   ScanScreen({Key key, this.title}) : super(key: key);
@@ -63,11 +53,11 @@ class _ScanScreenState extends State<ScanScreen> {
     super.dispose();
   }
 
-
   Future takeImage(XFile file) async {
     var tempStore = File(file.path);
 
-    FirebaseVisionImage processedImage = FirebaseVisionImage.fromFile(tempStore);
+    FirebaseVisionImage processedImage =
+        FirebaseVisionImage.fromFile(tempStore);
     TextRecognizer recognizeText = FirebaseVision.instance.textRecognizer();
 
     setState(() {
@@ -90,10 +80,10 @@ class _ScanScreenState extends State<ScanScreen> {
       readText.blocks.forEach((block) {
         block.lines.forEach((line) {
           line.elements.forEach((element) {
-            if(regEx.hasMatch(element.text)) {
+            if (regEx.hasMatch(element.text)) {
               tempElements.add(element);
-              tempWords.add(
-                  element.text.toLowerCase().replaceAll("[,.:\n]", ""));
+              tempWords
+                  .add(element.text.toLowerCase().replaceAll("[,.:\n]", ""));
             }
           });
         });
@@ -138,7 +128,7 @@ class _ScanScreenState extends State<ScanScreen> {
 
     String allergensFound = "";
 
-    if(scanned.length == 0) allergensFound += "0";
+    if (scanned.length == 0) allergensFound += "0";
 
     bool foundMatch = false;
     scanned.forEach((element) {
@@ -149,7 +139,7 @@ class _ScanScreenState extends State<ScanScreen> {
           allergensFound += " " + element;
           print(element + ": " + similarity.toString());
 
-          if(!foundMatch) {
+          if (!foundMatch) {
             allergensFound = "1" + allergensFound;
             foundMatch = true;
           }
@@ -157,12 +147,13 @@ class _ScanScreenState extends State<ScanScreen> {
       });
     });
 
-    for(TextElement element in scannedElements){
-      if(allergensFound.contains(element.text.toLowerCase().replaceAll("[,.:\n]", "")))
+    for (TextElement element in scannedElements) {
+      if (allergensFound
+          .contains(element.text.toLowerCase().replaceAll("[,.:\n]", "")))
         detectedElements.add(element);
     }
 
-    if(!foundMatch) allergensFound += "2";
+    if (!foundMatch) allergensFound += "2";
 
     print("THESE ARE COMMON ALLERGENS: " + allergensFound);
 
@@ -174,8 +165,17 @@ class _ScanScreenState extends State<ScanScreen> {
       XFile image;
       await controller.takePicture().then((value) => image = value);
       await takeImage(image);
-      String allergens = scanResult(words, Constants.allergens.getNames(_choices));
-      Navigator.push(context, MaterialPageRoute(builder: (context) =>PreviewScreen(file: image, elements: detectedElements, allergens: allergens, imageSize: imageSize,))).then((value) => isLoading = false);
+      String allergens =
+          scanResult(words, Constants.allergens.getNames(_choices));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PreviewScreen(
+                    file: image,
+                    elements: detectedElements,
+                    allergens: allergens,
+                    imageSize: imageSize,
+                  ))).then((value) => isLoading = false);
       isLoading = false;
       print("isLoading: " + isLoading.toString());
       // 3
@@ -185,7 +185,7 @@ class _ScanScreenState extends State<ScanScreen> {
   }
 
   Widget cameraPreview() {
-    if (controller == null || !controller.value.isInitialized ||isLoading) {
+    if (controller == null || !controller.value.isInitialized || isLoading) {
       return LoadingIndicator();
     }
 
@@ -206,10 +206,9 @@ class _ScanScreenState extends State<ScanScreen> {
         onPressed: () {
           _onCapturePressed(context);
         },
-        backgroundColor: Colors.white,
         child: const Icon(
           Icons.camera,
-          color: Color(0xff324558),
+          color: Colors.white,
         ),
       ),
     );
@@ -279,14 +278,14 @@ class _ScanScreenState extends State<ScanScreen> {
                       color: Colors.brown,
                     ),
                   ),
-                  *//*Expanded(
+                  */ /*Expanded(
                 child: Container(
                   child: FloatingActionButton(
                     onPressed: takeImage,
                     backgroundColor: Colors.lightGreen[300],
                     child: Icon(Icons.add_a_photo),
                   )),
-              ),*//*
+              ),*/ /*
                 ],
               )),
       floatingActionButton: FloatingActionButton(
@@ -304,5 +303,3 @@ class _ScanScreenState extends State<ScanScreen> {
     });
   }
 }
-
-

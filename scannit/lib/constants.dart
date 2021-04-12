@@ -2,7 +2,6 @@ import 'package:camera/camera.dart';
 
 import 'data/allergens_entity.dart';
 import 'data/categories_entity.dart';
-import '../../stringValues.dart';
 
 class Constants {
   static String userId;

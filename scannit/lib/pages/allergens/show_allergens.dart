@@ -1,15 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:scannit/data/allergens_entity.dart';
-import 'package:scannit/data/info_entity.dart';
-import 'package:scannit/data/info_repo.dart';
-import 'package:scannit/pages/dialogs/add_allergen_dialog.dart';
-import 'package:scannit/pages/dialogs/dialog_util.dart';
+import 'package:scannit/utils/add_allergen_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
-import '../loading.dart';
 
 class ShowAllergens extends StatefulWidget {
   ShowAllergens(this.index, this.color);
@@ -25,7 +20,6 @@ class _ShowAllergensState extends State<ShowAllergens> {
   List<String> _choices = [];
   Allergens allergens;
 
-
   @override
   void initState() {
     super.initState();
@@ -34,21 +28,25 @@ class _ShowAllergensState extends State<ShowAllergens> {
 
   @override
   Widget build(BuildContext context) {
-
     //print(Constants.userTypes.values.elementAt(widget.index));
-    allergens = new Allergens(Constants.allergens.chooseByCategory(Constants.categories.categories.elementAt(widget.index).id));
+    allergens = new Allergens(Constants.allergens.chooseByCategory(
+        Constants.categories.categories.elementAt(widget.index).id));
     print("SHOW ALLERGENS: " + allergens.toString());
     //print("Cat name: " + Constants.categories.categories.elementAt(widget.index).name);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Choose allergens"),
-        centerTitle: true,
-        backgroundColor: widget.color,
-      ),
-      body: Constants.categories.categories.elementAt(widget.index).name.compareTo("Custom") == 0 ?
-      bodyCustom() : bodyDefault()
-    );
+        appBar: AppBar(
+          title: Text("Choose allergens"),
+          centerTitle: true,
+          backgroundColor: widget.color,
+        ),
+        body: Constants.categories.categories
+                    .elementAt(widget.index)
+                    .name
+                    .compareTo("Custom") ==
+                0
+            ? bodyCustom()
+            : bodyDefault());
   }
 
   _loadChoices() async {
@@ -62,7 +60,7 @@ class _ShowAllergensState extends State<ShowAllergens> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _choices = (prefs.getStringList('choices') ?? []);
-      if(val)
+      if (val)
         _choices.add(id);
       else
         _choices.remove(id);
@@ -72,7 +70,7 @@ class _ShowAllergensState extends State<ShowAllergens> {
     print("CHOICES: " + _choices.toString());
   }
 
-  Widget bodyDefault(){
+  Widget bodyDefault() {
     return ListView.separated(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
@@ -85,20 +83,18 @@ class _ShowAllergensState extends State<ShowAllergens> {
           child: new CheckboxListTile(
               activeColor: const Color(0xff324558),
               title: new Text(tmp.name),
-              controlAffinity:
-              ListTileControlAffinity.leading,
+              controlAffinity: ListTileControlAffinity.leading,
               value: _choices.contains(tmp.id),
               onChanged: (bool val) {
                 _updateChoices(tmp.id, val);
               }),
         );
       },
-      separatorBuilder: (context, index) =>
-      const SizedBox(height: 2.0),
+      separatorBuilder: (context, index) => const SizedBox(height: 2.0),
     );
   }
 
-  Widget bodyCustom(){
+  Widget bodyCustom() {
     return ListView(
       children: [
         ListView.separated(
@@ -118,8 +114,8 @@ class _ShowAllergensState extends State<ShowAllergens> {
                   allergens.allergens.removeAt(index);
                 });
                 // Then show a snackbar.
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text("${tmp.name} removed")));
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("${tmp.name} removed")));
               },
               background: Container(color: widget.color),
               child: new Card(
@@ -127,8 +123,7 @@ class _ShowAllergensState extends State<ShowAllergens> {
                 child: new CheckboxListTile(
                     activeColor: const Color(0xff324558),
                     title: new Text(tmp.name),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
+                    controlAffinity: ListTileControlAffinity.leading,
                     value: _choices.contains(tmp.id),
                     onChanged: (bool val) {
                       _updateChoices(tmp.id, val);
@@ -136,8 +131,7 @@ class _ShowAllergensState extends State<ShowAllergens> {
               ),
             );
           },
-          separatorBuilder: (context, index) =>
-          const SizedBox(height: 2.0),
+          separatorBuilder: (context, index) => const SizedBox(height: 2.0),
         ),
         Card(
           elevation: 10,
@@ -154,15 +148,16 @@ class _ShowAllergensState extends State<ShowAllergens> {
                   barrierDismissible: false,
                   builder: (BuildContext context) => AddAllergenDialog(),
                 );
-                if(id != null) {
+                if (id != null) {
                   print("ID: " + id.toString());
                   setState(() {
-                    for (int i = 180; i <
-                        Constants.allergens.allergens.length; i++) {
-                      print("AL: " + Constants.allergens.allergens[i]
-                          .toJson()
-                          .toString());
-                    };
+                    for (int i = 180;
+                        i < Constants.allergens.allergens.length;
+                        i++) {
+                      print("AL: " +
+                          Constants.allergens.allergens[i].toJson().toString());
+                    }
+                    ;
                     _updateChoices(id, true);
                   });
                 }

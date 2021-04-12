@@ -1,22 +1,21 @@
-import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
 import 'package:scannit/constants.dart';
 import 'package:scannit/data/allergens_entity.dart';
 import 'package:scannit/data/categories_entity.dart';
+import 'package:scannit/pages/first_time/allergen_choice.dart';
 import 'package:scannit/pages/main_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../stringValues.dart';
 
 class MyHomePage extends StatefulWidget {
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
   List<String> _choices = [];
+  bool _isFirstTime = false;
   String _categories = "";
   String _allergens = "";
 
@@ -31,10 +30,12 @@ class _MyHomePageState extends State<MyHomePage> {
   _createCategories() async {
     Categories categories = new Categories();
 
-    for(int i = 0; i<stringValues.categoriesString.length; i++) {
-      Category cat = new Category(id: "C$i", name: stringValues.categoriesString[i]);
+    for (int i = 0; i < stringValues.categoriesString.length; i++) {
+      Category cat =
+          new Category(id: "C$i", name: stringValues.categoriesString[i]);
       categories.categories.add(cat);
-    };
+    }
+    ;
 
     categories.categories.forEach((element) {
       print("CAT: " + element.toJson().toString());
@@ -47,20 +48,25 @@ class _MyHomePageState extends State<MyHomePage> {
     Allergens allergens = new Allergens([]);
 
     int a = 0;
-    for(int i = 0; i<stringValues.categoriesString.length-1; i++) {
-      List<String> tmp = stringValues.allergensString[i]
-          .split(new RegExp("(?<!^)(?=[A-Z])"));
+    for (int i = 0; i < stringValues.categoriesString.length - 1; i++) {
+      List<String> tmp =
+          stringValues.allergensString[i].split(new RegExp("(?<!^)(?=[A-Z])"));
       tmp.sort();
       tmp.forEach((element) {
-        Allergen al = new Allergen(id: "A$a", name: element.replaceAll(new RegExp("[,.:\n]"), ""), category: "C$i");
+        Allergen al = new Allergen(
+            id: "A$a",
+            name: element.replaceAll(new RegExp("[,.:\n]"), ""),
+            category: "C$i");
         allergens.allergens.add(al);
         a++;
       });
-    };
+    }
+    ;
 
-    for(int i = 180; i<allergens.allergens.length; i++){
+    for (int i = 180; i < allergens.allergens.length; i++) {
       print("AL: " + allergens.allergens[i].toJson().toString());
-    };
+    }
+    ;
 
     /*allergens.allergens.forEach((element) {
       print("AL: " + element.toJson().toString());});*/
@@ -73,8 +79,11 @@ class _MyHomePageState extends State<MyHomePage> {
   _loadChoices() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _choices = (prefs.getStringList('choices') ?? []);
-      prefs.setStringList('choices', []);
+      _isFirstTime = (prefs.getBool('isFirstTime') ?? true);
+
+      if (_isFirstTime) {
+        prefs.setStringList('choices', []);
+      }
     });
   }
 
@@ -86,11 +95,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
-
-    return MainScreen();
+    return _isFirstTime ? AllergenChoice() : MainScreen();
   }
-
 }

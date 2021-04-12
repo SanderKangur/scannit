@@ -1,6 +1,4 @@
-import 'dart:async';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
@@ -14,6 +12,7 @@ class PreviewScreen extends StatefulWidget {
   final List<TextElement> elements;
   final String allergens;
   final Size imageSize;
+
   PreviewScreen({this.file, this.elements, this.allergens, this.imageSize});
 
   @override
@@ -21,18 +20,16 @@ class PreviewScreen extends StatefulWidget {
 }
 
 class _PreviewScreenState extends State<PreviewScreen> {
-
   Color resultColor;
   String resultHeader;
   String resultText;
 
   @override
   Widget build(BuildContext context) {
-
     int result = int.parse(widget.allergens.substring(0, 1));
     print("RESULT: " + result.toString());
 
-    switch (result){
+    switch (result) {
       case 0:
         resultColor = Colors.orange;
         resultHeader = "No text detected";
@@ -51,7 +48,6 @@ class _PreviewScreenState extends State<PreviewScreen> {
     }
     print(resultColor.toString());
 
-
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -60,9 +56,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
           ),
           title: Text(
             resultHeader,
-            style: TextStyle(
-              color: resultColor
-            ),
+            style: TextStyle(color: resultColor),
           ),
           backgroundColor: Colors.white,
           automaticallyImplyLeading: true,
@@ -76,16 +70,17 @@ class _PreviewScreenState extends State<PreviewScreen> {
                 child: Container(
                   padding: EdgeInsets.all(20),
                   color: resultColor,
-                    child: CustomPaint(
-                      foregroundPainter: TextDetectorPainter(widget.imageSize, widget.elements),
-                      child: AspectRatio(
-                        aspectRatio: widget.imageSize.aspectRatio,
-                        child: Image.file(
-                          File(widget.file.path),
-                          fit: BoxFit.cover,
-                        ),
+                  child: CustomPaint(
+                    foregroundPainter:
+                        TextDetectorPainter(widget.imageSize, widget.elements),
+                    child: AspectRatio(
+                      aspectRatio: widget.imageSize.aspectRatio,
+                      child: Image.file(
+                        File(widget.file.path),
+                        fit: BoxFit.cover,
                       ),
                     ),
+                  ),
                 ),
               ),
               Expanded(
@@ -93,15 +88,12 @@ class _PreviewScreenState extends State<PreviewScreen> {
                 child: Center(
                   child: Text(
                     resultText,
-                    style: TextStyle(
-                      fontSize: 24
-                    ),
+                    style: TextStyle(fontSize: 24),
                   ),
                 ),
               )
             ],
           ),
-        )
-    );
+        ));
   }
 }

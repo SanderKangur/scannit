@@ -1,7 +1,6 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:camera/camera.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:scannit/pages/scan/preview_screen.dart';
 
 class CameraScreen extends StatefulWidget {
@@ -14,8 +13,6 @@ class _CameraScreenState extends State<CameraScreen> {
   List cameras;
   int selectedCameraIndex;
   String imgPath;
-
-
 
   Future initCamera(CameraDescription cameraDescription) async {
     if (cameraController != null) {
@@ -65,9 +62,13 @@ class _CameraScreenState extends State<CameraScreen> {
   onCapture(context) async {
     try {
       await cameraController.takePicture().then((value) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>PreviewScreen(file: value, )));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PreviewScreen(
+                      file: value,
+                    )));
       });
-
     } catch (e) {
       showCameraException(e);
     }
@@ -79,17 +80,15 @@ class _CameraScreenState extends State<CameraScreen> {
     super.initState();
     availableCameras().then((value) {
       cameras = value;
-      if(cameras.length > 0){
+      if (cameras.length > 0) {
         setState(() {
           selectedCameraIndex = 0;
         });
-        initCamera(cameras[selectedCameraIndex]).then((value) {
-
-        });
+        initCamera(cameras[selectedCameraIndex]).then((value) {});
       } else {
         print('No camera available');
       }
-    }).catchError((e){
+    }).catchError((e) {
       print('Error : ${e.code}');
     });
   }
