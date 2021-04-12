@@ -1,3 +1,4 @@
+import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
 import 'package:scannit/constants.dart';
 import 'package:scannit/data/allergens_entity.dart';
@@ -35,9 +36,9 @@ class _MyHomePageState extends State<MyHomePage> {
       categories.categories.add(cat);
     };
 
-    /*categories.categories.forEach((element) {
+    categories.categories.forEach((element) {
       print("CAT: " + element.toJson().toString());
-    });*/
+    });
 
     Constants.categories = categories;
   }
@@ -57,6 +58,10 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     };
 
+    for(int i = 180; i<allergens.allergens.length; i++){
+      print("AL: " + allergens.allergens[i].toJson().toString());
+    };
+
     /*allergens.allergens.forEach((element) {
       print("AL: " + element.toJson().toString());});*/
 
@@ -69,6 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _choices = (prefs.getStringList('choices') ?? []);
+      prefs.setStringList('choices', []);
     });
   }
 

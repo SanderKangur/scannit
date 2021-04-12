@@ -1,13 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:camera/camera.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'TextDetectorPainter.dart';
 
 class PreviewScreen extends StatefulWidget {
   final XFile file;
@@ -29,39 +26,16 @@ class _PreviewScreenState extends State<PreviewScreen> {
   @override
   Widget build(BuildContext context) {
 
-    int result = int.parse(widget.allergens.substring(0, 1));
-    print("RESULT: " + result.toString());
-
-    switch (result){
-      case 0:
-        resultColor = Colors.orange;
-        resultHeader = "No text detected";
-        resultText = "Oops! It seems that there were no words in your photo";
-        break;
-      case 1:
-        resultColor = Colors.red;
-        resultHeader = "Scan failed";
-        resultText = "Found: " + widget.allergens.substring(1);
-        break;
-      case 2:
-        resultColor = Colors.green;
-        resultHeader = "Scan passed";
-        resultText = "No unwanted allergens detected!";
-        break;
-    }
-    print(resultColor.toString());
-
-
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
           iconTheme: IconThemeData(
-            color: resultColor,
+            color: Color(0xff324558),
           ),
           title: Text(
             resultHeader,
             style: TextStyle(
-              color: resultColor
+                color: Color(0xff324558)
             ),
           ),
           backgroundColor: Colors.white,
@@ -75,17 +49,10 @@ class _PreviewScreenState extends State<PreviewScreen> {
                 flex: 5,
                 child: Container(
                   padding: EdgeInsets.all(20),
-                  color: resultColor,
-                    child: CustomPaint(
-                      foregroundPainter: TextDetectorPainter(widget.imageSize, widget.elements),
-                      child: AspectRatio(
-                        aspectRatio: widget.imageSize.aspectRatio,
-                        child: Image.file(
-                          File(widget.file.path),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
+                  child: Image.file(
+                    File(widget.file.path),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               Expanded(
@@ -94,7 +61,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
                   child: Text(
                     resultText,
                     style: TextStyle(
-                      fontSize: 24
+                        fontSize: 24
                     ),
                   ),
                 ),

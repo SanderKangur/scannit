@@ -98,8 +98,7 @@ class _ScanScreenState extends State<ScanScreen> {
           });
         });
       });
-    } else
-      tempWords.add("00");
+    }
 
     setState(() {
       takenImage = tempStore;
@@ -207,9 +206,10 @@ class _ScanScreenState extends State<ScanScreen> {
         onPressed: () {
           _onCapturePressed(context);
         },
+        backgroundColor: Colors.white,
         child: const Icon(
           Icons.camera,
-          color: Colors.white,
+          color: Color(0xff324558),
         ),
       ),
     );

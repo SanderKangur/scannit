@@ -4,6 +4,7 @@ import 'package:scannit/blocs/authentication_bloc/bloc.dart';
 import 'package:scannit/data/info_entity.dart';
 import 'package:scannit/data/info_repo.dart';
 import 'package:scannit/pages/dialogs/dialog_util.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
 
@@ -55,6 +56,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     children: <Widget>[
                       RawMaterialButton(
                         onPressed: () {
+                          _resetChoices();
                           BlocProvider.of<AuthenticationBloc>(context).add(
                             AuthenticationLoggedOut(),
                           );
@@ -106,5 +108,12 @@ class _AccountScreenState extends State<AccountScreen> {
         ),
       ),
     );
+  }
+
+  _resetChoices() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setStringList('choices', []);
+    });
   }
 }

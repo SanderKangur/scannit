@@ -5,14 +5,12 @@ import 'package:scannit/pages/dialogs/scan_success_dialog.dart';
 import 'package:scannit/pages/dialogs/scan_warning_dialog.dart';
 
 class DialogUtil {
-  static void showAddAllergenDialog(BuildContext context) {
-    Future.delayed(Duration.zero, () {
-      return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) => AddAllergenDialog(),
-      );
-    });
+  static void showAddAllergenDialog(BuildContext context) async {
+    var result = await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => AddAllergenDialog(),
+    );
   }
 
   static void showScanSuccessDialog(BuildContext context) {

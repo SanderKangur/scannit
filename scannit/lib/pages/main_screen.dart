@@ -15,7 +15,7 @@ import 'package:scannit/pages/first_time/start.dart';
 import 'package:scannit/pages/loading.dart';
 import 'package:scannit/pages/scan/camera_screen.dart';
 import 'package:scannit/pages/scan/scan_screen.dart';
-import 'package:scannit/pages/search/allergen_types.dart';
+import 'package:scannit/pages/search/allergen_categories.dart';
 import '../../stringValues.dart';
 import 'account/account_screen.dart';
 

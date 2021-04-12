@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:scannit/data/allergens_entity.dart';
 import 'package:scannit/data/info_entity.dart';
 import 'package:scannit/data/info_repo.dart';
+import 'package:scannit/pages/dialogs/add_allergen_dialog.dart';
+import 'package:scannit/pages/dialogs/dialog_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
@@ -21,6 +23,8 @@ class ShowAllergens extends StatefulWidget {
 
 class _ShowAllergensState extends State<ShowAllergens> {
   List<String> _choices = [];
+  Allergens allergens;
+
 
   @override
   void initState() {
@@ -30,37 +34,20 @@ class _ShowAllergensState extends State<ShowAllergens> {
 
   @override
   Widget build(BuildContext context) {
-    //print(Constants.userTypes.values.elementAt(widget.index));
 
-    Allergens allergens = new Allergens(Constants.allergens.chooseByCategory(Constants.categories.categories.elementAt(widget.index).id));
-    //print("SHOW ALLERGENS: " + allergens.toString());
+    //print(Constants.userTypes.values.elementAt(widget.index));
+    allergens = new Allergens(Constants.allergens.chooseByCategory(Constants.categories.categories.elementAt(widget.index).id));
+    print("SHOW ALLERGENS: " + allergens.toString());
+    //print("Cat name: " + Constants.categories.categories.elementAt(widget.index).name);
 
     return Scaffold(
       appBar: AppBar(
         title: Text("Choose allergens"),
+        centerTitle: true,
         backgroundColor: widget.color,
       ),
-      body: ListView.separated(
-            padding: const EdgeInsets.all(16.0),
-            itemCount: allergens.allergens.length,
-            itemBuilder: (context, index) {
-              Allergen tmp = allergens.allergens.elementAt(index);
-              return new Card(
-                /// Create the allergens with checkboxes
-                child: new CheckboxListTile(
-                    activeColor: const Color(0xff596275),
-                    title: new Text(tmp.name),
-                    controlAffinity:
-                    ListTileControlAffinity.leading,
-                    value: _choices.contains(tmp.id),
-                    onChanged: (bool val) {
-                      itemChange(val, tmp.category, tmp.id);
-                    }),
-              );
-            },
-            separatorBuilder: (context, index) =>
-            const SizedBox(height: 2.0),
-        ),
+      body: Constants.categories.categories.elementAt(widget.index).name.compareTo("Custom") == 0 ?
+      bodyCustom() : bodyDefault()
     );
   }
 
@@ -85,24 +72,106 @@ class _ShowAllergensState extends State<ShowAllergens> {
     print("CHOICES: " + _choices.toString());
   }
 
-  void itemChange(bool val, String type, String allergen) async {
-    setState(() {
-      _updateChoices(allergen, val);
-    });
+  Widget bodyDefault(){
+    return ListView.separated(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      padding: const EdgeInsets.all(16.0),
+      itemCount: allergens.allergens.length,
+      itemBuilder: (context, index) {
+        Allergen tmp = allergens.allergens.elementAt(index);
+        return new Card(
+          /// Create the allergens with checkboxes
+          child: new CheckboxListTile(
+              activeColor: const Color(0xff324558),
+              title: new Text(tmp.name),
+              controlAffinity:
+              ListTileControlAffinity.leading,
+              value: _choices.contains(tmp.id),
+              onChanged: (bool val) {
+                _updateChoices(tmp.id, val);
+              }),
+        );
+      },
+      separatorBuilder: (context, index) =>
+      const SizedBox(height: 2.0),
+    );
+  }
 
-    /*  if (allergen == "Select all")
-        Constants.userTypes[type].updateAll((key, value) => val);
-      else
-        Constants.userTypes[type][allergen] = val;
-    });
-
-    await InfoRepo(uid: Constants.userId).updateTypes();
-
-    if (val)
-      Constants.userAllergens
-          .add(allergen.toLowerCase().replaceAll("[,.:\n]", ""));
-    else
-      Constants.userAllergens
-          .remove(allergen.toLowerCase().replaceAll("[,.:\n]", ""));*/
+  Widget bodyCustom(){
+    return ListView(
+      children: [
+        ListView.separated(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          padding: const EdgeInsets.all(16.0),
+          itemCount: allergens.allergens.length,
+          itemBuilder: (context, index) {
+            Allergen tmp = allergens.allergens.elementAt(index);
+            return Dismissible(
+              key: Key(tmp.name),
+              onDismissed: (direction) {
+                // Remove the item from the data source.
+                setState(() {
+                  _updateChoices(tmp.id, false);
+                  Constants.allergens.removeById(tmp.id);
+                  allergens.allergens.removeAt(index);
+                });
+                // Then show a snackbar.
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text("${tmp.name} removed")));
+              },
+              background: Container(color: widget.color),
+              child: new Card(
+                /// Create the allergens with checkboxes
+                child: new CheckboxListTile(
+                    activeColor: const Color(0xff324558),
+                    title: new Text(tmp.name),
+                    controlAffinity:
+                    ListTileControlAffinity.leading,
+                    value: _choices.contains(tmp.id),
+                    onChanged: (bool val) {
+                      _updateChoices(tmp.id, val);
+                    }),
+              ),
+            );
+          },
+          separatorBuilder: (context, index) =>
+          const SizedBox(height: 2.0),
+        ),
+        Card(
+          elevation: 10,
+          shadowColor: Colors.black,
+          margin: const EdgeInsets.all(16.0),
+          child: TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.white,
+                primary: Color(0xff324558),
+              ),
+              onPressed: () async {
+                String id = await showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) => AddAllergenDialog(),
+                );
+                if(id != null) {
+                  print("ID: " + id.toString());
+                  setState(() {
+                    for (int i = 180; i <
+                        Constants.allergens.allergens.length; i++) {
+                      print("AL: " + Constants.allergens.allergens[i]
+                          .toJson()
+                          .toString());
+                    };
+                    _updateChoices(id, true);
+                  });
+                }
+              },
+              child: Center(
+                child: Text("Add new allergen"),
+              )),
+        )
+      ],
+    );
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:scannit/pages/account/account_screen.dart';
-import 'package:scannit/pages/search/allergen_types.dart';
+import 'package:scannit/pages/search/allergen_categories.dart';
 
 
 class BlogScreen extends StatelessWidget {

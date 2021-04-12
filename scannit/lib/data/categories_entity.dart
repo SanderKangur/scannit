@@ -3,6 +3,23 @@ import 'dart:collection';
 class Categories {
   List<Category> categories = [];
 
+  String getName(String id){
+    String name = "";
+    categories.forEach((element) {
+      if(element.id.compareTo(id) == 1) name = element.name;
+    });
+    return name;
+  }
+
+  String getId(String name){
+    String id = "";
+    categories.forEach((element) {
+      if(element.name.compareTo(name) == 0) id = element.id;
+    });
+    print(id);
+    return id;
+  }
+
 }
 
 class Category{

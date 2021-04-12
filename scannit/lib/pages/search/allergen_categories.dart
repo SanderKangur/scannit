@@ -15,7 +15,7 @@ final List<String> colors = [
 
 
 class AllergenTypesScreen extends StatefulWidget {
-  static final String path = "scannit/lib/pages/search/allergen_types.dart";
+  static final String path = "scannit/lib/pages/search/allergen_categories.dart";
 
   @override
   _AllergenTypesScreenState createState() => _AllergenTypesScreenState();
@@ -37,15 +37,35 @@ class _AllergenTypesScreenState extends State<AllergenTypesScreen> {
     return Container(
       child: Scaffold(
         backgroundColor: Theme.of(context).buttonColor,
-        body: ListView.separated(
-          padding: const EdgeInsets.all(16.0),
-          itemCount: Constants.categories.categories.length,
-          itemBuilder: (context, index) {
-            return _buildArticleItem(index, context);
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                title: Text("Pick a category",
+                  style: TextStyle(color: Color(0xff324558)),
+                ),
+                centerTitle: true,
+                floating: true,
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(10),
+                  ),
+                ),
+              ),
+            ];
           },
-          separatorBuilder: (context, index) =>
-          const SizedBox(height: 16.0),
-        ),
+          body: ListView.separated(
+            padding: const EdgeInsets.all(16.0),
+            shrinkWrap: true,
+            itemCount: Constants.categories.categories.length,
+            itemBuilder: (context, index) {
+              return _buildArticleItem(index, context);
+            },
+            separatorBuilder: (context, index) =>
+            const SizedBox(height: 16.0),
+          ),
+        )
       ),
     );
   }
@@ -61,9 +81,9 @@ class _AllergenTypesScreenState extends State<AllergenTypesScreen> {
             print("short press");
             Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ShowAllergens(index, color)
-              )
-            );
+                MaterialPageRoute(builder: (context) => ShowAllergens(index, color)),
+            ).then((value) => setState(() {_loadChoices();
+            }));
           },
           onLongPress: () {
             print("long press");

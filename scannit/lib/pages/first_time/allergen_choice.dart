@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scannit/pages/first_time/hints.dart';
-import 'package:scannit/pages/search/allergen_types.dart';
+import 'package:scannit/pages/search/allergen_categories.dart';
 
 import '../../main.dart';
 
