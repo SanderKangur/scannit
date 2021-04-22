@@ -94,6 +94,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
               )
             ],
           ),
-        ));
+        )
+    );
   }
 }

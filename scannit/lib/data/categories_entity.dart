@@ -1,6 +1,8 @@
 class Categories {
   List<Category> categories = [];
 
+  Categories(this.categories);
+
   String getName(String id) {
     String name = "";
     categories.forEach((element) {
@@ -17,6 +19,11 @@ class Categories {
     print(id);
     return id;
   }
+  
+  List<Category> getSubCategories(){
+    return categories.sublist(13);
+  }
+
 }
 
 class Category {
@@ -27,13 +34,13 @@ class Category {
 
   factory Category.fromJson(Map<String, dynamic> parsedJson) {
     return new Category(
-        id: parsedJson['id'] ?? "", name: parsedJson['name'] ?? "");
+        id: parsedJson['Id'] ?? "", name: parsedJson['Name'] ?? "");
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "id": this.id,
-      "name": this.name,
+      "Id": this.id,
+      "Name": this.name,
     };
   }
 }

@@ -1,0 +1,219 @@
+class stringValuesEST {
+  static List<String> categoriesString = [
+    "Lisandid",
+    "Õlid",
+    "Maitseained",
+    "Magusained",
+    "Seemned",
+    "Pähklid",
+    "Marjad & puuviljad",
+    "Köögiviljad",
+    "Piimatooted",
+    "Liha",
+    "Mereannid",
+    "Suur kaheksa",
+    "Lisa"
+  ];
+
+  static List<String> allergensString = [
+    '''
+Säilitusained
+Värvained
+Antioksüdandid
+Happesuse regulaatorid
+Paakumisvastased ained
+Stabilisaatorid
+Maitsed
+Antibiootikumid
+Vahad
+Tärklised
+Emulgaatorid
+Paksendajad
+Tarretavad ained
+Kofeiin
+Fenüülalaniin
+Pärm
+Spirulina
+''',
+    '''
+Palmiõli
+Oliiviõli
+Päevalilleõli
+Rapsiõli
+Kookosõli
+Avokaadoõli
+Sheaõli
+Maisiõli
+Sojaõli
+Saflooriõli
+Pähkliõli
+Kalaõli
+''',
+    '''
+Pipar
+Paprika
+Petersell
+Basiilik
+Vanilli
+Kakao
+Kaneel
+Pune
+Münt
+Ingver
+Köömned
+Karri
+Tšilli
+Apteegitill
+Sinep
+Rosmariin
+Sool
+Tüümian
+Till
+Kurkum
+Safran
+Kummel
+Cayenne
+''',
+    '''
+Glükoos-fruktoosisiirup
+Maisisiirup
+Melass
+Riisisiirup
+Fruktoos
+Mesi
+Vahtra siirup
+Agaavisiirup
+Magusained
+Suhkur
+''',
+    '''
+Nisu
+Oder
+Kaer
+Riis
+Spelta
+Rukis
+Kinoa
+Seesam
+Chia
+Lina
+Oad
+Läätsed
+Hernes
+Kikerhernes
+Mais
+Päevalille seeme
+Kõrvitsa seeme
+Mooni
+Tatar
+''',
+    '''
+Sarapuupähkel
+Maapähkel
+Mandel
+India pähkel
+Pistaatsiapähkel
+Kreeka pähkel
+Makadaamia
+Sojauba
+Kookospähkel
+Kastan
+''',
+    '''
+Banaan
+Viinamari
+Rosin
+Melon
+Arbuus
+Virsik
+Õun
+Maasikas
+Mango
+Mustikas
+Murakas
+Vaarikas
+Jõhvikas
+Kiivi
+Apelsin
+Sidrun
+Ploom
+Pirn
+Ananass
+Kirss
+Aprikoos
+Pärn
+Viigimari
+Dattel
+Mustsõstar
+Greip
+Papaia
+''',
+    '''
+Kurk
+Tomat
+Porgand
+Tšillipipar
+Kartul
+Spinat
+Seller
+Suvikõrvits
+Kõrvits
+Baklažaan
+Brokkoli
+Lillkapsas
+Rooskapsas
+Oliivid
+Küüslauk
+Punapeet
+Seened
+Avokaado
+Lehtkapsas
+''',
+    '''
+Piim
+Vadak
+Kaseiin
+Või
+Muna
+Koor
+Kitsejuust
+''',
+    '''
+Sealiha
+Kana
+Hani
+Part
+Veiseliha
+Lammas
+Kits
+Vasikaliha
+Tall
+Hirv
+Jänes
+Kalkun
+Pühvel
+''',
+    '''   
+Kala
+Tuunikala
+Lõhe
+Säga
+Tursk
+Heeringas
+Kilu
+Forell
+Haug
+Ahven
+Krabi
+Kammkarp
+Krevetid
+Homaar
+Kaheksajalg
+Kalamari
+Angerjas
+Karbid
+Austrid
+Koorikloom
+'''
+  ];
+}

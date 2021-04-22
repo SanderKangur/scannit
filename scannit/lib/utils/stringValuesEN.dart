@@ -1,4 +1,4 @@
-class stringValues {
+class stringValuesEN {
   static List<String> categoriesString = [
     "Additives",
     "Oils",
@@ -53,6 +53,7 @@ Pepper
 Paprika
 Parsley
 Basil
+Dill
 Vanilla
 Cocoa
 Cinnamon
@@ -73,7 +74,6 @@ Chamomile
 Cayenne
 ''',
     '''
-Added Sugars
 Glucose-fructose syrup
 Corn syrup
 Molasses
@@ -170,21 +170,12 @@ Kale
 ''',
     '''
 Milk
-Kohuke
-Jäätis
-Whey
 Butter 
 Egg
 Cream
-Brie
-Camembert
-Mozzarella 
-Feta
-Blue cheese
-Cheddar
-Parmesan
+Casein
+Whey
 Goat cheese
-Processed cheese
 ''',
     '''
 Pork
@@ -221,6 +212,9 @@ Octopus
 Calamari
 Eel
 Clams
-Oysters'''
+Oysters
+Shellfish
+Crustacean
+'''
   ];
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:scannit/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:string_similarity/string_similarity.dart';
+
 
 class AccountScreen extends StatefulWidget {
   AccountScreen({Key key}) : super(key: key);
@@ -12,6 +14,10 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
+
+    print("SOJA: " + "soja".similarityTo("sojaoad").toString());
+    print("NISU: " + "nisu".similarityTo("nisujahu").toString());
+    print("KARP: " + "karp".similarityTo("karbid").toString());
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -59,6 +65,7 @@ class _AccountScreenState extends State<AccountScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       prefs.setBool('isFirstTime', true);
+      prefs.setStringList('allergens', []);
     });
   }
 }

@@ -1,0 +1,110 @@
+[
+ {
+   "Id": "C1",
+   "Name": "Levinumad"
+ },
+ {
+   "Id": "C2",
+   "Name": "Õlid"
+ },
+ {
+   "Id": "C3",
+   "Name": "Maitseained"
+ },
+ {
+   "Id": "C4",
+   "Name": "Magusained"
+ },
+ {
+   "Id": "C5",
+   "Name": "Seemned"
+ },
+ {
+   "Id": "C6",
+   "Name": "Pähklid"
+ },
+ {
+   "Id": "C7",
+   "Name": "Marjad & puuviljad"
+ },
+ {
+   "Id": "C8",
+   "Name": "Köögiviljad"
+ },
+ {
+   "Id": "C9",
+   "Name": "Piimatooted"
+ },
+ {
+   "Id": "C10",
+   "Name": "Liha"
+ },
+ {
+   "Id": "C11",
+   "Name": "Mereannid"
+ },
+ {
+   "Id": "C12",
+   "Name": "Lisandid"
+ },
+ {
+   "Id": "C13",
+   "Name": "Lisa"
+ },
+ {
+   "Id": "SC1",
+   "Name": "Piim"
+ },
+ {
+   "Id": "SC2",
+   "Name": "Muna"
+ },
+ {
+   "Id": "SC3",
+   "Name": "Maapähkel"
+ },
+ {
+   "Id": "SC4",
+   "Name": "Puupähklid"
+ },
+ {
+   "Id": "SC5",
+   "Name": "Kala"
+ },
+ {
+   "Id": "SC6",
+   "Name": "Koorikloomad"
+ },
+ {
+   "Id": "SC7",
+   "Name": "Gluteen"
+ },
+ {
+   "Id": "SC8",
+   "Name": "Soja"
+ },
+ {
+   "Id": "SC9",
+   "Name": "Molluskid"
+ },
+ {
+   "Id": "SC10",
+   "Name": "Seller"
+ },
+ {
+   "Id": "SC11",
+   "Name": "Sinep"
+ },
+ {
+   "Id": "SC12",
+   "Name": "Seesamiseemned"
+ },
+ {
+   "Id": "SC13",
+   "Name": "Lupiin"
+ },
+ {
+   "Id": "SC14",
+   "Name": "Vääveldioksiid ja sulfitid"
+ }
+]

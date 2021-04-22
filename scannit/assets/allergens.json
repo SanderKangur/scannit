@@ -1,0 +1,1037 @@
+[
+ {
+   "Id": "A1",
+   "Name": "Palmiõli",
+   "Categories": "C2"
+ },
+ {
+   "Id": "A2",
+   "Name": "Oliiviõli",
+   "Categories": "C2"
+ },
+ {
+   "Id": "A3",
+   "Name": "Päevalilleõli",
+   "Categories": "C2"
+ },
+ {
+   "Id": "A4",
+   "Name": "Rapsiõli",
+   "Categories": "C2"
+ },
+ {
+   "Id": "A5",
+   "Name": "Kookosõli",
+   "Categories": "C2, SC4"
+ },
+ {
+   "Id": "A6",
+   "Name": "Avokaadoõli",
+   "Categories": "C2"
+ },
+ {
+   "Id": "A7",
+   "Name": "Sheaõli",
+   "Categories": "C2"
+ },
+ {
+   "Id": "A8",
+   "Name": "Maisiõli",
+   "Categories": "C2"
+ },
+ {
+   "Id": "A9",
+   "Name": "Sojaõli",
+   "Categories": "C2, SC8"
+ },
+ {
+   "Id": "A10",
+   "Name": "Saflooriõli",
+   "Categories": "C2"
+ },
+ {
+   "Id": "A11",
+   "Name": "Pähkliõli",
+   "Categories": "C2, SC3, SC4"
+ },
+ {
+   "Id": "A12",
+   "Name": "Kalaõli",
+   "Categories": "C2, SC5"
+ },
+ {
+   "Id": "A13",
+   "Name": "Pipar",
+   "Categories": "C3"
+ },
+ {
+   "Id": "A14",
+   "Name": "Paprika",
+   "Categories": "C3"
+ },
+ {
+   "Id": "A15",
+   "Name": "Petersell",
+   "Categories": "C3"
+ },
+ {
+   "Id": "A16",
+   "Name": "Basiilik",
+   "Categories": "C3"
+ },
+ {
+   "Id": "A17",
+   "Name": "Vanilli",
+   "Categories": "C3"
+ },
+ {
+   "Id": "A18",
+   "Name": "Kakao",
+   "Categories": "C3"
+ },
+ {
+   "Id": "A19",
+   "Name": "Kaneel",
+   "Categories": "C3"
+ },
+ {
+   "Id": "A20",
+   "Name": "Pune",
+   "Categories": "C3"
+ },
+ {
+   "Id": "A21",
+   "Name": "Münt",
+   "Categories": "C3"
+ },
+ {
+   "Id": "A22",
+   "Name": "Ingver",
+   "Categories": "C3"
+ },
+ {
+   "Id": "A23",
+   "Name": "Köömned",
+   "Categories": "C3"
+ },
+ {
+   "Id": "A24",
+   "Name": "Karri",
+   "Categories": "C3"
+ },
+ {
+   "Id": "A25",
+   "Name": "Tšilli",
+   "Categories": "C3"
+ },
+ {
+   "Id": "A26",
+   "Name": "Apteegitill",
+   "Categories": "C3"
+ },
+ {
+   "Id": "A27",
+   "Name": "Sinep",
+   "Categories": "SC11"
+ },
+ {
+   "Id": "A28",
+   "Name": "Rosmariin",
+   "Categories": "C3"
+ },
+ {
+   "Id": "A29",
+   "Name": "Sool",
+   "Categories": "C3"
+ },
+ {
+   "Id": "A30",
+   "Name": "Tüümian",
+   "Categories": "C3"
+ },
+ {
+   "Id": "A31",
+   "Name": "Till",
+   "Categories": "C3"
+ },
+ {
+   "Id": "A32",
+   "Name": "Kurkum",
+   "Categories": "C3"
+ },
+ {
+   "Id": "A33",
+   "Name": "Safran",
+   "Categories": "C3"
+ },
+ {
+   "Id": "A34",
+   "Name": "Kummel",
+   "Categories": "C3"
+ },
+ {
+   "Id": "A35",
+   "Name": "Cayenne",
+   "Categories": "C3"
+ },
+ {
+   "Id": "A36",
+   "Name": "Glükoos-fruktoosisiirup",
+   "Categories": "C4"
+ },
+ {
+   "Id": "A37",
+   "Name": "Maisisiirup",
+   "Categories": "C4"
+ },
+ {
+   "Id": "A38",
+   "Name": "Melass",
+   "Categories": "C4"
+ },
+ {
+   "Id": "A39",
+   "Name": "Riisisiirup",
+   "Categories": "C4"
+ },
+ {
+   "Id": "A40",
+   "Name": "Fruktoos",
+   "Categories": "C4"
+ },
+ {
+   "Id": "A41",
+   "Name": "Mesi",
+   "Categories": "C4"
+ },
+ {
+   "Id": "A42",
+   "Name": "Vahtra siirup",
+   "Categories": "C4"
+ },
+ {
+   "Id": "A43",
+   "Name": "Agaavisiirup",
+   "Categories": "C4"
+ },
+ {
+   "Id": "A44",
+   "Name": "Magusained",
+   "Categories": "C4"
+ },
+ {
+   "Id": "A45",
+   "Name": "Suhkur",
+   "Categories": "C4"
+ },
+ {
+   "Id": "A46",
+   "Name": "Nisu",
+   "Categories": "C5, SC7"
+ },
+ {
+   "Id": "A47",
+   "Name": "Gluteen",
+   "Categories": "C5, SC7"
+ },
+ {
+   "Id": "A48",
+   "Name": "Oder",
+   "Categories": "C5, SC7"
+ },
+ {
+   "Id": "A49",
+   "Name": "Kaer",
+   "Categories": "C5, SC7"
+ },
+ {
+   "Id": "A50",
+   "Name": "Kaerahelbed",
+   "Categories": "SC7"
+ },
+ {
+   "Id": "A51",
+   "Name": "Odralinnaseekstrakt",
+   "Categories": "SC7"
+ },
+ {
+   "Id": "A52",
+   "Name": "Turaani nisu",
+   "Categories": "SC7"
+ },
+ {
+   "Id": "A53",
+   "Name": "Nisujahu",
+   "Categories": "SC7"
+ },
+ {
+   "Id": "A54",
+   "Name": "Sinepiseemned",
+   "Categories": "C5, SC11"
+ },
+ {
+   "Id": "A55",
+   "Name": "Riis",
+   "Categories": "C5"
+ },
+ {
+   "Id": "A56",
+   "Name": "Spelta",
+   "Categories": "C5, SC7"
+ },
+ {
+   "Id": "A57",
+   "Name": "Rukis",
+   "Categories": "C5, SC7"
+ },
+ {
+   "Id": "A58",
+   "Name": "Kinoa",
+   "Categories": "C5"
+ },
+ {
+   "Id": "A59",
+   "Name": "Seesam",
+   "Categories": "C5, SC12"
+ },
+ {
+   "Id": "A60",
+   "Name": "Chia",
+   "Categories": "C5"
+ },
+ {
+   "Id": "A61",
+   "Name": "Lina",
+   "Categories": "C5"
+ },
+ {
+   "Id": "A62",
+   "Name": "Oad",
+   "Categories": "C5"
+ },
+ {
+   "Id": "A63",
+   "Name": "Läätsed",
+   "Categories": "C5"
+ },
+ {
+   "Id": "A64",
+   "Name": "Hernes",
+   "Categories": "C5"
+ },
+ {
+   "Id": "A65",
+   "Name": "Kikerhernes",
+   "Categories": "C5"
+ },
+ {
+   "Id": "A66",
+   "Name": "Mais",
+   "Categories": "C5"
+ },
+ {
+   "Id": "A67",
+   "Name": "Soja",
+   "Categories": "C5, SC8"
+ },
+ {
+   "Id": "A68",
+   "Name": "Sojaoad",
+   "Categories": "SC8"
+ },
+ {
+   "Id": "A69",
+   "Name": "Sojauba",
+   "Categories": "SC8"
+ },
+ {
+   "Id": "A70",
+   "Name": "Päevalille seeme",
+   "Categories": "C5"
+ },
+ {
+   "Id": "A71",
+   "Name": "Kõrvitsa seeme",
+   "Categories": "C5"
+ },
+ {
+   "Id": "A72",
+   "Name": "Mooni",
+   "Categories": "C5"
+ },
+ {
+   "Id": "A73",
+   "Name": "Tatar",
+   "Categories": "C5"
+ },
+ {
+   "Id": "A74",
+   "Name": "Sarapuupähkel",
+   "Categories": "C6, SC4"
+ },
+ {
+   "Id": "A75",
+   "Name": "Maapähkel",
+   "Categories": "C6, SC3"
+ },
+ {
+   "Id": "A76",
+   "Name": "Mandel",
+   "Categories": "C6, SC4"
+ },
+ {
+   "Id": "A77",
+   "Name": "India pähkel",
+   "Categories": "C6, SC4"
+ },
+ {
+   "Id": "A78",
+   "Name": "Kašupähkel",
+   "Categories": "SC4"
+ },
+ {
+   "Id": "A79",
+   "Name": "Pistaatsiapähkel",
+   "Categories": "C6, SC4"
+ },
+ {
+   "Id": "A80",
+   "Name": "Kreeka pähkel",
+   "Categories": "C6, SC4"
+ },
+ {
+   "Id": "A81",
+   "Name": "Makadaamiapähkel",
+   "Categories": "C6, SC4"
+ },
+ {
+   "Id": "A82",
+   "Name": "Brasiilia pähkel",
+   "Categories": "C6, SC4"
+ },
+ {
+   "Id": "A83",
+   "Name": "Parapähkel",
+   "Categories": "SC4"
+ },
+ {
+   "Id": "A84",
+   "Name": "Pekaanipähkel",
+   "Categories": "C6, SC4"
+ },
+ {
+   "Id": "A85",
+   "Name": "Kookospähkel",
+   "Categories": "C6, SC4"
+ },
+ {
+   "Id": "A86",
+   "Name": "Kastan",
+   "Categories": "C6, SC4"
+ },
+ {
+   "Id": "A87",
+   "Name": "Banaan",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A88",
+   "Name": "Viinamari",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A89",
+   "Name": "Rosin",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A90",
+   "Name": "Melon",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A91",
+   "Name": "Arbuus",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A92",
+   "Name": "Virsik",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A93",
+   "Name": "Õun",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A94",
+   "Name": "Maasikas",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A95",
+   "Name": "Mango",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A96",
+   "Name": "Mustikas",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A97",
+   "Name": "Murakas",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A98",
+   "Name": "Vaarikas",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A99",
+   "Name": "Jõhvikas",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A100",
+   "Name": "Kiivi",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A101",
+   "Name": "Apelsin",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A102",
+   "Name": "Sidrun",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A103",
+   "Name": "Ploom",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A104",
+   "Name": "Pirn",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A105",
+   "Name": "Ananass",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A106",
+   "Name": "Kirss",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A107",
+   "Name": "Aprikoos",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A108",
+   "Name": "Pärn",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A109",
+   "Name": "Viigimari",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A110",
+   "Name": "Dattel",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A111",
+   "Name": "Mustsõstar",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A112",
+   "Name": "Greip",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A113",
+   "Name": "Papaia",
+   "Categories": "C7"
+ },
+ {
+   "Id": "A114",
+   "Name": "Kurk",
+   "Categories": "C8"
+ },
+ {
+   "Id": "A115",
+   "Name": "Tomat",
+   "Categories": "C8"
+ },
+ {
+   "Id": "A116",
+   "Name": "Porgand",
+   "Categories": "C8"
+ },
+ {
+   "Id": "A117",
+   "Name": "Tšillipipar",
+   "Categories": "C8"
+ },
+ {
+   "Id": "A118",
+   "Name": "Kartul",
+   "Categories": "C8"
+ },
+ {
+   "Id": "A119",
+   "Name": "Spinat",
+   "Categories": "C8"
+ },
+ {
+   "Id": "A120",
+   "Name": "Seller",
+   "Categories": "C8, SC10"
+ },
+ {
+   "Id": "A121",
+   "Name": "Suvikõrvits",
+   "Categories": "C8"
+ },
+ {
+   "Id": "A122",
+   "Name": "Kõrvits",
+   "Categories": "C8"
+ },
+ {
+   "Id": "A123",
+   "Name": "Baklažaan",
+   "Categories": "C8"
+ },
+ {
+   "Id": "A124",
+   "Name": "Sibul",
+   "Categories": "C8"
+ },
+ {
+   "Id": "A125",
+   "Name": "Brokkoli",
+   "Categories": "C8"
+ },
+ {
+   "Id": "A126",
+   "Name": "Lillkapsas",
+   "Categories": "C8"
+ },
+ {
+   "Id": "A127",
+   "Name": "Rooskapsas",
+   "Categories": "C8"
+ },
+ {
+   "Id": "A128",
+   "Name": "Oliivid",
+   "Categories": "C8"
+ },
+ {
+   "Id": "A129",
+   "Name": "Küüslauk",
+   "Categories": "C8"
+ },
+ {
+   "Id": "A130",
+   "Name": "Punapeet",
+   "Categories": "C8"
+ },
+ {
+   "Id": "A131",
+   "Name": "Seened",
+   "Categories": "C8"
+ },
+ {
+   "Id": "A132",
+   "Name": "Avokaado",
+   "Categories": "C8"
+ },
+ {
+   "Id": "A133",
+   "Name": "Lehtkapsas",
+   "Categories": "C8"
+ },
+ {
+   "Id": "A134",
+   "Name": "Piim",
+   "Categories": "C9, SC1"
+ },
+ {
+   "Id": "A135",
+   "Name": "Laktoos",
+   "Categories": "C9, SC1"
+ },
+ {
+   "Id": "A136",
+   "Name": "Lõssipulber",
+   "Categories": "C9, SC1"
+ },
+ {
+   "Id": "A137",
+   "Name": "Vadak",
+   "Categories": "C9, SC1"
+ },
+ {
+   "Id": "A138",
+   "Name": "Kaseiin",
+   "Categories": "C9, SC1"
+ },
+ {
+   "Id": "A139",
+   "Name": "Või",
+   "Categories": "C9, SC1"
+ },
+ {
+   "Id": "A140",
+   "Name": "Muna",
+   "Categories": "SC2"
+ },
+ {
+   "Id": "A141",
+   "Name": "Koor",
+   "Categories": "C9, SC1"
+ },
+ {
+   "Id": "A142",
+   "Name": "Lehmapiim",
+   "Categories": "SC1"
+ },
+ {
+   "Id": "A143",
+   "Name": "Kitsepiim",
+   "Categories": "SC1"
+ },
+ {
+   "Id": "A144",
+   "Name": "Sealiha",
+   "Categories": "C10"
+ },
+ {
+   "Id": "A145",
+   "Name": "Kana",
+   "Categories": "C10"
+ },
+ {
+   "Id": "A146",
+   "Name": "Hani",
+   "Categories": "C10"
+ },
+ {
+   "Id": "A147",
+   "Name": "Part",
+   "Categories": "C10"
+ },
+ {
+   "Id": "A148",
+   "Name": "Veiseliha",
+   "Categories": "C10"
+ },
+ {
+   "Id": "A149",
+   "Name": "Lammas",
+   "Categories": "C10"
+ },
+ {
+   "Id": "A150",
+   "Name": "Kits",
+   "Categories": "C10"
+ },
+ {
+   "Id": "A151",
+   "Name": "Vasikaliha",
+   "Categories": "C10"
+ },
+ {
+   "Id": "A152",
+   "Name": "Tall",
+   "Categories": "C10"
+ },
+ {
+   "Id": "A153",
+   "Name": "Hirv",
+   "Categories": "C10"
+ },
+ {
+   "Id": "A154",
+   "Name": "Jänes",
+   "Categories": "C10"
+ },
+ {
+   "Id": "A155",
+   "Name": "Kalkun",
+   "Categories": "C10"
+ },
+ {
+   "Id": "A156",
+   "Name": "Pühvel",
+   "Categories": "C10"
+ },
+ {
+   "Id": "A157",
+   "Name": "Kala",
+   "Categories": "C11, SC5"
+ },
+ {
+   "Id": "A158",
+   "Name": "Tuunikala",
+   "Categories": "C11, SC5"
+ },
+ {
+   "Id": "A159",
+   "Name": "Lõhe",
+   "Categories": "C11, SC5"
+ },
+ {
+   "Id": "A160",
+   "Name": "Säga",
+   "Categories": "C11, SC5"
+ },
+ {
+   "Id": "A161",
+   "Name": "Tursk",
+   "Categories": "C11, SC5"
+ },
+ {
+   "Id": "A162",
+   "Name": "Heeringas",
+   "Categories": "C11, SC5"
+ },
+ {
+   "Id": "A163",
+   "Name": "Kilu",
+   "Categories": "C11, SC5"
+ },
+ {
+   "Id": "A164",
+   "Name": "Forell",
+   "Categories": "C11, SC5"
+ },
+ {
+   "Id": "A165",
+   "Name": "Haug",
+   "Categories": "C11, SC5"
+ },
+ {
+   "Id": "A166",
+   "Name": "Ahven",
+   "Categories": "C11, SC5"
+ },
+ {
+   "Id": "A167",
+   "Name": "Krabi",
+   "Categories": "C11, SC6"
+ },
+ {
+   "Id": "A168",
+   "Name": "Kammkarp",
+   "Categories": "C11, SC9"
+ },
+ {
+   "Id": "A169",
+   "Name": "Krevett",
+   "Categories": "C11, SC6"
+ },
+ {
+   "Id": "A170",
+   "Name": "Garneel",
+   "Categories": "C11, SC6"
+ },
+ {
+   "Id": "A171",
+   "Name": "Homaar",
+   "Categories": "C11, SC6"
+ },
+ {
+   "Id": "A172",
+   "Name": "Kaheksajalg",
+   "Categories": "C11, SC6"
+ },
+ {
+   "Id": "A173",
+   "Name": "Kalmaar",
+   "Categories": "C11, SC6"
+ },
+ {
+   "Id": "A174",
+   "Name": "Angerjas",
+   "Categories": "C11, SC5"
+ },
+ {
+   "Id": "A175",
+   "Name": "Karp",
+   "Categories": "C11, SC9"
+ },
+ {
+   "Id": "A176",
+   "Name": "Austrid",
+   "Categories": "C11, SC9"
+ },
+ {
+   "Id": "A177",
+   "Name": "Koorikloom",
+   "Categories": "C11, SC6"
+ },
+ {
+   "Id": "A178",
+   "Name": "Mollusk",
+   "Categories": "C11, SC9"
+ },
+ {
+   "Id": "A179",
+   "Name": "Säilitusained",
+   "Categories": "C12"
+ },
+ {
+   "Id": "A180",
+   "Name": "Värvained",
+   "Categories": "C12"
+ },
+ {
+   "Id": "A181",
+   "Name": "Antioksüdandid",
+   "Categories": "C12"
+ },
+ {
+   "Id": "A182",
+   "Name": "Happesuse regulaatorid",
+   "Categories": "C12"
+ },
+ {
+   "Id": "A183",
+   "Name": "Paakumisvastased ained",
+   "Categories": "C12"
+ },
+ {
+   "Id": "A184",
+   "Name": "Stabilisaatorid",
+   "Categories": "C12"
+ },
+ {
+   "Id": "A185",
+   "Name": "Kunstlikud maitseained",
+   "Categories": "C12, SC6, SC7, SC8"
+ },
+ {
+   "Id": "A186",
+   "Name": "Antibiootikumid",
+   "Categories": "C12"
+ },
+ {
+   "Id": "A187",
+   "Name": "Vahad",
+   "Categories": "C12"
+ },
+ {
+   "Id": "A188",
+   "Name": "Tärklised",
+   "Categories": "C12"
+ },
+ {
+   "Id": "A189",
+   "Name": "Emulgaatorid",
+   "Categories": "C12"
+ },
+ {
+   "Id": "A190",
+   "Name": "Paksendajad",
+   "Categories": "C12, SC7, SC8"
+ },
+ {
+   "Id": "A191",
+   "Name": "Tarretavad ained",
+   "Categories": "C12"
+ },
+ {
+   "Id": "A192",
+   "Name": "Kofeiin",
+   "Categories": "C12"
+ },
+ {
+   "Id": "A193",
+   "Name": "Fenüülalaniin",
+   "Categories": "C12"
+ },
+ {
+   "Id": "A194",
+   "Name": "Pärm",
+   "Categories": "C12"
+ },
+ {
+   "Id": "A195",
+   "Name": "Spirulina",
+   "Categories": "C12"
+ },
+ {
+   "Id": "A196",
+   "Name": "Lupiin",
+   "Categories": "C12, SC13"
+ },
+ {
+   "Id": "A197",
+   "Name": "Sulfit",
+   "Categories": "C12, SC14"
+ },
+ {
+   "Id": "A198",
+   "Name": "Vääveldioksiid",
+   "Categories": "C12, SC14"
+ },
+ {
+   "Id": "A199",
+   "Name": "E220",
+   "Categories": "C12, SC14"
+ },
+ {
+   "Id": "A200",
+   "Name": "E221",
+   "Categories": "C12, SC14"
+ },
+ {
+   "Id": "A201",
+   "Name": "E222",
+   "Categories": "C12, SC14"
+ },
+ {
+   "Id": "A202",
+   "Name": "E223",
+   "Categories": "C12, SC14"
+ },
+ {
+   "Id": "A203",
+   "Name": "E224",
+   "Categories": "C12, SC14"
+ },
+ {
+   "Id": "A204",
+   "Name": "E225",
+   "Categories": "C12, SC14"
+ },
+ {
+   "Id": "A205",
+   "Name": "E226",
+   "Categories": "C12, SC14"
+ },
+ {
+   "Id": "A206",
+   "Name": "E227",
+   "Categories": "C12, SC14"
+ },
+ {
+   "Id": "A207",
+   "Name": "E228",
+   "Categories": "C12, SC14"
+ }
+]

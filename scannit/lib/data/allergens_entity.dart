@@ -1,5 +1,5 @@
 class Allergens {
-  final List<Allergen> allergens;
+  List<Allergen> allergens;
 
   Allergens(this.allergens);
 
@@ -13,7 +13,9 @@ class Allergens {
   List<Allergen> chooseByCategory(String category) {
     List<Allergen> result = [];
     allergens.forEach((element) {
-      if (element.category == category) result.add(element);
+      List<String> cats = element.category.split(", ");
+      if (cats.contains(category)) result.add(element);
+      //print("ELEMENT IN CAT: " + element);
     });
     return result;
   }
@@ -38,14 +40,6 @@ class Allergens {
     return result;
   }
 
-  String toString() {
-    String result = "";
-    allergens.forEach((element) {
-      result += element.toJson().toString();
-    });
-    return result;
-  }
-
   List<String> getNames(List<String> choices) {
     List<String> names = [];
     for (var value
@@ -58,14 +52,7 @@ class Allergens {
 
   void removeById(String id) {
     Allergen removed;
-    allergens.forEach((element) {
-      if (element.id == id) {
-        removed = element;
-        return;
-      }
-      ;
-    });
-    allergens.remove(removed);
+    allergens.remove(allergens.where((element) => element.id == id ).first);
   }
 }
 
@@ -78,16 +65,21 @@ class Allergen {
 
   factory Allergen.fromJson(Map<String, dynamic> parsedJson) {
     return new Allergen(
-        id: parsedJson['id'] ?? "",
-        name: parsedJson['name'] ?? "",
-        category: parsedJson['category'] ?? "");
+        id: parsedJson['Id'] ?? "",
+        name: parsedJson['Name'] ?? "",
+        category: parsedJson['Categories'] ?? "");
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "id": this.id,
-      "name": this.name,
-      "category": this.category,
+      "Id": this.id,
+      "Name": this.name,
+      "Categories": this.category,
     };
+  }
+
+  @override
+  String toString() {
+    return '{"Id": $id, "Name": $name, "Categories": $category}';
   }
 }

@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
+import 'package:scannit/data/allergens_entity.dart';
 import '../../utils/loading.dart';
 import 'package:scannit/pages/scan/preview_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,6 +34,7 @@ class _ScanScreenState extends State<ScanScreen> {
   List<TextElement> detectedElements = [];
 
   List<String> _choices = [];
+  Allergens _allergens = Allergens([]);
 
   @override
   void initState() {
@@ -40,10 +43,9 @@ class _ScanScreenState extends State<ScanScreen> {
     _loadChoices();
     controller = CameraController(Constants.cameras[0], ResolutionPreset.max);
     controller.initialize().then((_) {
-      if (!mounted) {
-        return;
+      if (mounted) {
+        setState(() {});
       }
-      setState(() {});
     });
   }
 
@@ -51,6 +53,26 @@ class _ScanScreenState extends State<ScanScreen> {
   void dispose() {
     controller?.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    final CameraController cameraController = controller;
+
+    // App state changed before we got the chance to initialize.
+    if (cameraController == null || !cameraController.value.isInitialized) {
+      return;
+    }
+
+    if (state == AppLifecycleState.inactive) {
+      cameraController.dispose();
+    } else if (state == AppLifecycleState.resumed) {
+      controller.initialize().then((_) {
+        if (mounted) {
+          setState(() {});
+        }
+      });
+    }
   }
 
   Future takeImage(XFile file) async {
@@ -136,7 +158,7 @@ class _ScanScreenState extends State<ScanScreen> {
         double similarity = element.similarityTo(choice.toLowerCase());
         //print(element + ": " + similarity.toString());
         if (similarity > 0.5) {
-          allergensFound += " " + element;
+          allergensFound += " " + choice;
           print(element + ": " + similarity.toString());
 
           if (!foundMatch) {
@@ -161,12 +183,25 @@ class _ScanScreenState extends State<ScanScreen> {
   }
 
   void _onCapturePressed(context) async {
+    if (controller == null || !controller.value.isInitialized) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: select a camera first.')));
+      return null;
+    }
+
+    if (controller.value.isTakingPicture) {
+      // A capture is already pending, do nothing.
+      return null;
+    }
+
     try {
       XFile image;
       await controller.takePicture().then((value) => image = value);
       await takeImage(image);
+      await _loadChoices();
+      await _getAllergens();
       String allergens =
-          scanResult(words, Constants.allergens.getNames(_choices));
+          scanResult(words, _allergens.getNames(_choices));
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -179,9 +214,16 @@ class _ScanScreenState extends State<ScanScreen> {
       isLoading = false;
       print("isLoading: " + isLoading.toString());
       // 3
-    } catch (e) {
-      print(e);
+    } on CameraException catch (e) {
+      _showCameraException(e);
+      return null;
     }
+  }
+
+  void _showCameraException(CameraException e) {
+    print(e.code + " " + e.description);
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: ${e.code}\n${e.description}')));
   }
 
   Widget cameraPreview() {
@@ -301,5 +343,13 @@ class _ScanScreenState extends State<ScanScreen> {
     setState(() {
       _choices = (prefs.getStringList('choices') ?? []);
     });
+  }
+
+  _getAllergens() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    List<dynamic> jsonList = prefs.getStringList('allergens') ?? [];
+
+    _allergens.allergens = jsonList.map((json) => Allergen.fromJson(jsonDecode(json))).toList();
   }
 }

@@ -8,13 +8,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.5.0"
-  bloc:
-    dependency: transitive
-    description:
-      name: bloc
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "7.0.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -57,27 +50,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
-  cloud_firestore:
-    dependency: "direct main"
-    description:
-      name: cloud_firestore
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.4"
-  cloud_firestore_platform_interface:
-    dependency: transitive
-    description:
-      name: cloud_firestore_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.0.1"
-  cloud_firestore_web:
-    dependency: transitive
-    description:
-      name: cloud_firestore_web
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.4"
   collection:
     dependency: transitive
     description:
@@ -99,6 +71,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  dots_indicator:
+    dependency: "direct main"
+    description:
+      name: dots_indicator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   equatable:
     dependency: "direct main"
     description:
@@ -134,34 +113,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.0"
-  firebase_auth:
-    dependency: "direct main"
-    description:
-      name: firebase_auth
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.3"
-  firebase_auth_platform_interface:
-    dependency: transitive
-    description:
-      name: firebase_auth_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.0.2"
-  firebase_auth_web:
-    dependency: transitive
-    description:
-      name: firebase_auth_web
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.5"
   firebase_core:
     dependency: "direct main"
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "1.0.4"
   firebase_core_platform_interface:
     dependency: transitive
     description:
@@ -182,19 +140,12 @@ packages:
       name: firebase_ml_vision
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.11.0+2"
+    version: "0.12.0+1"
   flutter:
     dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_bloc:
-    dependency: "direct main"
-    description:
-      name: flutter_bloc
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "7.0.0"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -226,27 +177,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "9.0.0"
-  google_sign_in:
-    dependency: "direct main"
-    description:
-      name: google_sign_in
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.0.1"
-  google_sign_in_platform_interface:
-    dependency: transitive
-    description:
-      name: google_sign_in_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
-  google_sign_in_web:
-    dependency: transitive
-    description:
-      name: google_sign_in_web
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.10.0"
   http:
     dependency: transitive
     description:
@@ -281,14 +211,7 @@ packages:
       name: image_picker_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
-  intl:
-    dependency: transitive
-    description:
-      name: intl
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.17.0"
+    version: "2.1.0"
   js:
     dependency: transitive
     description:
@@ -318,30 +241,16 @@ packages:
     source: hosted
     version: "1.0.0"
   path:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: path
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
-  path_provider:
-    dependency: "direct main"
-    description:
-      name: path_provider
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
   path_provider_linux:
     dependency: transitive
     description:
       name: path_provider_linux
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
-  path_provider_macos:
-    dependency: transitive
-    description:
-      name: path_provider_macos
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
@@ -518,13 +427,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.19"
-  translator:
-    dependency: "direct main"
-    description:
-      name: translator
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.6+1"
   typed_data:
     dependency: transitive
     description:

@@ -11,4 +11,15 @@ class Constants {
   static Categories categories;
   static Allergens allergens;
   static List<CameraDescription> cameras;
+
+
+  static String listToString(List<String> list) {
+    String result = "";
+    if (list.isNotEmpty) {
+      list.forEach((element) {
+        result += " " + element;
+      });
+    }
+    return result;
+  }
 }
