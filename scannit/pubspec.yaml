@@ -23,7 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core: ^1.0.2
+  firebase_core: ^1.1.0
   equatable: ^2.0.0
   meta: ^1.1.6
   rxdart: ^0.26.0
@@ -38,6 +38,7 @@ dependencies:
   shared_preferences: ^2.0.5
   camera: ^0.8.1
   dots_indicator: ^2.0.0
+  smooth_page_indicator: ^0.2.3
 
 
 
@@ -62,6 +63,7 @@ flutter:
   assets:
     - assets/
     - assets/types/
+    - assets/tutorial/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

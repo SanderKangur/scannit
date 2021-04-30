@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:scannit/constants.dart';
 import 'package:scannit/data/allergens_entity.dart';
 import 'package:scannit/data/categories_entity.dart';
-import 'package:scannit/pages/first_time/allergen_choice.dart';
+import 'package:scannit/pages/first_time/tutorial_scan.dart';
+import 'package:scannit/pages/first_time/tutorial.dart';
 import 'package:scannit/pages/main_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scannit/utils/stringValuesEST.dart';
 
-import 'hints.dart';
+import 'tutorial_allergens.dart';
 
 
 class MyHomePage extends StatefulWidget {
@@ -115,6 +116,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return _isFirstTime ? Hints() : MainScreen();
+    return _isFirstTime ? Tutorial() : MainScreen();
   }
 }

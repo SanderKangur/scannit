@@ -65,6 +65,15 @@ class AddAllergenDialog extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 MaterialButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // To close the dialog
+                  },
+                  child: Text(
+                    "Sulge",
+                    style: TextStyle(color: Color(0xff324558)),
+                  ),
+                ),
+                MaterialButton(
                   onPressed: () async {
                     String text = textEditingController.value.text;
                     String id = "";
@@ -85,15 +94,6 @@ class AddAllergenDialog extends StatelessWidget {
                   },
                   child: Text(
                     "Lisa allergeen",
-                    style: TextStyle(color: Color(0xff324558)),
-                  ),
-                ),
-                MaterialButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(); // To close the dialog
-                  },
-                  child: Text(
-                    "Sulge",
                     style: TextStyle(color: Color(0xff324558)),
                   ),
                 ),

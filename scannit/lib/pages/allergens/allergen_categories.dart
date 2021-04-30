@@ -7,6 +7,7 @@ import 'package:scannit/constants.dart';
 import 'package:scannit/data/allergens_entity.dart';
 import 'package:scannit/data/categories_entity.dart';
 import 'package:scannit/pages/allergens/show_allergens.dart';
+import 'package:scannit/utils/add_allergen_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final List<String> colors = [
@@ -37,9 +38,11 @@ class AllergenCategoriesScreen extends StatefulWidget {
 
 class _AllergenCategoriesScreenState extends State<AllergenCategoriesScreen> {
   final Color secondaryColor = Color(0xff324558);
+  TextEditingController controller = new TextEditingController();
 
   List<String> _choices = [];
   Allergens _allergens = new Allergens([]);
+  Allergens _searchResult = new Allergens([]);
 
   @override
   void initState() {
@@ -55,14 +58,30 @@ class _AllergenCategoriesScreenState extends State<AllergenCategoriesScreen> {
       child: Scaffold(
           backgroundColor: Theme.of(context).buttonColor,
           body: NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
+            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 SliverAppBar(
-                  title: Text(
-                    "Vali kategooria",
-                    style: TextStyle(color: Color(0xff324558)),
+                  leading: new Icon(
+                    Icons.search,
+                    color:  Theme.of(context).accentColor,),
+                  title: new TextField(
+                    controller: controller,
+                    decoration: new InputDecoration(
+                        hintText: 'Otsi...', border: InputBorder.none,),
+                    onChanged: onSearchTextChanged,
                   ),
+                  actions: <Widget>[
+                    IconButton(
+                      icon: new Icon(
+                          Icons.cancel,
+                          color: Theme.of(context).accentColor),
+                        onPressed: () {
+                        FocusScope.of(context).unfocus();
+                        controller.clear();
+                        onSearchTextChanged('');
+                      },
+                    ),
+                  ],
                   centerTitle: true,
                   floating: true,
                   backgroundColor: Colors.white,
@@ -74,18 +93,149 @@ class _AllergenCategoriesScreenState extends State<AllergenCategoriesScreen> {
                 ),
               ];
             },
-            body: ListView.separated(
-              padding: const EdgeInsets.all(16.0),
+            body: controller.text.isNotEmpty
+                ? _searchResult.allergens.length != 0
+
+            ///Search view///
+                ? ListView.separated(
+              scrollDirection: Axis.vertical,
               shrinkWrap: true,
-              itemCount: 13,
+              padding: const EdgeInsets.all(16.0),
+              itemCount: _searchResult.allergens.length,
               itemBuilder: (context, index) {
-                return _buildArticleItem(index, context);
+                Allergen tmp = _searchResult.allergens.elementAt(index);
+                return new Card(
+                  child: new CheckboxListTile(
+                      activeColor: const Color(0xff324558),
+                      title: new Text(tmp.name),
+                      controlAffinity: ListTileControlAffinity.leading,
+                      value: _choices.contains(tmp.id),
+                      onChanged: (bool val) {
+                        _updateChoices(tmp.id, val);
+                      }),
+                );
               },
-              separatorBuilder: (context, index) =>
-                  const SizedBox(height: 16.0),
+              separatorBuilder: (context, index) => const SizedBox(height: 2.0),
+            ) : Column(
+                  children: [
+                    SizedBox(height: 26,),
+                    Text(
+                      "Allergeeni ei leitud andmebaasist!",
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    Text(
+                      "Lisa allergeen andmebaasi: ",
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: new Card(
+                    child: new CheckboxListTile(
+                        activeColor: const Color(0xff324558),
+                        title: new Text(controller.text),
+                        controlAffinity: ListTileControlAffinity.leading,
+                        value: false,
+                        onChanged: (bool val) async {
+                          String text = controller.text;
+                          String id = "";
+                          if (text.isNotEmpty) {
+                            id = "A${_allergens.allergens.length+1}";
+                            Allergen al = new Allergen(
+                                id: id,
+                                name: text.replaceAll(new RegExp("[,.:\n]"), ""),
+                                category: "C13");
+                            await _allergens.allergens.add(al);
+                            await _saveAllergens();
+                            print("len: " +
+                                _allergens.allergens.length.toString() +
+                                " added id: " +
+                                id);
+                          }
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("${controller.text} lisatud")));
+                          controller.clear();
+                          _updateChoices(id, true);
+                          _getAllergens();
+                        }),
             ),
-          )),
+
+              ///Normal view///
+                    ),
+                  ],
+                ) : ListView(
+                  children: [
+                    SizedBox(height: 12,),
+                    ExpansionTile(
+                      /// Create the main allergen types
+                        backgroundColor: Colors.blueGrey,
+                        textColor: Colors.white70,
+                        collapsedTextColor: Colors.blueGrey,
+                        title: Center(
+                          child: Text(
+                            "Valitud allergeene: ${_choices.length}",
+                            style: TextStyle(
+                                fontSize: 24
+                            ),
+                          ),
+                        ),
+                        children: [SizedBox(
+                          child: ListView.builder(
+                              physics: ClampingScrollPhysics(),
+                              itemCount: _allergens.getNames(_choices).length,
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext context, int index){
+                                return Card(
+                                  child: CheckboxListTile(
+                                      activeColor: const Color(0xff596275),
+                                      title: Text(_allergens.getNames(_choices)[index]),
+                                      controlAffinity: ListTileControlAffinity.leading,
+                                      value: true,
+                                      onChanged: (bool val) {
+                                        _updateChoices(_choices[index], val);
+                                      }),
+                                );
+                              }
+                          ),
+                        )]
+                    ),
+                    ListView.separated(
+                    padding: const EdgeInsets.all(16.0),
+                    shrinkWrap: true,
+                      physics: ClampingScrollPhysics(),
+                    itemCount: 13,
+                    itemBuilder: (context, index) {
+                      return _buildArticleItem(index, context);
+                    },
+                    separatorBuilder: (context, index) =>
+                    const SizedBox(height: 16.0),
+              ),
+                  ],
+                ),
+          ),
+          //floatingActionButton: _addAllergenButton()
+      ),
     );
+  }
+
+  onSearchTextChanged(String text) async {
+    _searchResult.allergens.clear();
+    if (text.isEmpty) {
+      setState(() {});
+      return;
+    }
+
+    _allergens.allergens.forEach((allergen) {
+      if (allergen.name.toLowerCase().contains(text.toLowerCase()))
+        _searchResult.allergens.add(allergen);
+    });
+
+    setState(() {});
   }
 
   Widget _buildArticleItem(int index, BuildContext context) {
@@ -163,6 +313,32 @@ class _AllergenCategoriesScreenState extends State<AllergenCategoriesScreen> {
     );
   }
 
+  Widget _addAllergenButton(){
+    return FloatingActionButton(
+      onPressed: () async {
+        String id = await showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) => AddAllergenDialog(),
+        );
+        if (id != null) {
+          print("ID: " + id.toString());
+          setState(() {
+            for (int i = 180;
+            i < _allergens.allergens.length;
+            i++) {
+              print("AL: " +
+                  _allergens.allergens[i].toJson().toString());
+            };
+            _updateChoices(id, true);
+            _getAllergens();
+          });
+        }
+      },
+      child: Icon(Icons.add),
+    );
+  }
+
   _getAllergens() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -171,11 +347,31 @@ class _AllergenCategoriesScreenState extends State<AllergenCategoriesScreen> {
     _allergens.allergens = jsonList.map((json) => Allergen.fromJson(jsonDecode(json))).toList();
   }
 
+  _saveAllergens() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> jsonList = _allergens.allergens.map((allergen) => jsonEncode(allergen.toJson())).toList();
+    prefs.setStringList('allergens', jsonList);
+  }
+
   _loadChoices() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _choices = (prefs.getStringList('choices') ?? []);
     });
+  }
+
+  _updateChoices(String id, bool val) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      if (val){
+        if(!_choices.contains(id)) _choices.add(id);
+      }
+      else
+        _choices.remove(id);
+      prefs.setStringList('choices', _choices);
+    });
+
+    //print("CHOICES: " + _choices.toString());
   }
 
   _checkSubCategories() {

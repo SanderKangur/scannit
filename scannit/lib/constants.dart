@@ -17,7 +17,7 @@ class Constants {
     String result = "";
     if (list.isNotEmpty) {
       list.forEach((element) {
-        result += " " + element;
+        result += element + " ";
       });
     }
     return result;

@@ -40,7 +40,7 @@ class _ShowAllergensState extends State<ShowAllergens> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text("${Constants.categories.categories.elementAt(widget.index).name} allergeenid"),
+          title: Text("${Constants.categories.categories.elementAt(widget.index).name}"),
           centerTitle: true,
           backgroundColor: widget.color,
         ),
@@ -199,21 +199,40 @@ class _ShowAllergensState extends State<ShowAllergens> {
         bool check = _checkSubAllergens(tmp.id);
         return new Card(
           /// Create the allergens with checkboxes
-          child: new CheckboxListTile(
-              activeColor: const Color(0xff324558),
-              title: new Text(tmp.name),
-              controlAffinity: ListTileControlAffinity.leading,
-              value: check,
-              onChanged: (bool val) {
-                _allergens.allergens.forEach((element) {
-                  if(element.category.split(", ").contains(tmp.id)){
-                    _updateChoices(element.id, val);
-                    print("CHECK: " + element.id + " " + val.toString() + " " + tmp.id);
-                  }
-                });
-                setState(() {
-                });
-              }),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              //new Text("lmao"),
+              Expanded(
+                flex: 1,
+                child: new CheckboxListTile(
+                    activeColor: const Color(0xff324558),
+                    title: new Text(tmp.name),
+                    controlAffinity: ListTileControlAffinity.leading,
+                    value: check,
+                    onChanged: (bool val) {
+                      _allergens.allergens.forEach((element) {
+                        if(element.category.split(", ").contains(tmp.id)){
+                          _updateChoices(element.id, val);
+                          print("CHECK: " + element.id + " " + val.toString() + " " + tmp.id);
+                        }
+                      });
+                      setState(() {
+                      });
+                    }),
+              ),
+
+              Expanded(
+                flex: 1,
+                child: Text(
+                  _allergens.chosenAllergensString(_allergens.chooseByCategory(tmp.id)),
+                  style: TextStyle(
+                    color: Colors.black38
+                  ),
+                )
+              ),
+            ],
+          ),
         );
       },
       separatorBuilder: (context, index) => const SizedBox(height: 2.0),

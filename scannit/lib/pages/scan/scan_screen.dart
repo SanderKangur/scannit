@@ -341,6 +341,7 @@ class _ScanScreenState extends State<ScanScreen> {
   _loadChoices() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
+
       _choices = (prefs.getStringList('choices') ?? []);
     });
   }

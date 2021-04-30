@@ -30,11 +30,11 @@ class Allergens {
     return names;
   }
 
-  String chosenAllergensString(List<String> allergens) {
+  String chosenAllergensString(List<Allergen> allergens) {
     String result = "";
     if (allergens.isNotEmpty) {
       allergens.forEach((element) {
-        result += " " + element;
+        result += element.name + " ";
       });
     }
     return result;

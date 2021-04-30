@@ -36,8 +36,10 @@ class TextDetectorPainter extends CustomPainter {
     }
 
     final Paint paint = Paint()
+      //..color = Color(int.parse("40FFFFFF", radix: 16))
+      ..color = Colors.red
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.0;
+      ..strokeWidth = 2;
 
     for (final TextBlock block in visionText.blocks) {
       for (final TextLine line in block.lines) {
@@ -51,7 +53,6 @@ class TextDetectorPainter extends CustomPainter {
             double similarity =e.similarityTo(c);
             //print(element + ": " + similarity.toString());
             if (similarity > threshold || e.contains(c)) {
-              paint.color = Colors.red;
               canvas.drawRect(scaleRect(element), paint);
             };
           });

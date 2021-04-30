@@ -1,12 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:scannit/pages/first_time/test.dart';
+import 'package:scannit/pages/account/FilterList.dart';
+import 'package:scannit/pages/first_time/tutorial_hints.dart';
+import 'package:scannit/pages/first_time/tutorial.dart';
 import 'package:scannit/pages/scan/cam_test.dart';
 import 'package:scannit/pages/scan/scan_screen.dart';
 import 'package:scannit/pages/allergens/allergen_categories.dart';
 
 import 'account/account_screen.dart';
+import 'account/hints.dart';
+import 'account/settings.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -27,8 +31,10 @@ class _MainScreenState extends State<MainScreen> {
       initialIndex: 1,
       length: 3,
       child: Scaffold(
-        body: TabBarView(
-          children: _buildScreens()
+        body: SafeArea(
+          child: TabBarView(
+            children: _buildScreens()
+          ),
         ),
         bottomNavigationBar: TabBar(
           unselectedLabelColor: Colors.grey[500],
@@ -41,11 +47,11 @@ class _MainScreenState extends State<MainScreen> {
             ),
             Tab(
               icon: Icon(CupertinoIcons.camera),
-              text: ("Scan"),
+              text: ("Skaneeri"),
             ),
             Tab(
               icon: Icon(CupertinoIcons.info),
-              text: ("Info"),
+              text: ("Juhendid"),
             ),
           ],
         ),
@@ -93,7 +99,7 @@ class _MainScreenState extends State<MainScreen> {
 
 
   List<Widget> _buildScreens() {
-    return [AllergenCategoriesScreen(), CameraPreviewScanner(), AccountScreen()];
+    return [AllergenCategoriesScreen(), CameraPreviewScanner(), Hints()];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
@@ -106,13 +112,13 @@ class _MainScreenState extends State<MainScreen> {
       ),
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.camera),
-        title: ("Scan"),
+        title: ("Skaneeri"),
         activeColorPrimary: Color(0xff324558),
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.info),
-        title: ("Info"),
+        title: ("Juhendid"),
         activeColorPrimary: Color(0xff324558),
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),

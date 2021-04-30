@@ -20,6 +20,13 @@ void main() async {
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: MyHomePage());
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: MyHomePage(),
+      theme: ThemeData(
+        primaryColor: Colors.white,
+        accentColor: Color(0xff324558),
+      ),
+    );
   }
 }
