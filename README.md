@@ -1,6 +1,6 @@
-# scannit
+# Scannit
 
-App for an EBS students' startup. Main idea is to scan food wrappers for allergens and ingredients. Uses Firebase ML Kit for text recognition.
+Mobile application for recognizing allergens on food packages with text recognition. to scan food wrappers for allergens and ingredients. Uses Firebase ML Kit for text recognition.
 
 ## Getting Started
 
