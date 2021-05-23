@@ -9,7 +9,7 @@ Mobiilirakendus allergeenide tuvastamiseks toidupakendilt tekstituvastuse abil. 
       <li>Võimalik lisada allergeene
           <ul>
                 <li>Otsingufunktsiooni abil</li>
-                <li>Ise trükkimine ja lisamine</li>
+                <li>Manuaalselt trükkimine ja lisamine</li>
                 <li>Levinumate hulgast otsimine</li>
                 <li>Kategooriate kasutamine</li>
           </ul>
