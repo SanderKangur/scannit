@@ -1,16 +1,43 @@
 # Scannit
 
-Mobile application for recognizing allergens on food packages with text recognition. to scan food wrappers for allergens and ingredients. Uses Firebase ML Kit for text recognition.
+Mobiilirakendus allergeenide tuvastamiseks toidupakendilt tekstituvastuse abil. Rakendus loodi Tartu Ülikooli informaatika õppekava bakalaureusetöö raames.
 
-## Getting Started
+## Lahendus
 
-This project is a starting point for a Flutter application.
+<ul>
+      <li>Automaatne tekstituvastus etiketilt</li>
+      <li>Võimalik lisada allergeene
+          <ul>
+                <li>Otsingufunktsiooni abil</li>
+                <li>Manuaalselt trükkimine ja lisamine</li>
+                <li>Levinumate hulgast otsimine</li>
+                <li>Kategooriate kasutamine</li>
+          </ul>
+      </li>
+      <li>Töötab eesti keeles</li>
+      <li>Pole vaja võrguühendust</li>
+</ul>
 
-A few resources to get you started if this is your first Flutter project:
+## Kasutatud tehnoloogiad
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+- Pildihõive - [Camera](https://pub.dev/packages/camera)
+- Tekstituvastus - [Firebase ML Vision](https://pub.dev/packages/firebase_ml_vision) (discontinued)
+- Sõnade võrdlus - [String similarity](https://pub.dev/packages/string_similarity)[(Dice koefitsient)](https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient)
+- Andmebaas - [Shared preferences](https://pub.dev/packages/shared_preferences)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img width="700" height="300" alt="arhitektuur" src="https://user-images.githubusercontent.com/44495572/119277171-bf591e80-bc26-11eb-9e21-40c5f0d798dd.jpg">
+
+
+## Skaneerimine
+
+Skaneerimine kasutab ML Vision tekstituvastus mudelit. Tuvastatud teksti võrreldakse [Dice koefitsiendi](https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient) abil kasutaja valitud allergeenidega reaalajas.
+
+
+<img width="700" height="300" alt="skaneerimine" src="https://user-images.githubusercontent.com/44495572/119277172-bff1b500-bc26-11eb-8efc-adb70b5c67ab.jpg">
+
+
+
+
+
+
+
