@@ -1,4 +1,4 @@
-package com.example.scannit
+package com.sk.scannit
 
 import io.flutter.embedding.android.FlutterActivity
 

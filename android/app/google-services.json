@@ -38,6 +38,49 @@
             {
               "client_id": "891670701847-sm0sv5ak8bmpk9pp3su86cv09rklfhjh.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "891670701847-3ij390pksc2nomlj51imaji7mfuusluq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sander.scannit"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:891670701847:android:5fa1c989307f012d387952",
+        "android_client_info": {
+          "package_name": "com.sk.scannit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "891670701847-sm0sv5ak8bmpk9pp3su86cv09rklfhjh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKmgNJt3Tgz8J1q6WSDX1D9KCUholHnPY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "891670701847-sm0sv5ak8bmpk9pp3su86cv09rklfhjh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "891670701847-3ij390pksc2nomlj51imaji7mfuusluq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sander.scannit"
+              }
             }
           ]
         }

@@ -39,6 +39,7 @@ dependencies:
   camera: ^0.8.1
   smooth_page_indicator: ^0.2.3
   empty_widget: ^0.0.3
+  flutter_launcher_icons: ^0.8.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -48,6 +49,11 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/icon.jpg"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -63,6 +69,7 @@ flutter:
     - assets/
     - assets/types/
     - assets/tutorial/
+    - assets/icon/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
